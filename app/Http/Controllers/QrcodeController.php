@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Batch;
+use App\Models\Product;
+use App\Models\Qrcode;
+use App\Jobs\ProcessCsvFile;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Auth;
+use App\Jobs\ExportDataToCSV;
+
+class QrcodeController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Qrcode::query()->with('product', 'batch');
+
+        // Apply filters
+        if ($request->products_search) {
+            $query->whereHas('product', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->product_search . '%');
+            });
+        }
+
+        if ($request->qrcode_search) {
+            $query->where('code_data', 'like', '%' . $request->qrcode_search . '%');
+        }
+
+        if ($request->products_assigned) {
+            $query->whereNotNull('product_id');
+        }
+
+        // Apply pagination
+        $qrdatas = $query->paginate(10);
+
+        // $qrdatas = $qrdata->paginate(10);
+        return view('qrcodes.index', compact('qrdatas'));
+    }
+
+    public function create()
+    {
+        if (!Auth::user()->can('create qrcode')) {
+            return view('dummy.unauthorized');
+        }
+        $products = Product::where('status', 'Active')->get();
+        $batches = Batch::get();
+        return view('qrcodes.create', compact('products', 'batches'));
+    }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|numeric',
+            'batch' => 'required|numeric',
+            'file' => 'required',
+            'gs_link' => 'required|string'
+        ]);
+        $batch = Batch::findOrFail($request->batch);
+        $filePath = $request->file('file')->store('csv_files');
+        $response = Bus::dispatchNow(new ProcessCsvFile($filePath, $request->product_id, $request->batch, $request->gs_link));
+        if ($response === "CSV data processed successfully.") {
+            return redirect('qrcodes')->with('status', $response);
+        } else {
+            return redirect('qrcodes')->with('error', $response);
+        }
+    }
+    public function edit(Batch $batch)
+    {
+        $products = Product::get();
+
+        return view('qrcodes.edit', compact('batch', 'products'));
+    }
+    public function update(Request $request, $id)
+    {
+        $qrcode = Qrcode::findOrFail($id);
+        $qrcode->update([
+            'status' => $request->status_to_change,
+        ]);
+        return redirect()->route('qrcodes.index')->with('success', 'Qrcode updated successfully');
+    }
+    public function destroy($id)
+    {
+        // $batch = Batch::find($id);
+        // $batch->delete();
+        // return redirect('qrcodes')->with('status', 'Batch Deleted Successfully');
+    }
+    public function bulkstatuschange(Request $request)
+    {
+        if (!empty($request->start_code)) {
+            $id_to_start = Qrcode::where('code_data', $request->start_code)->pluck('id')->first();
+            if (!empty($id_to_start)) {
+                $quantity = (int)$request->quantity;
+                $id_to_end = $id_to_start + $quantity - 1;
+                if ($request->action == 'active') {
+                    Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
+                        ->whereNotNull('product_id')
+                        ->update(['status' => 'Active']);
+                }
+                if ($request->action == 'inactive') {
+                    Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
+                        ->whereNotNull('product_id')
+                        ->update(['status' => 'Inactive']);
+                }
+                if ($request->action == 'Export') {
+                    $randomString = uniqid(); // Generates a unique ID based on the current timestamp
+                $fileName = 'export_' . $id_to_start . '_' . $randomString . '.csv';
+                
+                // Dispatch job for exporting data to CSV
+                ExportDataToCSV::dispatch($id_to_start, $id_to_end, $fileName);
+                
+                // Return response with file name
+                return response()->json(['success' => true, 'filename' => $fileName]);
+                }
+
+            } else {
+                return response()->json(['status' => 'Invalid or missing start_code or quantity']);
+            }
+
+            return response()->json(['status' => 'Status updated successfully'], 200);
+        } else {
+            return response()->json(['status' => 'Invalid or missing start_code or quantity']);
+        }
+    }
+    public function downloadCsv()
+    {
+    }
+}

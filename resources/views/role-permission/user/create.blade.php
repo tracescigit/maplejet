@@ -1,0 +1,116 @@
+@extends('dummy.app_new')
+
+@section('content')
+<style>
+    .card-header h6 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header a.btn {
+        font-size: 14px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .btn-custom {
+        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+</style>
+
+<div class="content-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card pd-20 mg-t-10 col-11 mx-auto">
+                <div class="card-header btn-custom">
+                    <h6 class="text-white">Create Users</h6>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('users.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" id="name" value="{{old('name')}}" name="name" class="form-control" />
+                            @error('name')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email"  value="{{old('email')}}" class="form-control" />
+                            @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" value="{{old('password')}}" class="form-control" />
+                            @error('password')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="roles" class="form-label">Roles</label>
+                            <select name="role" id="role" class="form-control">
+                                @foreach($roles as $role)
+                                <option value="{{ $role->name }}" {{ old('role') == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('roles')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="Active" {{ old('status') == "Active" ? 'selected' : '' }}>Active</option>
+                                <option value="Inactive" {{ old('status') == "Inactive" ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                            @error('status')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-custom float-right">Save</button>
+                            <a href="{{ route('users.index') }}" class="btn btn-secondary ml-2">Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@push('scripts')
+<script src="{{ asset('js/select2.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Select Roles",
+            allowClear: true,
+            closeOnSelect: false
+        });
+    });
+</script>
+@endpush
