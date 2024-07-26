@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\ScanHistory;
 use Illuminate\Support\Facades\DB;
 use App\Models\Qrcode;
-
 class DashboardController extends Controller
 {
     public function getCurrentMonthData()
@@ -27,7 +26,6 @@ class DashboardController extends Controller
         $total = Qrcode::count();
         $active = Qrcode::where('status', 'Active')->count();
         $inactive = $total - $active;
-
         return view('dashboard',compact('total','active','inactive'));
     }
 

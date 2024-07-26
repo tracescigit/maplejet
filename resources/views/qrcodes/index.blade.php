@@ -96,7 +96,7 @@
                     <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                     <div class="info-box-content" style="font-weight:bold;">
                         <span class="info-box-text">Last Code-Data</span>
-                        <span class="info-box-number" style="justify-self:center">200236522</span>
+                        <span class="info-box-number" style="justify-self:center">{{$last_added_product}}</span>
                     </div>
 
                 </div>
@@ -108,7 +108,7 @@
                     <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                     <div class="info-box-content" style="font-weight:bold;">
                         <span class="info-box-text">Total Code-Data</span>
-                        <span class="info-box-number" style="justify-self:center">10000</span>
+                        <span class="info-box-number" style="justify-self:center">{{$qr_count}}</span>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                     <div class="info-box-content" style="font-weight:bold;">
                         <span class="info-box-text">Active</span>
-                        <span class="info-box-number" style="justify-self:center">50</span>
+                        <span class="info-box-number" style="justify-self:center">{{$qractiveCount}}</span>
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                     <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                     <div class="info-box-content" style="font-weight:bold;">
                         <span class="info-box-text"> Inactive</span>
-                        <span class="info-box-number" style="justify-self:center">9950</span>
+                        <span class="info-box-number" style="justify-self:center">{{$qr_count-$qractiveCount}}</span>
                     </div>
                 </div>
             </div>

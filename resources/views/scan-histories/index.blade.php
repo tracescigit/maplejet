@@ -128,7 +128,7 @@
                                 <span class="info-box-icon bg-primary  elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
                                     <span class="info-box-text">Last Scanned</span>
-                                    <span class="info-box-number" style="justify-self:center">product1</span>
+                                    <span class="info-box-number" style="justify-self:center">{{$last_added_history}}</span>
                                 </div>
 
                             </div>
@@ -139,8 +139,8 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
-                                    <span class="info-box-text">Total Products</span>
-                                    <span class="info-box-number" style="justify-self:center">10</span>
+                                    <span class="info-box-text">Total Scanned</span>
+                                    <span class="info-box-number" style="justify-self:center">{{$scan_count}}</span>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
-                                    <span class="info-box-text">Genuine</span>
+                                    <span class="info-box-text">{{$genuine}}</span>
                                     <span class="info-box-number" style="justify-self:center">5</span>
                                 </div>
                             </div>

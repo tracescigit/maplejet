@@ -48,7 +48,7 @@
         <div class="card card-body">
           <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3 ">Total Products</h6>
           <div class="d-flex d-lg-block d-xl-flex align-items-end">
-            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">06</h2>
+            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">{{$total_products}}</h2>
           </div>
         </div>
       </div><!-- col -->
@@ -56,7 +56,7 @@
         <div class="card card-body">
           <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3 ">Total Batches</h6>
           <div class="d-flex d-lg-block d-xl-flex align-items-end">
-            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">05</h2>
+            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">{{$total_batch}}</h2>
           </div>
         </div>
       </div><!-- col -->
@@ -64,7 +64,7 @@
         <div class="card card-body">
           <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3">Total Users</h6>
           <div class="d-flex d-lg-block d-xl-flex align-items-end">
-            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">07</h2>
+            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">{{$total_user}}</h2>
           </div>
         </div>
       </div><!-- col -->
@@ -72,7 +72,7 @@
         <div class="card card-body">
           <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3">Total Qr-Codes Data</h6>
           <div class="d-flex d-lg-block d-xl-flex align-items-end">
-            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">10000</h2>
+            <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">{{$total_qrcodes}}</h2>
           </div>
         </div>
       </div><!-- col -->
@@ -94,12 +94,12 @@
                 <div class="col-sm-5">
                   <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5"> Jobs </h3>
                   <p class="mg-b-0 tx-12 tx-color-03"> jobs that are being created.</p>
-                  <h4 class="mt-3 tx-primary">05</h4>
+                  <h4 class="mt-3 tx-primary">{{$total_jobs}}</h4>
                 </div><!-- col -->
                 <div class="col-sm-5 mg-t-20 mg-sm-t-0">
                   <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5"> Active Jobs </h3>
                   <p class="mg-b-0 tx-12 tx-color-03">Total jobs that are active.</p>
-                  <h4 class="mt-3 tx-warning">03</h4>
+                  <h4 class="mt-3 tx-warning">{{$active_jobs}}</h4>
                 </div><!-- col -->
               </div><!-- row -->
             </div>

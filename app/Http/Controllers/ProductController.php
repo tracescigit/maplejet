@@ -40,9 +40,9 @@ class ProductController extends Controller
         $prodactiveCount = $products->filter(function ($product) {
             return $product->status === 'Active';
         })->count();
-
+        $last_added_product = Product::orderBy('created_at', 'desc')->first();
         // Return view with paginated products and active count
-        return view('products.index', compact('products', 'prodactiveCount'));
+        return view('products.index', compact('products', 'prodactiveCount','last_added_product'));
     }
     public function show(Request $request,$id)
     {

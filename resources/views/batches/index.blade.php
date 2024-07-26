@@ -137,7 +137,7 @@
                             <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                             <div class="info-box-content" style="font-weight:bold;">
                                 <span class="info-box-text">Last Batchcode</span>
-                                <span class="info-box-number" style="justify-self:center">Batch1</span>
+                                <span class="info-box-number" style="justify-self:center">{{$last_added_batch}}</span>
                             </div>
 
                         </div>
@@ -159,7 +159,7 @@
                             <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                             <div class="info-box-content" style="font-weight:bold;">
                                 <span class="info-box-text">Total Active</span>
-                                <span class="info-box-number" style="justify-self:center">4</span>
+                                <span class="info-box-number" style="justify-self:center">{{$prodactiveCount}}</span>
                             </div>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                             <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                             <div class="info-box-content" style="font-weight:bold;">
                                 <span class="info-box-text">Total Inactive</span>
-                                <span class="info-box-number" style="justify-self:center">0</span>
+                                <span class="info-box-number" style="justify-self:center">{{ count($batches) -$prodactiveCount}}</span>
                             </div>
                         </div>
                     </div>

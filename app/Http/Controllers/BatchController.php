@@ -39,7 +39,9 @@ class BatchController extends Controller
         $prodactiveCount = $batches->filter(function ($batch) {
             return $batch->status === 'Active';
         })->count();
-        return view('batches.index', compact('batches'));
+        $last_added_batch = Batch::orderBy('created_at', 'desc')->first();
+
+        return view('batches.index', compact('batches','prodactiveCount','last_added_batch'));
     }
     public function create()
     {

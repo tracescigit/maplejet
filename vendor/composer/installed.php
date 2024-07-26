@@ -1,14 +1,12 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '04ba00ceb45c709b65bda5128f81d4a5cf2c7dd2',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '0889e5cb3581a5fbc07d80833a85ad47f3cdf420',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
-        'aliases' => array(
-            0 => '10.x-dev',
-        ),
+        'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
@@ -472,14 +470,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '04ba00ceb45c709b65bda5128f81d4a5cf2c7dd2',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '0889e5cb3581a5fbc07d80833a85ad47f3cdf420',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
-            'aliases' => array(
-                0 => '10.x-dev',
-            ),
+            'aliases' => array(),
             'dev_requirement' => false,
         ),
         'laravel/passport' => array(
@@ -1049,8 +1045,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(

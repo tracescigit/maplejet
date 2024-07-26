@@ -13,7 +13,12 @@ class ScanHistoriesController extends Controller
     public function index()
     {
         $scanhistories=ScanHistory::paginate(10);
-      return view('scan-histories.index',compact('scanhistories'));
+        $genuine = $scanhistories->filter(function ($product) {
+            return $product->status === 'Genuine';
+        })->count();
+        $scan_count=ScanHistory::count();
+        $last_added_history = ScanHistory::orderBy('created_at', 'desc')->first();
+      return view('scan-histories.index',compact('scanhistories','last_added_history','scan_count','scanhistories','genuine'));
     }
 
     /**

@@ -35,9 +35,14 @@ class QrcodeController extends Controller
 
         // Apply pagination
         $qrdatas = $query->paginate(10);
+        $qr_count = Qrcode::count();
 
+        $qractiveCount = $qrdatas->filter(function ($product) {
+            return $product->status === 'Active';
+        })->count();
+        $last_added_product = Qrcode::orderBy('created_at', 'desc')->first();
         // $qrdatas = $qrdata->paginate(10);
-        return view('qrcodes.index', compact('qrdatas'));
+        return view('qrcodes.index', compact('qrdatas','qr_count','last_added_product','qractiveCount'));
     }
 
     public function create()
