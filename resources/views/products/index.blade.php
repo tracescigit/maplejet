@@ -137,7 +137,7 @@
               <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
               <div class="info-box-content" style="font-weight:bold;">
                 <span class="info-box-text">Last Added </span>
-                <span class="info-box-number" style="justify-self:center">{{$last_added_product}}</span>
+                <span class="info-box-number" style="justify-self:center"></span>
               </div>
 
             </div>

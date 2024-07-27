@@ -74,9 +74,9 @@
                 @if(session('status'))
                 <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86">{{session('status')}}</div>
 
-                <div id="errorMessage" class="alert alert-danger" style="background-color:#eb3434">
+                <!-- <div id="errorMessage" class="alert alert-danger" style="background-color:#eb3434">
                     {{ session('status') }}
-                </div>
+                </div> -->
                 @endif
 
                 <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86; display:none;">
@@ -96,7 +96,7 @@
                     <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                     <div class="info-box-content" style="font-weight:bold;">
                         <span class="info-box-text">Last Code-Data</span>
-                        <span class="info-box-number" style="justify-self:center">{{$last_added_product}}</span>
+                        <span class="info-box-number" style="justify-self:center"></span>
                     </div>
 
                 </div>
