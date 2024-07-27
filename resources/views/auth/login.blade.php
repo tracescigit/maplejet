@@ -8,51 +8,50 @@
             <!-- <img src="{{tracesciimg('old_logo2.jpg')}}" alt="image"> -->
         </div>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <!-- Email Address -->
-            <div id="form_right">
-                <div style="font-size: xx-large; font-weight:900;">SIGN IN</div>
-                <div class="">
-                    <label class="block font-medium text-sm text-gray-700 dark:text-gray-300" for="email">
-                        <h3 style="margin-top:45px;">Email:</h3>
+        
+        <header class="navbar navbar-header navbar-header-fixed">
 
-                    </label>
-                    <input style="hover:#e3e3e3"  class="input_container border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm input_field" id="email" type="email" name="email" required="required" autocomplete="username">
-                </div>
-                <!-- Password -->
-                <div class="">
-                    <label class="block font-medium text-sm text-gray-700 dark:text-gray-300" for="password">
-                        <h3 style="margin:10px;">Password:</h3>
-                    </label>
-
-                    <input class="input_container border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm input_field" id="password" type="password" name="password" required="required" autocomplete="current-password">
-
-                </div>
-
-                <!-- Remember Me -->
-                <div class="block mt-4">
-                    <label for="remember_me" class="inline-flex items-center" style="margin-left:10px;">
-                        <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                        <span class="text-sm text-gray-600 dark:text-gray-400" style="margin-left:10px;">{{ __('Remember me') }}</span>
-                    </label>
-                </div>
+<div class="navbar-brand">
+  <a href="index.html" class="df-logo">maple<span>jet</span></a>
+</div><!-- navbar-brand -->
 
 
-                <div class="flex items-center justify-end mt-4">
-                    @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" style="margin-left:10px;" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                    @endif
-                </div>
-                <div>
-                    <x-primary-button id="input_submit">
-                        {{ __('Log in') }}
-                    </x-primary-button>
-                </div>
-            </div>
-        </form>
+</header><!-- navbar -->
+
+<div class="content content-fixed content-auth">
+<div class="container">
+  <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
+    <div class="media-body align-items-center d-none d-lg-flex">
+      <div class="mx-wd-700">
+        <img src="https://maplejet.tracesci.in/assets/img/login_picture.jpg" class="img-fluid" alt="">
+      </div>
+     
+    </div><!-- media-body -->
+    <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60">
+      <div class="wd-100p">
+        <h3 class="tx-color-01 mg-b-5">Sign In</h3>
+        <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please signin to continue.</p>
+
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" class="form-control" placeholder="yourname@yourmail.com">
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between mg-b-5">
+            <label class="mg-b-0-f">Password</label>
+            <a href="forgotpassword.html" class="tx-13">Forgot password?</a>
+          </div>
+          <input type="password" class="form-control" placeholder="Enter your password">
+        </div>
+        <button class="btn btn-brand-02 btn-block">Sign In</button>
+        <div class="divider-text">--</div>
+      
+        <div class="tx-13 mg-t-20 tx-center">powered by <a href="https://tracesci.in">tracesci</a></div>
+      </div>
+    </div><!-- sign-wrapper -->
+  </div><!-- media -->
+</div><!-- container -->
+</div><!-- content -->
 
     </div>
 
