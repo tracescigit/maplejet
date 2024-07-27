@@ -42,10 +42,10 @@
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{$media_base_url.'/'.$product_id_ver->image}}" alt="First slide">
+                            <img class="d-block w-100" src="{{$media_base_url.$product_id_ver->image}}" alt="First slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block w-100" src="{{$media_base_url.'/'.$product_id_ver->label}}" alt="Second slide">
+                            <img class="d-block w-100" src="{{$media_base_url.$product_id_ver->label}}" alt="Second slide">
                         </div>
                     </div>
                     <!-- Controls -->
@@ -180,7 +180,7 @@
                 let issue = $('#issue').val();
                 let description = $('#description_form').val();
                 let token = $('meta[name="csrf-token"]').attr('content');
-                let ip = '{{$clientIp}}';
+                let ip = '{{$clientIp ??''}}';
                 let url = '{{ request()->url() }}';
                 let product = '{{ $product_id_ver->name }}';
                 let batch = '{{ $product_id_ver->code }}';

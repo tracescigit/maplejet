@@ -40,7 +40,7 @@ class ProductController extends Controller
         $prodactiveCount = $products->filter(function ($product) {
             return $product->status === 'Active';
         })->count();
-        $last_added_product = Product::orderBy('created_at', 'desc')->first();
+        $last_added_product = Product::select('name')->orderBy('created_at', 'desc')->first();
         // Return view with paginated products and active count
         return view('products.index', compact('products', 'prodactiveCount','last_added_product'));
     }
@@ -409,6 +409,8 @@ class ProductController extends Controller
     }
     public function getproductdetailsqr(Request $request,$qrcode)
     {
+        $clientIp = request()->ip();
+
         if ($request->otp) {
             if ($request->otp != '123456') {
                 return redirect()->back()->withInput()->with(['status' => 'OTP is incorrect. Please enter the correct OTP.']);
@@ -433,7 +435,7 @@ class ProductController extends Controller
             ->count();
         if ($product_id_ver) {
             $currentDate = Carbon::now();
-            $clientIp = request()->ip();
+            // $clientIp = request()->ip();
             $clientLocation = json_decode(file_get_contents("https://ipinfo.io/{$clientIp}/json"));
 
             $product_scanned_check = ScanHistory::where('qr_code', $qrcode)
