@@ -49,13 +49,10 @@
                     </ol>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://via.placeholder.com/500x281" class="d-block w-100" alt="...">
+                            <img src="{{$media_base_url.$product_id_ver->image}}" class="d-block w-100" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="https://via.placeholder.com/500x281" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://via.placeholder.com/500x281" class="d-block w-100" alt="...">
+                            <img src="{{$media_base_url.$product_id_ver->label}}" class="d-block w-100" alt="...">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExample3" role="button" data-slide="prev">
@@ -223,7 +220,7 @@
                 </div>
 
 
-                <div class="mg-t-10 d-flex justify-content-end">
+                <div class="mg-t-5 d-flex justify-content-center">
 
                     <button type="button" class="btn  btn-xs btn-outline-danger">Report issue?</button>
                 </div><!-- navbar-right -->
