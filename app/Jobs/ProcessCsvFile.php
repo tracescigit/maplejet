@@ -21,14 +21,17 @@ class ProcessCsvFile implements ShouldQueue
     protected $product_id;
     protected $batch_id;
     protected $gs_link;
+    protected $link;
     protected $invalidRows = [];
     protected $validData = [];
-    public function __construct($filePath, $product_id, $batch_id, $gs_link)
+    public function __construct($filePath, $product_id, $batch_id, $gs_link,$link)
     {
         $this->filePath = $filePath;
         $this->product_id = $product_id;
         $this->batch_id = $batch_id;
         $this->gs_link = $gs_link;
+        $this->link = $link;
+
     }
 
     public function handle()
@@ -60,7 +63,7 @@ class ProcessCsvFile implements ShouldQueue
             if (!empty($row) && !empty($data)) {
                 $qr_code_number = $this->generateUniqueQRCodeNumber();
                 $productName = Product::select('name')->where('id', $this->product_id)->first()->name;
-                $qr_code_url = config('constants.base_url')."01/{$productName}/10/{$qr_code_number}";
+                $qr_code_url = $this->link."/01/{$productName}/10/{$qr_code_number}";
                 Qrcode::create([
                     'url' => $qr_code_url,
                     'qr_code' => $qr_code_number,

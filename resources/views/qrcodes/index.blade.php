@@ -213,9 +213,8 @@
                                         </button>
                                         <input type="hidden" name="status_to_change" value="Active">
                                         @endif
-
                                         @if(!empty($singledata->product->name))
-                                        <a href="{{ $singledata->url }}" target="_blank" class="btn btn-sm btn-primary">
+                                        <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-primary">
                                             <i class="fas fa-link"></i> Link
                                         </a>
                                         @else
