@@ -237,16 +237,19 @@ class PrintController extends Controller
     {
         $printer_ip = $request->data['ip_printer'];
         $authToken = $request->data['auth_token'];
-        return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
-
+        dump($printer_ip);
+        dump($authToken);
+        
         $data = '<APCMD><PRINT>1</PRINT></APCMD>';
+    
         try {
             $connected = $this->hitUrlWithAuthTokenn("http://$printer_ip", $authToken, $data);
-            if ($connected == 1) {
-                return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
-            } else {
-                return "Failed to connect to printer: Response does not match expected.";
-            }
+            return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
+            // if ($connected == 1) {
+            //     return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
+            // } else {
+            //     return "Failed to connect to printer: Response does not match expected.";
+            // }
         } catch (\Exception $e) {
             return "Failed to connect to printer: " . $e->getMessage();
         }
@@ -277,7 +280,7 @@ class PrintController extends Controller
     {
         $printer_ip = $request->data['ip_printer'];
         $authToken = $request->data['auth_token'];
-        // $printer_ip = '192.168.0.130';
+        // $printer_ip = '192.168.2.145';
         // $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
         $data = '<APCMD><PRINT>0</PRINT></APCMD>';
         try {
