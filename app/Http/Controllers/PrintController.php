@@ -237,9 +237,7 @@ class PrintController extends Controller
     {
         $printer_ip = $request->data['ip_printer'];
         $authToken = $request->data['auth_token'];
-        dump($printer_ip);
-        dump($authToken);
-        
+       
         $data = '<APCMD><PRINT>1</PRINT></APCMD>';
     
         try {
