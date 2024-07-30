@@ -275,8 +275,10 @@ class PrintController extends Controller
     }
     public function StopPrint(Request $request)
     {
-        $printer_ip = '192.168.0.130';
-        $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
+        $printer_ip = $request->data['ip_printer'];
+        $authToken = $request->data['auth_token'];
+        // $printer_ip = '192.168.0.130';
+        // $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
         $data = '<APCMD><PRINT>0</PRINT></APCMD>';
         try {
             $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
