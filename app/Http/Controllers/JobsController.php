@@ -22,7 +22,7 @@ class JobsController extends Controller
     }
     public function create()
     {
-        if (!Auth::user()->can('create user')) {
+        if (!Auth::user()->can('create job')) {
              return view('dummy.unauthorized');
         }
         $productionplant = ProductionPlant::get();
