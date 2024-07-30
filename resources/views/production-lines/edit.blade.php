@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6" id="printerInput">
-                                <input type="text" name="ip_printer" class="form-control" placeholder="IP">
+                                <input type="text" name="ip_printer" class="form-control" placeholder="IP" value="{{ $productionlines->ip_printer??''}}">
                                 <div class="d-flex">
                                     <input type="text" name="port_printer" class="form-control mt-2 w-50 mr-2" placeholder="Port" value="{{ $productionlines->port_printer }}">
                                     <input type="text" name="printer_id" class="form-control mt-2 w-50 d-flex" value="{{ old('printer_id', $productionlines->printer_id) }}" placeholder="Printer ID">
