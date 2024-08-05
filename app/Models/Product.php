@@ -43,7 +43,7 @@ class Product extends Model
             ->logOnly(['brand', 'name', 'company_name','price', 'gtin', 'image','web_url','status'])
             ->logOnlyDirty()                      
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Production has been {$eventName}")
+            ->setDescriptionForEvent(fn(string $eventName) => "Product has been {$eventName}")
             ->useLogName('Product');                
     }
 }

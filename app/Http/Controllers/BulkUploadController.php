@@ -87,7 +87,7 @@ class BulkUploadController extends Controller
                 return response()->json(['startcodeerror' => 'Code not Found']);
             }
             $check_serial_inactive = Qrcode::where('code_data', $request->start_code)->where('status', 'Active')->first();
-            if (!$check_serial_inactive) {
+            if (!empty($check_serial_inactive)) {
                 return response()->json(['startcodeerror' => 'Code is already associated and active. Please deactivate and then assign.']);
             }
             $all_data = Qrcode::where('code_data', $request->start_code)->with('product')->first();
@@ -102,12 +102,16 @@ class BulkUploadController extends Controller
                     $qrcode = Qrcode::where('id', $i)->select('code_data')->first();
                     if(!empty($qrcode->code_data)){
                         $gslink = $baseUrl . '/01/' . $qrcode->code_data;
-                    }else{
-                        $gslink = $baseUrl . '/01/';
                     }
+                    // else{
+                    //     $gslink = $baseUrl . '/01';
+                    // }
 
                     // Apply specific logic based on the generate_gs1_link_with value
                     if ($request->gs1_link == 'yes') {
+                        if(empty($all_data->gtin)){
+                            return response()->json(['status' => 'GTIN number not provided while creating product']);
+                        }
                         if ($request->generate_gs1_link_with == 'batch') {
                             $gslink = $baseUrl . '/01/' . $all_data->gtin . '/10/' . $i . '?17=' . $expDate;
                         } elseif ($request->generate_gs1_link_with == 'serial_no') {

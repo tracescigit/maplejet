@@ -39,7 +39,11 @@ class ProductionLinesController extends Controller
          ->join('production_plants', 'production_lines.plant_id', '=', 'production_plants.id')
          ->select('production_lines.*', 'production_plants.code as plant_code','production_plants.name as plant_name')
          ->paginate(10);
-      return view('production-lines.index', compact('productionlines'));
+         $prodactiveCount = $productionlines->filter(function ($product) {
+            return $product->status === 'Active';
+        })->count();
+        $last_added_plline = ProductionLines::select('name')->orderBy('created_at', 'desc')->first();
+      return view('production-lines.index', compact('productionlines','prodactiveCount','last_added_plline'));
    }
    public function create()
    {

@@ -11,11 +11,10 @@ class UserLogExport implements FromCollection, WithHeadings
     protected $userlog;
     protected $url;
 
-    public function __construct($userlog,$url)
+    public function __construct($userlog, $url)
     {
         $this->userlog = $userlog;
         $this->url = $url;
-        
     }
 
     public function collection()
@@ -35,7 +34,7 @@ class UserLogExport implements FromCollection, WithHeadings
                 'Log Name' => $log->log_name,
                 'Description' => $log->description,
                 'Event' => $log->event,
-                'Url'=>$this->url,
+                'Url' => $this->url,
                 'New Value' => $attributesStr,
                 'Old Value' => $oldStr,
                 'Date' => date('d-m-Y H:i:s', $log->created_at->timestamp)
@@ -65,7 +64,14 @@ class UserLogExport implements FromCollection, WithHeadings
 
         $result = '';
         foreach ($data as $key => $value) {
-            $result .= $key . ': ' . $value . PHP_EOL;
+            if (is_array($value)) {
+                foreach ($value as $subKey => $subValue) {
+                    $result .= $key . ' -> ' . $subKey . ': ' . $subValue .','. PHP_EOL;
+                }
+            } else {
+                $result .= $key . ': ' . $value .' ,'. PHP_EOL;
+            }
+            $result .= PHP_EOL;
         }
 
         return $result;

@@ -138,7 +138,7 @@
                                 <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
                                     <span class="info-box-text">Last Prod.Plant</span>
-                                    <span class="info-box-number" style="justify-self:center">Production2</span>
+                                    <span class="info-box-number" style="justify-self:center">{{$last_added_plplant->name}}</span>
                                 </div>
 
                             </div>
@@ -150,7 +150,7 @@
                                 <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
                                     <span class="info-box-text">Total Prod.Plants</span>
-                                    <span class="info-box-number" style="justify-self:center">6</span>
+                                    <span class="info-box-number" style="justify-self:center">{{count($productionplant)}}</span>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                                 <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
                                     <span class="info-box-text">Active</span>
-                                    <span class="info-box-number" style="justify-self:center">3</span>
+                                    <span class="info-box-number" style="justify-self:center">{{$prodactiveCount}}</span>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                                 <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
                                     <span class="info-box-text"> Inactive</span>
-                                    <span class="info-box-number" style="justify-self:center">3</span>
+                                    <span class="info-box-number" style="justify-self:center">{{ count($productionplant) - $prodactiveCount }}</span>
                                 </div>
                             </div>
                         </div>

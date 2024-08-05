@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\UserLog;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UserLogExport;
+use Illuminate\Support\Facades\Validator;
 
 class UserLogController extends Controller
 {
     public function index(Request $request)
     {
         $users=User::get();
-        $userlog = UserLog::with('user')->paginate(10);
+        $userlog = UserLog::with('user')->orderBy('created_at', 'desc')->paginate(10);
         return view('userlog.index', compact('userlog','users'));
     }
     public function populatemodal(Request $request)
@@ -35,7 +36,6 @@ class UserLogController extends Controller
         return response()->json(['new_data'=>$new_data,'old_data'=>$old_data]);
     }
     public function downloadexcel(Request $request){
-        
         if(!empty($request->user || $request->start_date || $request->end_date)){
             $from=$request->start_date;
             $to=$request->end_date;

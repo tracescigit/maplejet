@@ -190,6 +190,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

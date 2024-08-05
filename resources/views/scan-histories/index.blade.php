@@ -128,7 +128,7 @@
                                 <span class="info-box-icon bg-primary  elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                                 <div class="info-box-content" style="font-weight:bold;">
                                     <span class="info-box-text">Last Scanned</span>
-                                    <span class="info-box-number" style="justify-self:center">{{$last_added_history}}</span>
+                                    <span class="info-box-number" style="justify-self:center">{{$last_added_history->qr_code}}</span>
                                 </div>
 
                             </div>

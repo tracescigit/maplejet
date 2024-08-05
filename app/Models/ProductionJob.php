@@ -47,7 +47,7 @@ class ProductionJob extends Model
             ->logOnly(['start_code', 'code', 'quantity','status'])
             ->logOnlyDirty()                      
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Production has been {$eventName}")
+            ->setDescriptionForEvent(fn(string $eventName) => "Job has been {$eventName}")
             ->useLogName('ProductionJob');                
     }
 }

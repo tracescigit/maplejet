@@ -138,7 +138,7 @@
                         <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text">Last Prod.Line</span>
-                            <span class="info-box-number" style="justify-self:center">Production2</span>
+                            <span class="info-box-number" style="justify-self:center">{{$last_added_plline->name}}</span>
                         </div>
 
                     </div>
@@ -150,7 +150,7 @@
                         <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text">Total Prod.Lines</span>
-                            <span class="info-box-number" style="justify-self:center">8</span>
+                            <span class="info-box-number" style="justify-self:center">{{count($productionlines)}}</span>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                         <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text"> Active</span>
-                            <span class="info-box-number" style="justify-self:center">4</span>
+                            <span class="info-box-number" style="justify-self:center">{{$prodactiveCount}}</span>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                         <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text"> Inactive</span>
-                            <span class="info-box-number" style="justify-self:center">4</span>
+                            <span class="info-box-number" style="justify-self:center">{{ count($productionlines) - $prodactiveCount }}</span>
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,6 @@
                             $perPage = $productionlines->perPage();
                             $incrementingIndex = ($page - 1) * $perPage + $index + 1;
                             @endphp
-              
 
                             <tr>
                                 <td class="tx-color-03 tx-normal text-center">
@@ -228,7 +227,7 @@
                                     {{$singleplant->code}}
                                 </td>
                                 <td class="text-left">
-                                    {{$singleplant->name}}
+                                    {{$singleplant->plant_name}}
                                 </td>
                                 <td class="text-center">
                                     @if($singleplant->status == 'Active')

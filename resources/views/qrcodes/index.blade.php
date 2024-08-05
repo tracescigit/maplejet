@@ -74,9 +74,9 @@
                 @if(session('status'))
                 <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86">{{session('status')}}</div>
 
-                <div id="errorMessage" class="alert alert-danger" style="background-color:#eb3434">
+                <!-- <div id="errorMessage" class="alert alert-danger" style="background-color:#eb3434">
                     {{ session('status') }}
-                </div>
+                </div> -->
                 @endif
 
                 <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86; display:none;">
