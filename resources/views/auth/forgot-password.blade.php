@@ -65,6 +65,15 @@
             {{ session('success') }}
           </div>
           @endif
+          @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
           <h4 class="tx-20 tx-sm-24">Reset your password</h4>
           <p class="tx-color-03 mg-b-30 tx-center">Enter your username or email address and we will send you a link to reset your password.</p>
           <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
