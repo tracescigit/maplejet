@@ -107,7 +107,7 @@
             </div>
 
             <!-- Adjust canvas size as needed -->
-            <canvas id="jobChart" style="width: 100%; height: 300px;margin-top:30%;"></canvas>
+            <canvas id="jobChart" style="width: 100%; height: 300px; margin-top: 25%;"></canvas>
           </div><!-- card-body -->
 
 
@@ -184,7 +184,6 @@
       zoom: 12
     });
 
-<<<<<<< HEAD
     // Parse JSON data from the Blade view
     var marker = new google.maps.Marker({
       position: {
@@ -224,35 +223,6 @@
       });
     });
   }
-=======
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
-</script>
-<script>
-  // Define a function to initialize the map
-  function initMap() {
-      // Create the map, centered at a default location
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 28.7041, lng: 77.1025 }, // Default center
-        zoom: 12
-      });
-
-      // Define an array of marker data
-      var markers = [
-        { position: { lat: 29.712, lng: 73.1 }, title: 'Marker 1' },
-        { position: { lat: 40.712, lng: -74.1 }, title: 'Marker 2' },
-        { position: { lat: 28.712, lng: 74.1 }, title: 'Marker 3' }
-      ];
-
-      // Add markers to the map
-      markers.forEach(function(markerData) {
-        new google.maps.Marker({
-          position: markerData.position,
-          map: map,
-          title: markerData.title
-        });
-      });
-    }
->>>>>>> 0a641f4df5d4e9ca8c15961a369ff1d39ab255c1
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -299,10 +269,14 @@
 </script>
 
 
+
 <script>
   // Data passed from Laravel controller
-  const months = {!!json_encode($months) !!}; // Month names
-  const data = {!!json_encode($data) !!}; // Job counts
+  const months = {!! json_encode($months) !!}; // Month names
+  const data = {!! json_encode($data) !!}; // Job counts
+
+  // Determine the maximum value in the data to set as the upper bound
+  const maxValue = Math.max(...data) * 1.2; // Adding 20% padding
 
   const jobData = {
     labels: months,
@@ -325,11 +299,13 @@
     options: {
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          max: maxValue // Set the maximum value of the y-axis
         }
       }
     }
   });
 </script>
+
 
 @endsection

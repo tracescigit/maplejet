@@ -46,6 +46,15 @@
       height: 200px;
       margin-bottom: 30px;
     }
+    .footer {
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+        }
   </style>
  
 </head>
