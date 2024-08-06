@@ -15,7 +15,7 @@
     transition: background-color 0.3s ease;
     opacity: 1;
   }
-
+     
   .btn-custom:hover {
     /* background-color: #8a0278; */
   }
