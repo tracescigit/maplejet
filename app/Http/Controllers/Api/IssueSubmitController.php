@@ -24,22 +24,22 @@ class IssueSubmitController extends Controller
         // $product_id = Product::select('id')->where('name', $product)->first();
         if (!empty($lat && $long)) {
             try {
-                $client = new Client();
-                $response = $client->get('https://nominatim.openstreetmap.org/reverse', [
-                    'query' => [
-                        'format' => 'json',
-                        'lat' => $lat,
-                        'lon' => $long,
-                        'addressdetails' => 1,
-                    ],
-                ]);
+                // $client = new Client();
+                // $response = $client->get('https://nominatim.openstreetmap.org/reverse', [
+                //     'query' => [
+                //         'format' => 'json',
+                //         'lat' => $lat,
+                //         'lon' => $long,
+                //         'addressdetails' => 1,
+                //     ],
+                // ]);
 
-                $body = json_decode($response->getBody());
+                // $body = json_decode($response->getBody());
                 // Check if the response contains address details
-                if (!empty($body->address)) {
-                    $city = $body->address->city ?? null;
-                    $country = $body->address->country ?? null;
-                }
+                // if (!empty($body->address)) {
+                //     $city = $body->address->city ?? null;
+                //     $country = $body->address->country ?? null;
+                // }
             } catch (ClientException $e) {
                 if ($e->getResponse()->getStatusCode() == 403) {
                     // Handle 403 error (e.g., log, notify, retry logic)

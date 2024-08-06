@@ -34,7 +34,7 @@
 </head>
 <div class="card">
     <div class="card-header bg-primary text-white text-center">
-        <h2 class="mb-4">Brand Name</h2>
+        <h2 class="mb-4">{{$product_id_ver->brand}}</h2>
     </div>
     <div class="card-body">
         <div class="row">
