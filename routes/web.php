@@ -51,7 +51,8 @@ Route::middleware(['increase.execution.time'])->group(function () {
     Route::get('/userlog', [App\Http\Controllers\UserLogController::class, 'index'])->name('userlog.index');
     Route::get('/userlog/show/{id}', [App\Http\Controllers\UserLogController::class, 'show'])->name('userlog.show');
 
-
+    Route::post('forgotpassword', [App\Http\Controllers\AdminController::class, 'SendPassword'])
+    ->name('password.send');
 
 
 
