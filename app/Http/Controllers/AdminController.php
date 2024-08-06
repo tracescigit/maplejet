@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Mail\PasswordResetMail;
+use Illuminate\Support\Facades\Validator;
+
 class AdminController extends Controller
 {
     public function index()
@@ -70,10 +72,17 @@ class AdminController extends Controller
     }
     public function SendPassword(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
+        ], [
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email format is invalid.',
+            'email.exists' => 'The email address does not exist in our records.',
         ]);
-
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $email = $request->input('email');
 
         // Generate a new password
