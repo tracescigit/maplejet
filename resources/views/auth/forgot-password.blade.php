@@ -58,7 +58,7 @@ footer {
         <div class="content content-fixed content-auth-alt">
       <div class="container d-flex justify-content-center">
         <div class="mx-wd-300 wd-sm-450  d-flex flex-column align-items-center justify-content-center">
-          <div class="wd-80p wd-sm-300 mg-b-15"><img src="../../assets/img/img18.png" class="img-fluid" alt=""></div>
+          <div class="wd-80p wd-sm-300 mg-b-15"><img src="{{tracesciimg('forgotpasswordimg.png')}}" class="img-fluid" alt=""></div>
           <h4 class="tx-20 tx-sm-24">Reset your password</h4>
           <p class="tx-color-03 mg-b-30 tx-center">Enter your username or email address and we will send you a link to reset your password.</p>
           <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">

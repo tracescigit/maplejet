@@ -47,7 +47,7 @@
       margin-bottom: 30px;
     }
     .footer {
-            color: white;
+            /* color: white; */
             text-align: center;
             padding: 10px;
             position: fixed;

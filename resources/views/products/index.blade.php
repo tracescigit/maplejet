@@ -122,7 +122,7 @@
 
 
 
-  <div class="card pd-20 mg-t-10 col-9 mx-auto">
+  <div class="card pd-20 mg-t-10 col-10 mx-auto">
     <div class="d-flex bg-gray-10">
       <div class="pd-10 flex-grow-1">
         <h4 id="section3" class="mg-b-10">Create products</h4>

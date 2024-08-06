@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-.btn-custom {
+    .btn-custom {
         background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
         color: white;
         border-radius: 5px;
@@ -11,21 +11,28 @@
         border: none;
         transition: background-color 0.3s ease;
     }
+
     .card {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
         overflow: hidden;
     }
-    </style>
+</style>
 <div class="content-wrapper">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-        <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h5 class="mb-0 text-white">Create Batch</h5>
+            <div class="card pd-20 mg-t-10 col-11 mx-auto">
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new Batch</h4>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> Batch.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
                 <div class="card-body">
-              
+
                     <form method="POST" action="{{ route('batches.store') }}" id="productForm">
                         @csrf
                         <div class="row">
@@ -33,9 +40,8 @@
                                 <div class="form-group">
                                     <label for="product_id">Select Product <span style="color: red;">*</span></label>
                                     <select name="product_id" id="product_id" class="form-control">
-                                    @foreach($products as $product)
-                                        <option  value="">Please select</option>
-                                        
+                                        <option value="">Please select</option>
+                                        @foreach($products as $product)
                                         <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                         @endforeach
                                     </select>
@@ -97,9 +103,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="status">Status <span style="color: red;">*</span></label>
-                                    <select name="status" id="status" class="form-control" >
-                                        <option value="Active"{{old('status')=="Active"?'selected':''}}>Active</option>
-                                        <option value="Inactive"{{old('status')=="InActive"?'selected':''}}>Inactive</option>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="Active" {{old('status')=="Active"?'selected':''}}>Active</option>
+                                        <option value="Inactive" {{old('status')=="InActive"?'selected':''}}>Inactive</option>
                                     </select>
                                     @error('status')
                                     <div class="text-danger">{{ $message }}</div>
@@ -190,14 +196,13 @@
 @endsection
 @section('js')
 <script>
-       var quill = new Quill('#editor-container', {
+    var quill = new Quill('#editor-container', {
         modules: {
             toolbar: '#toolbar-container'
         },
         placeholder: 'Compose an epic...',
         theme: 'snow'
     });
-   
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -221,7 +226,7 @@
                 var errorElement = document.createElement('div');
                 errorElement.className = 'text-danger';
                 errorElement.textContent = 'Expiry date must be after the manufactured date.';
-                
+
                 var expDateFormGroup = expDateInput.closest('.form-group');
                 expDateFormGroup.appendChild(errorElement);
 
@@ -234,10 +239,10 @@
         form.addEventListener('submit', function(event) {
             if (!validateDates()) {
                 event.preventDefault(); // Prevent form from submitting if validation fails
-            }else{
-        // Sync Quill content to hidden input field
-        var editorContent = document.getElementById('editor-content');
-        editorContent.value = quill.root.innerHTML;
+            } else {
+                // Sync Quill content to hidden input field
+                var editorContent = document.getElementById('editor-content');
+                editorContent.value = quill.root.innerHTML;
             }
         });
 
