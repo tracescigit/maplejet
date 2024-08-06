@@ -54,13 +54,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="image_preview">Image Preview:</label><br>
-                                <img src="{{($product->web_url. $product->image) }}" alt="Product Image" style="max-width: 200px;"><hr>
+                                <img src="{{($product->web_url.'/'. $product->image) }}" alt="Product Image" style="max-width: 200px;"><hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="label_image_preview">Label Image Preview:</label><br>
-                                <img src="{{($product->web_url. $product->label) }}" alt="Label Image" style="max-width: 200px;"><hr>
+                                <img src="{{($product->web_url.'/'. $product->label) }}" alt="Label Image" style="max-width: 200px;"><hr>
                             </div>
                         </div>
                         <div class="col-12">

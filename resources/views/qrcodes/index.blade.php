@@ -96,7 +96,7 @@
                     <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                     <div class="info-box-content" style="font-weight:bold;">
                         <span class="info-box-text">Last Code-Data</span>
-                        <span class="info-box-number" style="justify-self:center">{{$last_added_product->qr_code}}</span>
+                        <span class="info-box-number" style="justify-self:center">{{$last_added_product->qr_code??''}}</span>
                     </div>
 
                 </div>
@@ -213,9 +213,8 @@
                                         </button>
                                         <input type="hidden" name="status_to_change" value="Active">
                                         @endif
-
                                         @if(!empty($singledata->product->name))
-                                        <a href="{{ $singledata->url }}" target="_blank" class="btn btn-sm btn-primary">
+                                        <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-primary">
                                             <i class="fas fa-link"></i> Link
                                         </a>
                                         @else

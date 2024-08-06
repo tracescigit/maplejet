@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Http;
 class ProductController extends Controller
 {
     public function index(Request $request)
@@ -191,6 +191,19 @@ class ProductController extends Controller
     }
     public function getproductdetails(Request $request, $product_name=null, $qrcode=null)
     {
+        $ip = $request->ip();
+        // Get geolocation data from ipinfo.io without an API key
+        $response = Http::get("https://ipinfo.io/{$ip}/json");
+    
+        if ($response->successful()) {
+            $data = $response->json();
+    
+            // The 'loc' field contains both latitude and longitude separated by a comma
+            $loc = $data['loc'] ?? null;
+            $location = $loc ? explode(',', $loc) : [null, null];
+            $latitude = $location[0];
+            $longitude = $location[1];
+        }     
         if ($request->otp) {
             if ($request->otp != '123456') {
                 return redirect()->back()->withInput()->with(['status' => 'OTP is incorrect. Please enter the correct OTP.']);
@@ -249,7 +262,9 @@ class ProductController extends Controller
                     'ip_address' => $clientIp,
                     'code_id' => $product_id_ver->id,
                     'product_id' => $product_id->id,
-                    'qr_code' => $qrcode
+                    'qr_code' => $qrcode,
+                    'latitude'=>$latitude,
+                    'longitude'=>$longitude
                 ]);
                 if ($request->phone_number) {
                     ScanHistory::where('code_id', $request->qrcode_id)->update([
@@ -306,13 +321,11 @@ class ProductController extends Controller
             ->join('products', 'qrcodes.product_id', 'products.id')
             ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
             ->first();
-            dd($product_id_ver);
             if(empty($product_id_ver)){
                 return response()->json(['data' => 'Product is Fake.']);
             }
 
             $product_count = ScanHistory::where('qr_code', $qrcode)
-            ->where('product_id', $product_id)
             ->get()
             ->count();
         if ($product_id_ver) {
@@ -321,7 +334,6 @@ class ProductController extends Controller
             $clientLocation = json_decode(file_get_contents("https://ipinfo.io/{$clientIp}/json"));
 
             $product_scanned_check = ScanHistory::where('qr_code', $qrcode)
-                ->where('product_id', $product_id)
                 ->where('ip_address', $clientIp)
                 ->get()
                 ->count();
@@ -351,8 +363,9 @@ class ProductController extends Controller
                 'scan_count' => $product_count + 1,
                 'ip_address' => $clientIp,
                 'code_id' => $product_id_ver->id,
-                'product_id' => $product_id->id,
-                'qr_code' => $qrcode
+                'qr_code' => $qrcode,
+                'latitude'=>$latitude,
+                'longitude'=>$longitude
             ]);
             if ($request->phone_number) {
                 ScanHistory::where('code_id', $request->qrcode_id)->update([
@@ -360,7 +373,6 @@ class ProductController extends Controller
                 ]);
             }
             $product_scanned_count = ScanHistory::select('scan_count')->where('qr_code', $qrcode)
-                ->where('product_id', $product_id)
                 ->where('ip_address', $clientIp)
                 ->get()
                 ->count();

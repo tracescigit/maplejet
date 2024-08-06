@@ -45,9 +45,9 @@ class BatchController extends Controller
     }
     public function create()
     {
-        // if (!Auth::user()->can('create batches')) {
-        //      return view('dummy.unauthorized');
-        // }
+        if (!Auth::user()->can('create batches')) {
+             return view('dummy.unauthorized');
+        }
         $products = Product::where('status','Active')->get();
         return view('batches.create', compact('products'));
     }
@@ -89,9 +89,9 @@ class BatchController extends Controller
     }
     public function edit(Batch $batch)
     {
-        // if (!Auth::user()->can('update batches')) {
-        //      return view('dummy.unauthorized');
-        // }
+        if (!Auth::user()->can('update batches')) {
+             return view('dummy.unauthorized');
+        }
         $products = Product::get();
         return view('batches.edit', compact('batch', 'products'));
     }

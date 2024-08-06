@@ -51,7 +51,7 @@ class PrintController extends Controller
     // }
     public function SendPrintData(Request $request)
     {
-        if ($request->job_id && isset($request->data['start_code'], $request->data['quantity'], $request->data['ip_printer'])) {
+        if ($request->job_id && isset($request->data['productionjob_start_code'], $request->data['quantity'], $request->data['ip_printer'])) {
             $data = $request->data;
             SendToPrinterJob::dispatch($data)->onQueue('print_jobs');
             return response()->json(['message' => 'Print job queued successfully']);
@@ -235,25 +235,26 @@ class PrintController extends Controller
 
     public function checkPrinterConnection(Request $request)
     {
-        $printer_ip = '192.168.0.130';
-        $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
-        return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
-
+        $printer_ip = $request->data['ip_printer'];
+        $authToken = $request->data['auth_token'];
+       
         $data = '<APCMD><PRINT>1</PRINT></APCMD>';
+    
         try {
             $connected = $this->hitUrlWithAuthTokenn("http://$printer_ip", $authToken, $data);
-            if ($connected == 1) {
-                return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
-            } else {
-                return "Failed to connect to printer: Response does not match expected.";
-            }
+            return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
+            // if ($connected == 1) {
+            //     return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
+            // } else {
+            //     return "Failed to connect to printer: Response does not match expected.";
+            // }
         } catch (\Exception $e) {
             return "Failed to connect to printer: " . $e->getMessage();
         }
     }
     public function index()
     {
-        $job = ProductionJob::get();
+        $job = ProductionJob::where('status','Assigned')->get();
 
         return view('printmodule', compact('job'));
     }
@@ -261,7 +262,7 @@ class PrintController extends Controller
     {
 
         if (!empty($request->job_id)) {
-            $productionJobs = ProductionJob::select('production_jobs.id as productionjob_id','production_jobs.code as productionjob_code','production_jobs.plant_id','production_jobs.line_id','production_jobs.start_code as productionjob_start_code','production_jobs.quantity', 'qrcodes.id as qr_id','qrcodes.product_id as product_id','qrcodes.url as url','qrcodes.gs1_link as isgs1_link_unable','qrcodes.qr_code','qrcodes.batch_id','qrcodes.status as qr_status', 'batches.id as batches_id','batches.price','batches.code as batches_name','batches.currency as currency','batches.mfg_date','batches.exp_date','batches.status as batches_status', 'production_lines.id as pline_id','production_lines.code as pline_code','production_lines.ip_address','production_lines.printer_name','production_lines.name as pline_name','production_lines.status as pline_status','production_lines.created_at','production_lines.updated_at','production_lines.ip_printer','production_lines.port_printer','production_lines.ip_camera','production_lines.port_camera','production_lines.ip_plc','production_lines.port_plc','products.name as product_name','products.company_name','products.gtin')
+            $productionJobs = ProductionJob::select('production_jobs.id as productionjob_id','production_jobs.code as productionjob_code','production_jobs.plant_id','production_jobs.line_id','production_jobs.start_code as productionjob_start_code','production_jobs.quantity', 'qrcodes.id as qr_id','qrcodes.product_id as product_id','qrcodes.url as url','qrcodes.gs1_link as isgs1_link_unable','qrcodes.qr_code','qrcodes.batch_id','qrcodes.status as qr_status', 'batches.id as batches_id','batches.price','batches.code as batches_name','batches.currency as currency','batches.mfg_date','batches.exp_date','batches.status as batches_status', 'production_lines.id as pline_id','production_lines.code as pline_code','production_lines.ip_address','production_lines.printer_name','production_lines.name as pline_name','production_lines.status as pline_status','production_lines.created_at','production_lines.updated_at','production_lines.ip_printer','production_lines.port_printer','production_lines.ip_camera','production_lines.port_camera','production_lines.ip_plc','production_lines.port_plc','products.name as product_name','products.company_name','products.gtin','production_lines.printer_id','production_lines.auth_token',)
                 ->join('qrcodes', 'production_jobs.start_code', '=', 'qrcodes.code_data')
                 ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
                 ->join('production_lines', 'production_jobs.line_id', '=', 'production_lines.id')
@@ -275,8 +276,10 @@ class PrintController extends Controller
     }
     public function StopPrint(Request $request)
     {
-        $printer_ip = '192.168.0.130';
-        $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
+        $printer_ip = $request->data['ip_printer'];
+        $authToken = $request->data['auth_token'];
+        // $printer_ip = '192.168.2.145';
+        // $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
         $data = '<APCMD><PRINT>0</PRINT></APCMD>';
         try {
             $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);

@@ -96,7 +96,6 @@
     padding: 0 10px;
     overflow: hidden;
   }
-
 </style>
 
 <div id="myModal" class="modal" tabindex="-1">
@@ -119,103 +118,121 @@
 </div>
 
 
-<div class="wrapper">
-  <div class="main-panel" id="main-panel">
-    <div class="pd-20 mg-t-10 col-11 mx-auto row">
-      <div class="col-md-12">
-        @if(session('status'))
-        <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
-        @endif
-
-        <div class="d-sm-flex">
-
-
-
-
-          <div class="col-sm-3 col-lg-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-              <div class="info-box-content" style="font-weight:bold;">
-                <span class="info-box-text">Last Added </span>
-                <span class="info-box-number" style="justify-self:center">{{$last_added_product->name}}</span>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="col-sm-3 col-lg-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-              <div class="info-box-content" style="font-weight:bold;">
-                <span class="info-box-text">Total Products</span>
-                <span class="info-box-number" style="justify-self:center">{{count($products)}}</span>
-              </div>
-
-            </div>
-          </div>
-
-
-
-          <div class="col-sm-3 col-lg-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-              <div class="info-box-content" style="font-weight:bold;">
-                <span class="info-box-text">Total Active</span>
-                <span class="info-box-number" style="justify-self:center">{{$prodactiveCount}}</span>
-              </div>
-
-            </div>
-          </div>
-
-
-          <div class="col-sm-3 col-lg-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-              <div class="info-box-content" style="font-weight:bold;">
-                <span class="info-box-text">Total Inactive</span>
-                <span class="info-box-number" style="justify-self:center">{{ count($products) - $prodactiveCount }}</span>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- d-sm-flex -->
-    <!-- card -->
+<div class="content content-components" style="padding: 0px; margin-left:0px;margin-right:0px;margin-top:30px;">
 
 
 
     <div class="card pd-20 mg-t-10 col-11 mx-auto">
-      <h3 class="content-header mg-b-25">Products</h3>
-      <div class="d-flex justify-content-between align-items-start">
-        <a href="{{ route('products.create') }}" class="btn btn-custom op-6 ml-3">
-          <img src="{{ tracesciimg('icons8-create-16.png') }}" class="mr-1">{{ __('Create Products') }}
-        </a>
-        <form class="form-inline mr-4" method="GET" action="{{ route('products.index') }}">
-          <div class="form-group mb-2">
-            <input type="search" name="products_search" class="form-control" placeholder="Search By Product" aria-label="Search">
-          </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <input type="search" name="brands_search" class="form-control" placeholder="Search By Brand" aria-label="Search">
-          </div>
-          <div class="form-group mx-sm-3 mb-2">
-            <input type="search" name="company_search" class="form-control" placeholder="Search By Company" aria-label="Search">
-          </div>
-          <button class="btn btn-primary mb-2" type="submit">Search</button>
-        </form>
+      <div class="d-flex bg-gray-10">
+        <div class="pd-10 flex-grow-1">
+          <h4 id="section3" class="mg-b-10">Create products</h4>
+          <p class="mg-b-30">Use this page to add <code>NEW</code> product.</p>
+        </div>
+
+        <div class="pd-10 mg-l-auto">
+          <a href="{{ route('products.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+        </div>
       </div>
 
+
+
+      <div data-label="Stats" class="df-example mg-b-30">
+        <div class="row row-xs">
+          <div class="col-sm">
+            <div class="media">
+              <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-teal tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Added</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_product->name??''}}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="media">
+              <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total Products</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{count($products)}}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="media">
+              <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-pink tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total Active</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$prodactiveCount}}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="media">
+              <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-orange tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <div class="media-body">
+                <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total Inactive</h6>
+                <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{ count($products) - $prodactiveCount }}</h4>
+              </div>
+            </div>
+          </div>
+        </div><!-- row -->
+      </div>
+
+      <form method="GET" action="{{ route('products.index') }}">
+        <div data-label="Product List" class="df-example demo-table">
+          <div class="row row-sm  mg-b-10">
+            <div class="col-sm-3">
+              <input type="text" name="products_search" class="form-control" placeholder="Product">
+            </div>
+            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+              <input type="text" name="brands_search" class="form-control" placeholder="Brand">
+            </div>
+            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+              <input type="text" name="company_search" class="form-control" placeholder="company">
+            </div>
+            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+              <button type="button" class="btn btn-secondary"><i data-feather="search"></i></button>
+              <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+            </div>
+          </div>
+      </form>
+
+
       <div class="table-responsive">
-        <table class="table table-dashboard mg-b-0">
+        <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th class="text-center">ID</th>
-              <th class="text-left">NAME</th>
-              <th class="text-left">BRAND</th>
-              <th class="text-center">COMPANY NAME</th>
-              <th class="text-center">STATUS</th>
-              <th class="text-center">Action</th>
+              <th scope="col" class="text-center font-weight-bold">ID</th>
+              <th scope="col" class="text-left font-weight-bold">NAME</th>
+              <th scope="col" class="text-left font-weight-bold">BRAND</th>
+              <th scope="col" class="text-center font-weight-bold">COMPANY NAME</th>
+              <th scope="col" class="text-center font-weight-bold">STATUS</th>
+              <th scope="col" class="text-center font-weight-bold">Action</th>
+
+
             </tr>
           </thead>
           <tbody>
@@ -259,7 +276,9 @@
       {{ $products->links('pagination::bootstrap-5') }}
     </div>
   </div>
+
 </div>
+
 @endsection
 
 

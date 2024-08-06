@@ -68,7 +68,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="web_url">Web URL <span style="color: red;">*</span></label>
-                                    <input type="text" name="web_url" class="form-control" id="web_url" value="{{ old('web_url') }}" placeholder="Enter web URL" value="{{ url('/') }}">
+                                    <input type="text" name="web_url" class="form-control" id="web_url" placeholder="Enter web URL" value="{{ old('web_url') ?: url('/') }}">
+
                                     @error('web_url')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror

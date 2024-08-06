@@ -17,12 +17,15 @@ class JobsController extends Controller
     public function index()
     {
         $jobdatas = ProductionJob::with(['productionplant', 'productionLines'])->paginate(10);
-
-        return view('jobs.index', compact('jobdatas'));
+        $prodactiveCount = $jobdatas->filter(function ($product) {
+            return $product->status === 'Active';
+        })->count();
+        $last_added_job = ProductionJob::select('code')->orderBy('created_at', 'desc')->first();
+        return view('jobs.index', compact('jobdatas','last_added_job','prodactiveCount'));
     }
     public function create()
     {
-        if (!Auth::user()->can('create user')) {
+        if (!Auth::user()->can('create job')) {
              return view('dummy.unauthorized');
         }
         $productionplant = ProductionPlant::get();

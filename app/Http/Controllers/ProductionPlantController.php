@@ -14,7 +14,11 @@ class ProductionPlantController extends Controller
     public function index()
     {
         $productionplant = ProductionPlant::paginate(10);
-        return view('production-plants.index', compact('productionplant'));
+        $prodactiveCount = $productionplant->filter(function ($product) {
+            return $product->status === 'Active';
+        })->count();
+        $last_added_plplant = ProductionPlant::select('name')->orderBy('created_at', 'desc')->first();
+        return view('production-plants.index', compact('productionplant','last_added_plplant','prodactiveCount'));
     }
     public function create()
     {

@@ -84,7 +84,7 @@
             /* padding: 25% 5%; */
         }
         .logo-tracesci{
-          margin: auto !important;
+          /* margin: auto !important; */
             width: 300px;
         }
 

@@ -16,6 +16,7 @@
   <!-- DashForge CSS -->
   <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.css').cssVer()}}">
   <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.dashboard.css')}}">
+  <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.demo2.css')}}">
 
   <!-- bootstrap-->
   <link href="{{tracescicss('quill.snow.css')}}" rel="stylesheet" />
@@ -46,13 +47,20 @@
       margin-bottom: 30px;
     }
   </style>
+ 
 </head>
 
 <body>
+
+@if(!Route::is("login"))
+  @if(!Route::is("password.request"))
   @include('dummy.navbar_new')
   @include('dummy.top_navbar_new')
+  @endif
+  @endif
   @yield('content')
   @include('layout.footer')
+  
   <!-- <script src="{{tracescijs('jquery3.5.min.js')}}"></script> -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> -->

@@ -47,7 +47,7 @@ class QrcodeController extends Controller
 
     public function create()
     {
-        if (!Auth::user()->can('create qrcode')) {
+        if (!Auth::user()->can('create qrcodes')) {
             return view('dummy.unauthorized');
         }
         $products = Product::where('status', 'Active')->get();
@@ -64,7 +64,9 @@ class QrcodeController extends Controller
         ]);
         $batch = Batch::findOrFail($request->batch);
         $filePath = $request->file('file')->store('csv_files');
-        $response = Bus::dispatchNow(new ProcessCsvFile($filePath, $request->product_id, $request->batch, $request->gs_link));
+        $products = Product::select('web_url')->where('id',$request->product_id)->first();
+        $link=$products->web_url;
+        $response = Bus::dispatchNow(new ProcessCsvFile($filePath, $request->product_id, $request->batch, $request->gs_link,$link));
         if ($response === "CSV data processed successfully.") {
             return redirect('qrcodes')->with('status', $response);
         } else {
