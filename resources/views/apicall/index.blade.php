@@ -37,7 +37,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <div class="card">
-
+    <div class="card-header bg-primary text-white text-center">
+        <h2 class="mb-4">{{$product_id_ver->brand}}</h2>
+    </div>
     <div class="card-body">
         <div class="row">
             <div style="height:50%;width:50%; margin:auto;" data-label="Product Images" class="df-example">

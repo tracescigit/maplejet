@@ -97,11 +97,20 @@ class RoleController extends Controller
         ->all();
         return view('role-permission.roles.add-permissions', compact('role', 'permissions', 'rolePermissions', 'uniquePermissionNames','permissionsArray','rolePermissions_name'));
     }
+<<<<<<< HEAD
     public function givePermissionToRole(Request $request, $roleid)
     {
         $request->validate(['permission' => 'required']);
         $role = Role::findorFail($roleid);
         $role->syncPermissions($request->permission);
         return redirect('roles')->with('status', 'Permissions Updated');
+=======
+    public function givePermissionToRole(Request $request,$roleid){
+        dd($request->all());
+        $request->validate(['permission'=>'required']);
+   $role=Role::findorFail($roleid);
+   $role->syncPermissions($request->permission);
+        return redirect('roles')->with('status','Permissions Updated');
+>>>>>>> 0a641f4df5d4e9ca8c15961a369ff1d39ab255c1
     }
 }
