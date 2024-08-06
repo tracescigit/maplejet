@@ -13,7 +13,11 @@ use App\Models\ProductionJob;
 use App\Models\ScanHistory;
 use App\Models\ReportedProductsModel;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use App\Mail\PasswordResetMail;
 class AdminController extends Controller
 {
     public function index()
@@ -63,5 +67,58 @@ class AdminController extends Controller
             'months' => $months,
             'data' => $data
         ]);
+    }
+    public function SendPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $email = $request->input('email');
+
+        // Generate a new password
+        $newPassword = $this->generateRandomPassword();
+
+        // Find the user by email
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($newPassword);
+        $user->save();
+
+        // Send the new password to the user via email
+        try {
+            Mail::to($email)->send(new PasswordResetMail($newPassword));
+        } catch (\Exception $e) {
+            Log::error('Error sending password reset email: ' . $e->getMessage());
+            return response()->json(['message' => 'Error sending email.'], 500);
+        }
+
+        return redirect()->back()->with('success', 'Password has been reset and emailed to you.');
+        
+    }
+    private function generateRandomPassword($length = 8)
+    {
+        $uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        $numbers = '0123456789';
+        $specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+        $password = '';
+        $password .= $uppercase[random_int(0, strlen($uppercase) - 1)];
+        $password .= $lowercase[random_int(0, strlen($lowercase) - 1)];
+        $password .= $numbers[random_int(0, strlen($numbers) - 1)];
+        $password .= $specialChars[random_int(0, strlen($specialChars) - 1)];
+
+        $allChars = $uppercase . $lowercase . $numbers . $specialChars;
+        for ($i = 4; $i < $length; $i++) {
+            $password .= $allChars[random_int(0, strlen($allChars) - 1)];
+        }
+
+        return str_shuffle($password);
     }
 }
