@@ -14,7 +14,7 @@
   <link href="{{url('/assets/new_css/jqvmap.min.css').cssVer()}}" rel="stylesheet">
 
   <!-- DashForge CSS -->
-  <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.css').cssVer()}}">
+  <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.css')}}">
   <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.dashboard.css')}}">
   <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.demo2.css')}}">
 
@@ -46,22 +46,36 @@
       height: 200px;
       margin-bottom: 30px;
     }
+
     .footer {
-            /* color: white; */
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            left: 0;
-        }
+      /* color: white; */
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+    }
+    .submenu {
+  display: none; /* Hide submenu by default */
+  list-style: none; /* Remove default list styling */
+  padding: 0;
+  margin: 0;
+}
+
+.submenu.show {
+  display: block; /* Show submenu when 'show' class is added */
+}
+.nav-item.with-sub.show .submenu {
+  display: block; /* Show submenu when 'show' class is added to parent <li> */
+}
   </style>
- 
+
 </head>
 
 <body>
 
-@if(!Route::is("login"))
+  @if(!Route::is("login"))
   @if(!Route::is("password.request"))
   @include('dummy.navbar_new')
   @include('dummy.top_navbar_new')
@@ -69,7 +83,7 @@
   @endif
   @yield('content')
   @include('layout.footer')
-  
+
   <!-- <script src="{{tracescijs('jquery3.5.min.js')}}"></script> -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script> -->
@@ -457,6 +471,16 @@
       });
 
     })
+
+    function toggleSubMenu(event, element) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      // Get the parent <li> element
+      const parentLi = element.closest('li');
+      parentLi.classList.toggle('show');
+      parentLi.classList.toggle('active');
+      // Find the submenu <ul> inside the parent <li>
+    }
   </script>
   @yield('js')
 

@@ -14,41 +14,41 @@ class ProductionLinesController extends Controller
 {
    public function index(Request $request)
    {
-      // $query = DB::table('production_lines')
-      // ->join('production_plants', 'production_lines.plant_id', '=', 'production_plants.id')
-      // ->select('production_lines.*', 'production_plants.code as plant_code','production_plants.name as plant_name')::query();
-
-      // // Apply filters
-      // if ($request->pl_name) {
-      //     $query->where('production_lines.code', 'like', '%' . $request->pl_name . '%');
-      // }
-
-      // if ($request->pl_code) {
-      //     $query->whereHas('product', function ($q) use ($request) {
-      //         $q->where('production_lines.name', 'like', '%' . $request->pl_code . '%');
-      //     });
-      // }
-
-      // if ($request->pp_name) {
-      //     $query->where('production_plants.name', 'like', '%' . $request->pp_name . '%');
-      // }
-
-      // // Apply pagination
-      // $productionlines = $query->paginate(10);
-      $productionlines = DB::table('production_lines')
+      $query = DB::table('production_lines')
+      ->join('production_plants', 'production_lines.plant_id', '=', 'production_plants.id')
+      ->select('production_lines.*', 'production_plants.code as plant_code', 'production_plants.name as plant_name');
+  
+  // Apply filters
+  if ($request->pl_name) {
+      $query->where('production_lines.name', 'like', '%' . $request->pl_name . '%');
+  }
+  
+  if ($request->pl_code) {
+      // Assuming you meant to filter by the production_lines.code
+      $query->where('production_lines.code', 'like', '%' . $request->pl_code . '%');
+  }
+  
+  if ($request->pp_name) {
+      $query->where('production_plants.name', 'like', '%' . $request->pp_name . '%');
+  }
+  
+  // Apply pagination
+  $productionlines = $query->paginate(10);
+  
+      $productionlines1 = DB::table('production_lines')
          ->join('production_plants', 'production_lines.plant_id', '=', 'production_plants.id')
-         ->select('production_lines.*', 'production_plants.code as plant_code','production_plants.name as plant_name')
+         ->select('production_lines.*', 'production_plants.code as plant_code', 'production_plants.name as plant_name')
          ->paginate(10);
-         $prodactiveCount = $productionlines->filter(function ($product) {
-            return $product->status === 'Active';
-        })->count();
-        $last_added_plline = ProductionLines::select('name')->orderBy('created_at', 'desc')->first();
-      return view('production-lines.index', compact('productionlines','prodactiveCount','last_added_plline'));
+      $prodactiveCount = $productionlines1->filter(function ($product) {
+         return $product->status === 'Active';
+      })->count();
+      $last_added_plline = ProductionLines::select('name')->orderBy('created_at', 'desc')->first();
+      return view('production-lines.index', compact('productionlines', 'prodactiveCount', 'last_added_plline'));
    }
    public function create()
    {
       if (!Auth::user()->can('create production')) {
-          return view('dummy.unauthorized');
+         return view('dummy.unauthorized');
       }
       $productionplant = ProductionPlant::get();
       return view('production-lines.create', compact('productionplant'));
@@ -129,7 +129,7 @@ class ProductionLinesController extends Controller
    public function edit($id)
    {
       if (!Auth::user()->can('update production')) {
-          return view('dummy.unauthorized');
+         return view('dummy.unauthorized');
       }
       $productionplant = ProductionPlant::get();
       $productionlines = ProductionLines::findorFail($id);
@@ -159,7 +159,7 @@ class ProductionLinesController extends Controller
          'printer_name' => 'required',
          'status' => 'required',
          'plant_id' => 'required',
-         'printer_id'=>'required',
+         'printer_id' => 'required',
          'printer_password' => 'required'
       ]);
       if ($validator->fails()) {
@@ -211,7 +211,7 @@ class ProductionLinesController extends Controller
    public function destroy($id)
    {
       if (!Auth::user()->can('delete production')) {
-          return view('dummy.unauthorized');
+         return view('dummy.unauthorized');
       }
       $ProductionLines = ProductionLines::find($id);
       $ProductionLines->delete();

@@ -118,7 +118,7 @@
 </div>
 
 
-<div class="content content-components" style="padding: 0px; margin-left:0px;margin-right:0px;margin-top:30px;">
+<div class="content content-components" >
 
 
 
@@ -277,7 +277,7 @@
   </div>
 </div>
 
-</div>
+
 
 @endsection
 

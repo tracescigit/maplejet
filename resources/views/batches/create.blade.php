@@ -18,7 +18,7 @@
         overflow: hidden;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
@@ -28,8 +28,6 @@
                         <p class="mg-b-30">Use this page to add <code>NEW</code> Batch.</p>
                         <hr>
                     </div>
-
-
                 </div>
                 <div class="card-body">
 

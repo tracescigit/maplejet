@@ -24,7 +24,7 @@
   }
 </style>
 
-<div class="content-body">
+<div class="content content-components">
   <div class="container pd-x-0">
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
       <div>
@@ -37,8 +37,8 @@
         <h4 class="mg-b-0 tx-spacing--1">Welcome to Dashboard</h4>
       </div>
       <div class="d-none d-md-block">
-        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase"><i data-feather="mail" class="wd-10 mg-r-5"></i> Email</button>
-        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="printer" class="wd-10 mg-r-5"></i> Print</button>
+        <!-- <button class="btn btn-sm pd-x-15 btn-white btn-uppercase"><i data-feather="mail" class="wd-10 mg-r-5"></i> Email</button>
+        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="printer" class="wd-10 mg-r-5"></i> Print</button> -->
         <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('products.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create products</a>
         <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('jobs.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create jobs</a>
         <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('batches.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create Batch</a>
@@ -107,7 +107,7 @@
             </div>
 
             <!-- Adjust canvas size as needed -->
-            <canvas id="jobChart" style="width: 100%; height: 300px; margin-top: 25%;"></canvas>
+            <canvas id="jobChart" style="width: 100%; height: 300px;margin-top:30%;"></canvas>
           </div><!-- card-body -->
 
 
@@ -183,46 +183,34 @@
       }, // Default center
       zoom: 12
     });
-
-    // Parse JSON data from the Blade view
-    var marker = new google.maps.Marker({
-      position: {
-        lat: 29.712,
-        lng: 73.1
-      },
-      map: map,
-      title: 'Marker 1'
-    });
-
-    var marker2 = new google.maps.Marker({
-      position: {
-        lat: 40.712,
-        lng: -74.1
-      },
-      map: map,
-      title: 'Marker 2'
-    });
-    var marker3 = new google.maps.Marker({
-      position: {
-        lat: 28.712,
-        lng: 74.1
-      },
-      map: map,
-      title: 'Marker 3'
-    });
-
-    // Add markers to the map
-    markers.forEach(function(markerData) {
-      new google.maps.Marker({
-        position: {
-          lat: markerData.lat,
-          lng: markerData.lng
-        },
-        map: map,
-        title: markerData.title
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
+</script>
+<script>
+  // Define a function to initialize the map
+  function initMap() {
+      // Create the map, centered at a default location
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 28.7041, lng: 77.1025 }, // Default center
+        zoom: 12
       });
-    });
-  }
+
+      // Define an array of marker data
+      var markers = [
+        { position: { lat: 29.712, lng: 73.1 }, title: 'Marker 1' },
+        { position: { lat: 40.712, lng: -74.1 }, title: 'Marker 2' },
+        { position: { lat: 28.712, lng: 74.1 }, title: 'Marker 3' }
+      ];
+
+      // Add markers to the map
+      markers.forEach(function(markerData) {
+        new google.maps.Marker({
+          position: markerData.position,
+          map: map,
+          title: markerData.title
+        });
+      });
+    }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -269,14 +257,10 @@
 </script>
 
 
-
 <script>
   // Data passed from Laravel controller
-  const months = {!! json_encode($months) !!}; // Month names
-  const data = {!! json_encode($data) !!}; // Job counts
-
-  // Determine the maximum value in the data to set as the upper bound
-  const maxValue = Math.max(...data) * 1.2; // Adding 20% padding
+  const months = {!!json_encode($months) !!}; // Month names
+  const data = {!!json_encode($data) !!}; // Job counts
 
   const jobData = {
     labels: months,
@@ -299,13 +283,11 @@
     options: {
       scales: {
         y: {
-          beginAtZero: true,
-          max: maxValue // Set the maximum value of the y-axis
+          beginAtZero: true
         }
       }
     }
   });
 </script>
-
 
 @endsection
