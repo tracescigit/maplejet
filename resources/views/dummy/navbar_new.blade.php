@@ -14,10 +14,7 @@
           <a href="" class="new" data-toggle="tooltip" title="You have 2 unread messages"><i data-feather="message-square"></i></a>
           <a href="" class="new" data-toggle="tooltip" title="You have 4 new notifications"><i data-feather="bell"></i></a>
 
-          <form method="POST" action="{{route('logout')}}">
-            @csrf
-            <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault(); this.closest('form').submit();" data-toggle="tooltip" title="Sign out"><i data-feather="log-out"></i></a>
-          </form>
+            <a class="dropdown-item" href="{{route('logout1')}}"  data-toggle="tooltip" title="Sign out"><i data-feather="log-out"></i></a>
         </div>
       </div>
       <div class="aside-loggedin-user">

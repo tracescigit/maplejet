@@ -79,6 +79,8 @@
         <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
         @endif
         <div id="statusMessage1" class="alert alert-success mt-2" style="display: none; background-color:#34eb86;"></div>
+        <div id="statusMessage2" class="alert alert-danger mt-2" style="display: none; background-color:#34eb86;"></div>
+
         <div class="card pd-20 mg-t-10 col-11 mx-auto">
 
             <div class="content-header mg-b-25">
@@ -165,7 +167,7 @@
             <form id="bulkForm" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="bulkTitle">Bulk Action</h5>
+                    <h5 class="modal-title" id="bulkTitle">Assign Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -303,8 +305,19 @@
                 data: formData,
                 success: function(response) {
                     if (response.startcodeerror) {
+                        $('text-danger').html('');
                         $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.startcodeerror + '</div>');
-                    } else {
+                    }else if(response.status=='GTIN number not provided while creating product'){
+                        $('#statusMessage2').html(response.status);
+                        $('#statusMessage2').css('display', 'block');
+                        closemodal();
+                    } else if(response.producterror=='Code is not assigned Product and Batch. Please assign Product and Batch First.'){
+                        $('text-danger').html('');
+                        $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.producterror + '</div>');
+                        setTimeout(function() {
+                            closemodal();
+                            }, 2000);
+                    }else {
                         $('#bulkActionModal').modal('hide');
                         if (response.status) {
                             $('#statusMessage1').html(response.status);

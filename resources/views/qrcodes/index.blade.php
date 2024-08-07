@@ -79,7 +79,7 @@
                 </div> -->
                 @endif
 
-                <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86; display:none;">
+                <div id="statusMessage1" class="alert alert-success" style="background-color:#34eb86; display:none;">
                     <!-- This content will be set dynamically by JavaScript -->
                 </div>
 
@@ -194,13 +194,13 @@
                             <td class="tx-medium text-left">{{ str_replace("_", " ", $singledata->product->name ?? '') }}</td>
                             <td class="tx-medium text-left">{{$singledata->batch->code??"" }}</td>
                             <td class="text-left">{{ $singledata->code_data }}</td>
-                            <td class="text-center text-danger">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
+                            <td class="text-center text-info">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
                             <td>
                                 <form action="{{ route('qrcodes.update', $singledata->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="mx-auto" style="text-align: center;">
-                                        
+
 
                                         @if($singledata->status == 'Active')
                                         <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
@@ -292,7 +292,8 @@
         </div>
     </div>
 </div>
-
+@endsection
+@section('js')
 <!-- jQuery -->
 <!-- Custom JavaScript -->
 <script>
@@ -323,19 +324,34 @@
     $(document).ready(function() {
         $('#bulkForm').submit(function(event) {
             event.preventDefault();
+
             var formData = $(this).serialize();
-            var url = '{{url("")}}';
+
             $.ajax({
                 type: 'POST',
                 url: "{{ route('batches.bulstatuschange') }}",
                 data: formData,
                 success: function(response) {
+                    if (response.producterror) {
+                        $('text-danger').html('');
+                        $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.producterror + '</div>');
+                    }
                     if (response.status == 'Status updated successfully') {
                         $('#bulkActionModal').modal('hide');
-                        showStatusMessage('Status Updated successfully');
+                        $('#statusMessage1').html('');
+                        $('#statusMessage1').html('Status Updated successfully').show();
+                        setTimeout(function() {
+                            $('#statusMessage1').fadeOut();
+                        }, 2000);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 3000);
+                        
+
                     } else if (response.status == 'Invalid or missing start_code or quantity') {
-                        $('#bulkActionModal').modal('hide');
-                        errorMessage('Invalid or missing start_code or quantity');
+                        // $('#bulkActionModal').modal('hide');
+                        $('text-danger').html('');
+                        $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + 'Invalid or missing start_code or quantity' + '</div>');
                     } else {
                         var downloadUrl = '{{ url("download") }}/' + response.filename;
 
@@ -353,6 +369,7 @@
         });
     });
 
+
     function showStatusMessage(message) {
         var statusMessageElement = document.getElementById('statusMessage');
         if (statusMessageElement) {
@@ -369,7 +386,7 @@
         if (statusMessageElement) {
             statusMessageElement.textContent = message; // Set the message content
             statusMessageElement.classList.remove('alert-success');
-        statusMessageElement.classList.add('alert-danger');
+            statusMessageElement.classList.add('alert-danger');
             statusMessageElement.style.display = 'block'; // Show the message
             setTimeout(function() {
                 statusMessageElement.style.display = 'none'; // Hide the message

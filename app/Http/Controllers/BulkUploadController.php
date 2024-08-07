@@ -35,7 +35,7 @@ class BulkUploadController extends Controller
     }
     public function store_serial_no(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
             'starting_code' => 'nullable|numeric|digits_between:7,21',
             'quantity' => 'required|numeric|min:1',
@@ -50,7 +50,7 @@ class BulkUploadController extends Controller
             }
             $data['starting_code'] = $request->starting_code;
             $data['quantity'] = $request->quantity;
-            $data['baseurl']=$baseUrl;
+            $data['baseurl'] = $baseUrl;
             $response = Bus::dispatchNow(new QrUploadBySerial($data));
             if ($response === "Data processed successfully.") {
                 return redirect('qrcodes')->with('status', $response);
@@ -69,7 +69,7 @@ class BulkUploadController extends Controller
                 Qrcode::create([
                     'qr_code' => $qrCodeNumber,
                     'code_data' => $qrCodeNumber,
-                    'url'=>$baseUrl.'/'.$qrCodeNumber
+                    'url' => $baseUrl . '/' . $qrCodeNumber
                 ]);
             }
         }
@@ -82,7 +82,7 @@ class BulkUploadController extends Controller
     {
         if (!empty($request->start_code)) {
             $check_serial = Qrcode::where('code_data', $request->start_code)->first();
-            
+
             if (!$check_serial) {
                 return response()->json(['startcodeerror' => 'Code not Found']);
             }
@@ -90,17 +90,25 @@ class BulkUploadController extends Controller
             if (!empty($check_serial_inactive)) {
                 return response()->json(['startcodeerror' => 'Code is already associated and active. Please deactivate and then assign.']);
             }
-            $all_data = Qrcode::where('code_data', $request->start_code)->with('product')->first();
-            $id_to_start = $all_data->id;
+            $first_code_id = Qrcode::select('id')->where('code_data', $request->start_code)->first();
+            $id_to_start = $first_code_id->id;
             if ($id_to_start) {
                 $quantity = (int)$request->quantity;
                 $id_to_end = $id_to_start + $quantity;
                 $qr_code_number = $this->generateUniqueQRCodeNumber();
-                $baseUrl = $all_data->product->web_url??"";
-                $expDate = date('ymd', strtotime($all_data->exp_date));
+                Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
+                ->update([
+                    'product_id' => $request->product_id,
+                    'batch_id' => $request->batch_id
+                ]);
+            $all_data = Qrcode::where('code_data', $request->start_code)
+                ->with(['product.batches'])
+                ->first();
+                $baseUrl = $all_data->product->web_url ?? "";
+                $expDate = date('ymd', strtotime($all_data->batch->exp_date));
                 for ($i = $id_to_start; $i < $id_to_end; $i++) {
                     $qrcode = Qrcode::where('id', $i)->select('code_data')->first();
-                    if(!empty($qrcode->code_data)){
+                    if (!empty($qrcode->code_data)) {
                         $gslink = $baseUrl . '/01/' . $qrcode->code_data;
                     }
                     // else{
@@ -109,13 +117,13 @@ class BulkUploadController extends Controller
 
                     // Apply specific logic based on the generate_gs1_link_with value
                     if ($request->gs1_link == 'yes') {
-                        if(empty($all_data->gtin)){
+                        if (empty($all_data->product->gtin)) {
                             return response()->json(['status' => 'GTIN number not provided while creating product']);
                         }
                         if ($request->generate_gs1_link_with == 'batch') {
-                            $gslink = $baseUrl . '/01/' . $all_data->gtin . '/10/' . $i . '?17=' . $expDate;
+                            $gslink = $baseUrl . '/01/' . $all_data->product->gtin . '/10/' .'?17=' . $expDate;
                         } elseif ($request->generate_gs1_link_with == 'serial_no') {
-                            $gslink = $baseUrl . '/01/' . $all_data->gtin . '/10/' . $i . '/21/' . $i . '?17=' . $expDate;
+                            $gslink = $baseUrl . '/01/' . $all_data->product->gtin . '/10/' .'21/' .'?17=' . $expDate;
                         }
                     }
 

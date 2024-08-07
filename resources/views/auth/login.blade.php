@@ -28,7 +28,10 @@
                             @csrf
                             <div class="form-group">
                                 <label>Email address</label>
-                                <input type="email" class="form-control" placeholder="yourname@yourmail.com" id="email" type="email" name="email" required="required" autocomplete="username">
+                                <input type="email" class="form-control" placeholder="yourname@yourmail.com" id="email" value="{{ old('email') }}" type="email" name="email" required="required" autocomplete="username">
+                                @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                             <div class="form-group">
                                 <div class="d-flex justify-content-between mg-b-5">
@@ -37,7 +40,10 @@
                                     <a href="{{ route('password.request') }}" class="tx-13"> {{ __('Forgot your password?') }}</a>
                                     @endif
                                 </div>
-                                <input type="password" class="form-control" placeholder="Enter your password" id="password" type="password" name="password" required="required" autocomplete="current-password">
+                                <input type="password" class="form-control" placeholder="Enter your password" id="password" value="{{ old('password') }}" type="password" name="password" required="required" autocomplete="current-password">
+                                @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
 
                             <button class="btn btn-brand-02 btn-block btn-custom">Sign In</button>
