@@ -18,12 +18,18 @@
         overflow: hidden;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom ">
-                    <h5 class="mb-0  text-white">Production-Lines Details</h5>
+            <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">View Prod.line Details</h4>
+                        <p class="mg-b-30">Use this page to <code>View</code> Prod.line Details.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -57,8 +63,13 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="font-weight-bold" for="image_preview">Status:</label>
-                                <p>{{$productionlines->status}}</p>
+                            <label class="font-weight-bold" for="status">Status:</label>
+                               <p>@if($productionlines->status == 'Active')
+                <span class="tx-10 badge badge-success">Active</span>
+                @else
+                <span class="tx-10 badge badge-danger">Inactive</span>
+                @endif
+                </p>
                                 <hr>
                             </div>
                         </div>

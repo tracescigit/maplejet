@@ -14,7 +14,7 @@
   <link href="{{url('/assets/new_css/jqvmap.min.css').cssVer()}}" rel="stylesheet">
 
   <!-- DashForge CSS -->
-  <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.css').cssVer()}}">
+  <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.css')}}">
   <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.dashboard.css')}}">
   <link rel="stylesheet" href="{{url('/assets/new_css/dashforge.demo2.css')}}">
 
@@ -48,7 +48,7 @@
     }
 
     .footer {
-      color: white;
+      /* color: white; */
       text-align: center;
       padding: 10px;
       position: fixed;
@@ -56,13 +56,33 @@
       width: 100%;
       left: 0;
     }
+
+    .submenu {
+      display: none;
+      /* Hide submenu by default */
+      list-style: none;
+      /* Remove default list styling */
+      padding: 0;
+      margin: 0;
+    }
+
+    .submenu.show {
+      display: block;
+      /* Show submenu when 'show' class is added */
+    }
+
+    .nav-item.with-sub.show .submenu {
+      display: block;
+      /* Show submenu when 'show' class is added to parent <li> */
+    }
   </style>
 
 </head>
 
 <body>
 
-  @if(!Route::is("password.request") && !Route::is("logout1") && !Route::is("login") )
+  
+  @if(!Route::is("password.request") && !Route::is("login") && !Route::is("logout1"))
   @include('dummy.navbar_new')
   @include('dummy.top_navbar_new')
   @endif
@@ -457,6 +477,16 @@
       });
 
     })
+
+    function toggleSubMenu(event, element) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      // Get the parent <li> element
+      const parentLi = element.closest('li');
+      parentLi.classList.toggle('show');
+      parentLi.classList.toggle('active');
+      // Find the submenu <ul> inside the parent <li>
+    }
   </script>
   @yield('js')
 

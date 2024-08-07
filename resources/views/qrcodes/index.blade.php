@@ -87,115 +87,154 @@
         </div>
 
         <!-- Info boxes -->
-        <div class="d-sm-flex mx-auto mg-t-10 col-11">
+        <div class="content content-components">
 
 
 
-            <div class="col-sm-3 col-lg-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-primary tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                    <div class="info-box-content" style="font-weight:bold;">
-                        <span class="info-box-text">Last Code-Data</span>
-                        <span class="info-box-number" style="justify-self:center">{{$last_added_product->code_data??''}}</span>
+            <div class="card pd-20 mg-t-10 col-10 mx-auto">
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10">Create Qrcodes</h4>
+                        <p class="mg-b-30">Use <code>Add New</code>  page to add <code>NEW</code> Qrcode.</p>
                     </div>
 
-                </div>
-            </div>
+                    <div class="pd-10 mg-l-auto">
+                        <a href="{{ route('qrcodes.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                        <div class="form-group  mb-2 mt-2 d-inline-flex">
 
-
-            <div class="col-sm-3 col-lg-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                    <div class="info-box-content" style="font-weight:bold;">
-                        <span class="info-box-text">Total Code-Data</span>
-                        <span class="info-box-number" style="justify-self:center">{{$qr_count}}</span>
+                            <!-- Bulk Action Form -->
+                            <form id="importForm" action="{{ route('batches.import') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <button onclick="showmodal()" type="button" class="btn btn-primary" >
+                                   
+                                    Bulk Action
+                                </button>
+                                <a href="{{ route('bulkuploads.index') }}" class="btn btn-primary"> Bulk Uploads</a>
+                                <input type="file" id="fileInput" name="file" style="display: none;" onchange="submitForm()">
+                                <button type="submit" style="display: none;">Import</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-sm-3 col-lg-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                    <div class="info-box-content" style="font-weight:bold;">
-                        <span class="info-box-text">Active</span>
-                        <span class="info-box-number" style="justify-self:center">{{$qractiveCount}}</span>
-                    </div>
+
+
+                <div data-label="Stats" class="df-example mg-b-30">
+                    <div class="row row-xs">
+                        <div class="col-sm">
+                            <div class="media">
+                                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-teal tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Code-Data</h6>
+                                    <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_product->code_data??''}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="media">
+                                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+                                    <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$qr_count}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="media">
+                                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-pink tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
+                                    <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$qractiveCount}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="media">
+                                <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-orange tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
+                                    <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$qr_count-$qractiveCount}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- row -->
                 </div>
-            </div>
 
-            <div class="col-sm-3 col-lg-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                    <div class="info-box-content" style="font-weight:bold;">
-                        <span class="info-box-text"> Inactive</span>
-                        <span class="info-box-number" style="justify-self:center">{{$qr_count-$qractiveCount}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card pd-20 mg-t-10 col-11 mx-auto">
-            <h3 class="content-header mb-4">QR Code Data</h3>
-            <!-- Button: Upload Qrcodes -->
-            <div class="d-flex justify-content-between align-items-start">
-                <a href="{{ route('qrcodes.create') }}" class="btn btn-custom mx-3 mb-2">
-                    <img src="{{ tracesciimg('icons8-create-16.png') }}" style="max-width:18px;" class="me-2">
-                    Upload Qrcodes
-                </a>
-                <!-- Search Form -->
-                <form class="form-inline mr-4" method="GET" action="{{ route('qrcodes.index') }}">
-                    <input type="search" name="products_search" class="form-control mr-3" placeholder="Search By Product" aria-label="Search">
-                    <input type="search" name="qrcode_search" class="form-control mr-3" placeholder="Search By Code" aria-label="Search">
-
-                    <select class="form-select mr-3 p-1" name="products_assigned" aria-label="Default select example">
-                        <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
-                        <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
-                    </select>
-                    <button class="btn-primary " type="submit">Search</button>
+                <form method="GET" action="{{ route('qrcodes.index') }}">
+                    <div data-label="codes List" class="df-example demo-table">
+                        <div class="row row-sm  mg-b-10">
+                            <div class="col-sm-3">
+                                <input type="text" name="products_search" class="form-control" placeholder="Product">
+                            </div>
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <input type="text" name="qrcode_search" class="form-control" placeholder="code">
+                            </div>
+                            <div class="col-sm-3 mg-t-10  mg-sm-t-5">
+                                <select name="products_assigned" aria-label="Default select example" class="form-control">
+                                    <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
+                                    <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                                <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+                                <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+                            </div>
+                        </div>
                 </form>
-                <div class="form-group mx-sm-3 mb-2">
 
-                    <!-- Bulk Action Form -->
-                    <form id="importForm" action="{{ route('batches.import') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <button onclick="showmodal()" type="button" class="btn btn-custom" style="background-color: #ffa500;">
-                            <img src="{{ tracesciimg('icons8-action-64.png') }}" style="max-width: 18px;" class="me-2">
-                            Bulk Action
-                        </button>
-                        <a href="{{ route('bulkuploads.index') }}" class="btn btn-custom"> Bulk Uploads</a>
-                        <input type="file" id="fileInput" name="file" style="display: none;" onchange="submitForm()">
-                        <button type="submit" style="display: none;">Import</button>
-                    </form>
-                </div>
-            </div>
 
-            <!-- QR Code data table -->
-            <div class="table-responsive">
-                <table class="table table-dashboard">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Id</th>
-                            <th class="text-left">Product Name</th>
-                            <th class="text-left">Batch Name</th>
-                            <th class="text-left">Code Data</th>
-                            <th class="text-center">Created At</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($qrdatas as $index => $singledata)
-                        @php
-                        $page = $qrdatas->currentPage();
-                        $perPage = $qrdatas->perPage();
-                        $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                        @endphp
-                        <tr>
-                            <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-                            <td class="tx-medium text-left">{{ str_replace("_", " ", $singledata->product->name ?? '') }}</td>
-                            <td class="tx-medium text-left">{{$singledata->batch->code??"" }}</td>
-                            <td class="text-left">{{ $singledata->code_data }}</td>
-                            <td class="text-center text-info">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
-                            <td>
+                <div class="table-responsive">
+                    <table class="table table-striped mg-b-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">ID</th>
+                                <th scope="col" class="text-left font-weight-bold">Product Name</th>
+                                <th scope="col" class="text-left font-weight-bold">Batch Name</th>
+                                <th scope="col" class="text-left font-weight-bold">Code Data</th>
+                                <th scope="col" class="text-center font-weight-bold">Created At</th>
+                                <th scope="col" class="text-center font-weight-bold">Action</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($qrdatas as $index => $singledata)
+                            @php
+                            $page = $qrdatas->currentPage();
+                            $perPage = $qrdatas->perPage();
+                            $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                            @endphp
+                            <tr>
+                                <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                                <td class="tx-medium text-left">{{ str_replace("_", " ", $singledata->product->name ?? '') }}</td>
+                                <td class="text-left">{{$singledata->batch->code??"" }}</td>
+                                <td class="text-left">{{ $singledata->code_data }}</td>
+                                <td class="text-center text-danger">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
+                                <td class="text-center">
                                 <form action="{{ route('qrcodes.update', $singledata->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
@@ -224,174 +263,156 @@
                                         @endif
                                     </div>
                                 </form>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-                <!-- Pagination links -->
+                                </td>
+
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div><!-- table-responsive -->
+            </div><!-- card -->
+
+            <div class="mt-3">
                 {{ $qrdatas->links('pagination::bootstrap-5') }}
             </div>
         </div>
-    </div>
-</div>
-
-
-
-<!-- Modal for bulk actions -->
-<div class="modal fade" id="bulkActionModal" tabindex="-1" role="dialog" aria-labelledby="bulkTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form id="bulkForm" method="POST">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bulkTitle">Bulk Action</h5>
-                    <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="floating-label">Start Code</label>
-                                <input type="text" name="start_code" class="form-control" placeholder="Start Code" required>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="floating-label">Quantity</label>
-                                <input type="number" min="1" name="quantity" class="form-control" placeholder="Quantity" required value="1">
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label class="floating-label">Action</label>
-                                <select name="action" class="form-control">
-                                    <option value="active">Activate</option>
-                                    <option value="inactive">Deactivate</option>
-                                    <option value="Export">Export</option>
-                                </select>
-                            </div>
+          <!-- Modal for bulk actions -->
+          <div class="modal fade" id="bulkActionModal" tabindex="-1" role="dialog" aria-labelledby="bulkTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form id="bulkForm" method="POST">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="bulkTitle">Bulk Action</h5>
+                                    <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="floating-label">Start Code</label>
+                                                <input type="text" name="start_code" class="form-control" placeholder="Start Code" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="floating-label">Quantity</label>
+                                                <input type="number" min="1" name="quantity" class="form-control" placeholder="Quantity" required value="1">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="floating-label">Action</label>
+                                                <select name="action" class="form-control">
+                                                    <option value="active">Activate</option>
+                                                    <option value="inactive">Deactivate</option>
+                                                    <option value="Export">Export</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
+                                        <i class="fas fa-times"></i> Close
+                                    </button>
+                                    <button class="btn btn-md btn-primary float-right">
+                                        <i class="fas fa-download"></i> Submit
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
-                        <i class="fas fa-times"></i> Close
-                    </button>
-                    <button class="btn btn-md btn-primary float-right">
-                        <i class="fas fa-download"></i> Submit
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endsection
-@section('js')
-<!-- jQuery -->
-<!-- Custom JavaScript -->
-<script>
-    // Function to close modal
-    function closemodal() {
-        $('#bulkActionModal').modal('hide');
-    }
 
-    // Function to show modal
-    function showmodal() {
-        $('#bulkActionModal').modal('show');
-    }
-
-    // Function to submit form for import
-    function submitForm() {
-        document.getElementById('importForm').submit();
-    }
-
-    // Function to update status
-    function updateStatus(status) {
-        if (confirm('Are you sure to change the Status?')) {
-            document.getElementById('statusInput').value = status;
-            document.getElementById('updateForm').submit();
-        }
-    }
-
-    // jQuery to handle bulk action form submission
-    $(document).ready(function() {
-        $('#bulkForm').submit(function(event) {
-            event.preventDefault();
-
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('batches.bulstatuschange') }}",
-                data: formData,
-                success: function(response) {
-                    if (response.producterror) {
-                        $('text-danger').html('');
-                        $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.producterror + '</div>');
-                    }
-                    if (response.status == 'Status updated successfully') {
+                <!-- jQuery -->
+                <!-- Custom JavaScript -->
+                <script>
+                    // Function to close modal
+                    function closemodal() {
                         $('#bulkActionModal').modal('hide');
-                        $('#statusMessage1').html('');
-                        $('#statusMessage1').html('Status Updated successfully').show();
-                        setTimeout(function() {
-                            $('#statusMessage1').fadeOut();
-                        }, 2000);
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 3000);
-                        
-
-                    } else if (response.status == 'Invalid or missing start_code or quantity') {
-                        // $('#bulkActionModal').modal('hide');
-                        $('text-danger').html('');
-                        $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + 'Invalid or missing start_code or quantity' + '</div>');
-                    } else {
-                        var downloadUrl = '{{ url("download") }}/' + response.filename;
-
-                        // Trigger download using hidden iframe
-                        var iframe = document.createElement('iframe');
-                        iframe.style.display = 'none';
-                        iframe.src = downloadUrl;
-                        document.body.appendChild(iframe);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-        });
-    });
 
+                    // Function to show modal
+                    function showmodal() {
+                        $('#bulkActionModal').modal('show');
+                    }
 
-    function showStatusMessage(message) {
-        var statusMessageElement = document.getElementById('statusMessage');
-        if (statusMessageElement) {
-            statusMessageElement.textContent = message; // Set the message content
-            statusMessageElement.style.display = 'block'; // Show the message
-        }
-        setTimeout(function() {
-            statusMessageElement.style.display = 'none'; // Hide the message
-        }, 5000); // 5000 milliseconds = 5 seconds
-    }
+                    // Function to submit form for import
+                    function submitForm() {
+                        document.getElementById('importForm').submit();
+                    }
 
-    function errorMessage(message) {
-        var statusMessageElement = document.getElementById('errorMessage');
-        if (statusMessageElement) {
-            statusMessageElement.textContent = message; // Set the message content
-            statusMessageElement.classList.remove('alert-success');
-            statusMessageElement.classList.add('alert-danger');
-            statusMessageElement.style.display = 'block'; // Show the message
-            setTimeout(function() {
-                statusMessageElement.style.display = 'none'; // Hide the message
-            }, 5000); // 5000 milliseconds = 5 seconds
-        }
-    }
-</script>
-@endsection
+                    // Function to update status
+                    function updateStatus(status) {
+                        if (confirm('Are you sure to change the Status?')) {
+                            document.getElementById('statusInput').value = status;
+                            document.getElementById('updateForm').submit();
+                        }
+                    }
+
+                    // jQuery to handle bulk action form submission
+                    $(document).ready(function() {
+                        $('#bulkForm').submit(function(event) {
+                            event.preventDefault();
+                            var formData = $(this).serialize();
+                            var url = '{{url("")}}';
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ route('batches.bulstatuschange') }}",
+                                data: formData,
+                                success: function(response) {
+                                    if (response.status == 'Status updated successfully') {
+                                        $('#bulkActionModal').modal('hide');
+                                        showStatusMessage('Status Updated successfully');
+                                    } else if (response.status == 'Invalid or missing start_code or quantity') {
+                                        $('#bulkActionModal').modal('hide');
+                                        errorMessage('Invalid or missing start_code or quantity');
+                                    } else {
+                                        var downloadUrl = '{{ url("download") }}/' + response.filename;
+
+                                        // Trigger download using hidden iframe
+                                        var iframe = document.createElement('iframe');
+                                        iframe.style.display = 'none';
+                                        iframe.src = downloadUrl;
+                                        document.body.appendChild(iframe);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
+                        });
+                    });
+
+                    function showStatusMessage(message) {
+                        var statusMessageElement = document.getElementById('statusMessage');
+                        if (statusMessageElement) {
+                            statusMessageElement.textContent = message; // Set the message content
+                            statusMessageElement.style.display = 'block'; // Show the message
+                        }
+                        setTimeout(function() {
+                            statusMessageElement.style.display = 'none'; // Hide the message
+                        }, 5000); // 5000 milliseconds = 5 seconds
+                    }
+
+                    function errorMessage(message) {
+                        var statusMessageElement = document.getElementById('errorMessage');
+                        if (statusMessageElement) {
+                            statusMessageElement.textContent = message; // Set the message content
+                            statusMessageElement.classList.remove('alert-success');
+                            statusMessageElement.classList.add('alert-danger');
+                            statusMessageElement.style.display = 'block'; // Show the message
+                            setTimeout(function() {
+                                statusMessageElement.style.display = 'none'; // Hide the message
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                        }
+                    }
+                </script>
+                @endsection
