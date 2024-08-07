@@ -17,13 +17,21 @@
         transition: background-color 0.3s ease;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-8">
         <div class="card pd-20 mg-t-8 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h5 class="mb-0 text-white">Edit Production Plant</h5>
+               
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Edit Prod.line</h4>
+                        <p class="mg-b-30">Use this page to  <code>Edit</code> Prod.plant</p>
+                        <hr>
+                    </div>
+
+
                 </div>
+               
                 <div class="card-body">
                     <form method="POST" action="{{ route('production-plants.update', $productionplant->id) }}">
                         @csrf

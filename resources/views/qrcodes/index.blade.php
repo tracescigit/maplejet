@@ -79,7 +79,7 @@
                 </div> -->
                 @endif
 
-                <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86; display:none;">
+                <div id="statusMessage1" class="alert alert-success" style="background-color:#34eb86; display:none;">
                     <!-- This content will be set dynamically by JavaScript -->
                 </div>
 
@@ -239,7 +239,7 @@
                                     @csrf
                                     @method('PUT')
                                     <div class="mx-auto" style="text-align: center;">
-                                        
+
 
                                         @if($singledata->status == 'Active')
                                         <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>

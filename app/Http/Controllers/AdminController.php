@@ -14,6 +14,8 @@ use App\Models\ScanHistory;
 use App\Models\ReportedProductsModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -129,5 +131,14 @@ class AdminController extends Controller
         }
 
         return str_shuffle($password);
+    }
+    public function logoutlanding(Request $request){
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return view('auth.logout');
     }
 }

@@ -37,11 +37,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <div class="card">
+    @if($genuine!='Product is Fake')
     <div class="card-header bg-primary text-white text-center">
-        <h2 class="mb-4">{{$product_id_ver->brand}}</h2>
+        <h2 class="mb-4">{{$product_id_ver->brand??""}}</h2>
     </div>
     <div class="card-body">
         <div class="row">
+            @if(!empty($product_id_ver->image))
             <div style="height:50%;width:50%; margin:auto;" data-label="Product Images" class="df-example">
                 <div id="carouselExample3" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
@@ -68,10 +70,10 @@
                 </div>
             </div><!-- df-example -->
             </br>
-
+            @endif
 
             <div data-label="Details" class="df-example">
-                <div class="alert alert-solid alert-success d-flex justify-content-center mt-3 mx-auto" style="max-width: 30%;font-weight:bold;" role="alert">Genuine Product</div>
+                <div class="alert alert-solid alert-success d-flex justify-content-center mt-3 mx-auto" style="max-width: 30%;font-weight:bold;" role="alert">{{$genuine}}</div>
                 <ul class="nav nav-tabs nav-justified" id="myTab3" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" style="font-weight: bold;font-family:'Times New Roman', Times, serif;" id="home-tab3" data-toggle="tab" href="#home3" role="tab" aria-controls="home" aria-selected="true">Product</a>
@@ -100,12 +102,12 @@
 
                                     <tr>
                                         <th scope="row">Brand</th>
-                                        <td>New Syrup</td>
+                                        <td>{{$product_id_ver->brand}}</td>
 
                                     </tr>
                                     <tr>
                                         <th scope="row">Unique Code</th>
-                                        <td>GTIN72472547254754</td>
+                                        <td>GTIN .{{$product_id_ver->gtin}}</td>
 
                                     </tr>
                                     <tr>
@@ -240,6 +242,14 @@
             </footer><!-- content-footer -->
         </div>
     </div>
+    @else
+    <div class="container">
+    <div class="card-body bg-primary text-white text-center">
+    <h2>{{$genuine}}</h2>
+</div>
+</div>
+
+    @endif
 </div>
 
 <!-- Report Modal -->
@@ -331,8 +341,8 @@
                 let ip = '{{$clientIp ??'
                 '}}';
                 let url = '{{ request()->url() }}';
-                let product = '{{ $product_id_ver->name }}';
-                let batch = '{{ $product_id_ver->code }}';
+                let product = '{{ $product_id_ver->name??"" }}';
+                let batch = '{{ $product_id_ver->code??"" }}';
 
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
                 formData.append('issue', $('#issue').val());

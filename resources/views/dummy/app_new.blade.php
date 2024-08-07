@@ -56,31 +56,37 @@
       width: 100%;
       left: 0;
     }
-    .submenu {
-  display: none; /* Hide submenu by default */
-  list-style: none; /* Remove default list styling */
-  padding: 0;
-  margin: 0;
-}
 
-.submenu.show {
-  display: block; /* Show submenu when 'show' class is added */
-}
-.nav-item.with-sub.show .submenu {
-  display: block; /* Show submenu when 'show' class is added to parent <li> */
-}
+    .submenu {
+      display: none;
+      /* Hide submenu by default */
+      list-style: none;
+      /* Remove default list styling */
+      padding: 0;
+      margin: 0;
+    }
+
+    .submenu.show {
+      display: block;
+      /* Show submenu when 'show' class is added */
+    }
+
+    .nav-item.with-sub.show .submenu {
+      display: block;
+      /* Show submenu when 'show' class is added to parent <li> */
+    }
   </style>
 
 </head>
 
 <body>
 
-  @if(!Route::is("login"))
-  @if(!Route::is("password.request"))
+  
+  @if(!Route::is("password.request") && !Route::is("login") && !Route::is("logout1"))
   @include('dummy.navbar_new')
   @include('dummy.top_navbar_new')
   @endif
-  @endif
+
   @yield('content')
   @include('layout.footer')
 
