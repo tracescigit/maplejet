@@ -18,7 +18,7 @@
         overflow: hidden;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
@@ -37,28 +37,57 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="product_brand">Event:</label>
-                                <p>{{$userlog->event}}</p>
+                                <p>{{$userlog->log_name}} has been {{$userlog->event}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                        @if(empty($log_datas))
+                        @php
+                        $new_values = ''; // Initialize the variable to hold concatenated values
+
+                        foreach ($new_data as $key=>$singledata) {
+                        $new_values .= $key.': '.$singledata . ' , '; // Append each value followed by a comma
+                        }
+
+                        // Optionally, you might want to remove the trailing comma
+                        $new_values = rtrim($new_values, ' ,');
+                        $old_values='';
+                        foreach($old_data as $key=>$singleolddata){
+                        $old_values.= $key.': '.$singleolddata.' , ';
+                        }
+                        $old_values = rtrim($old_values, ' ,');
+                        @endphp
+                        <div class="col-12">
+                            <label class="font-weight-bold" for="company_name">Properties:</label><br>
+                            <div class="form-group">
+                                <span style="color:blue">New Values :</span>
+                                <p>{{$new_values}} </p>
+                                <div>
+                                    <span style="color:blue">Old Values :</span>
+                                    <p>{{$old_values}}</p>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-12">
+                            <label class="font-weight-bold" for="company_name">User Details</label><br>
+                            <div class="form-group">
+                                <p>{{$log_datas}} </p>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="image_preview">Done At:</label>
+                                <p>{{ \Carbon\Carbon::parse($userlog->created_at)->format('d-m-Y \a\t h:i A') }}</p>
                                 <hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="font-weight-bold" for="company_name">Properties:</label>
-                                <p>{{$userlog->properties}}</p>
-                                <hr>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="image_preview">Created At:</label>
-                                <p>{{$userlog->created_at}}</p>
-                                <hr>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="label_image_preview">Updated At:</label>
-                                <p>{{$userlog->updated_at}}</p>
+                                <label class="font-weight-bold" for="label_image_preview">Done By :</label>
+                                <p>{{ucfirst($userlog->user->name)}}</p>
                                 <hr>
                             </div>
                         </div>

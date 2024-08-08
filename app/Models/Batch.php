@@ -41,11 +41,25 @@ class Batch extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['product_id', 'code', 'currency','price', 'mfg_date', 'exp_date','status'])
-            ->logOnlyDirty()                      
+            ->logOnly(['product_id', 'code', 'currency', 'price', 'mfg_date', 'exp_date', 'status'])
+            ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Batch has been {$eventName}")
-            ->useLogName('Batch');                
+            ->setDescriptionForEvent(function (string $eventName) {
+                // Define the log name here
+                $logName = 'Batch';
+    
+                switch ($eventName) {
+                    case 'created':
+                        return "{$logName} has been created with the following details: Product ID - {$this->product_id}, Code - {$this->code}, Currency - {$this->currency}, Price - {$this->price}, Manufacturing Date - {$this->mfg_date->format('d-m-Y')}, Expiry Date - {$this->exp_date->format('d-m-Y')}, Status - {$this->status}";
+                    case 'updated':
+                        return "{$logName} has been updated. New details: Product ID - {$this->product_id}, Code - {$this->code}, Currency - {$this->currency}, Price - {$this->price}, Manufacturing Date - {$this->mfg_date->format('d-m-Y')}, Expiry Date - {$this->exp_date->format('d-m-Y')}, Status - {$this->status}";
+                    case 'deleted':
+                        return "{$logName} with Code - {$this->code} has been deleted.";
+                    default:
+                        return "{$logName} has been {$eventName}.";
+                }
+            })
+            ->useLogName('Batch');
     }
     
 }

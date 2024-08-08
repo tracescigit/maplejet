@@ -75,10 +75,10 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('production-plants.index') }}" class="btn btn-secondary float-left">
+                                    <a href="{{ route('production-plants.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>
                                         Back
                                     </a>
-                                    <button type="submit" class="btn btn-custom float-right">
+                                    <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>
                                         Submit
                                     </button>
                                 </div>

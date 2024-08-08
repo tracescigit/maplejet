@@ -11,7 +11,11 @@ use App\Listeners\DataInsertedSuccess;
 use App\Listeners\DataInsertedFailed;
 use Laravel\Passport\Events\AccessTokenCreated;
 use App\Listeners\StoreTokenInDatabase;
-
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\PasswordReset;
+use App\Listeners\LogUserLoginAndLogout;
+use App\Listeners\LogUserPasswordChange;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +31,15 @@ class EventServiceProvider extends ServiceProvider
         JobDataInsertion::class => [
             DataInsertedSuccess::class,
             DataInsertedFailed::class,
+        ],
+        Login::class => [
+            LogUserLoginAndLogout::class . '@handleLogin',
+        ],
+        Logout::class => [
+            LogUserLoginAndLogout::class . '@handleLogout',
+        ],
+        PasswordReset::class => [
+            LogUserPasswordChange::class,
         ],
         // AccessTokenCreated::class => [
         //     StoreTokenInDatabase::class,

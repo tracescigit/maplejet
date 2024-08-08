@@ -150,7 +150,7 @@
                                         {{$singledata->log_name}}
                                     </td>
                                     <td class="text-left">
-                                        {{$singledata->description}}
+                                        {{ \Illuminate\Support\Str::limit($singledata->description, 30, '...') }}
                                     </td>
                                     <td class="text-left">
                                         {{$singledata->user->name??""}}
@@ -224,10 +224,10 @@
     }
 </script>
 <script>
-       function submitForm(actionType) {
+    function submitForm(actionType) {
         // Set the action attribute based on the button clicked
         document.getElementById('form-action').value = actionType;
-        
+
         // Adjust the form action URL based on the action type
         var form = document.getElementById('userlog-form');
         if (actionType === 'search') {
@@ -236,6 +236,7 @@
             form.action = '{{ route("userlog.downloadexcel") }}';
         }
     }
+
     function openModal(singledata) {
         var name = '';
         if (singledata.user) {

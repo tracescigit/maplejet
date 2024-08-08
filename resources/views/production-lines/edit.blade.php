@@ -179,7 +179,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12 mt-3">
-                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i> Save Changes</button>
+                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i> Update</button>
                             <a href="{{ route('production-lines.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i> Back</a>
                         </div>
                 </div>

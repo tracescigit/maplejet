@@ -224,10 +224,10 @@
                             </div>
                         </div>
                         <div class="form-group  mx-4 ">
-                            <button type="submit" class="btn btn-custom float-right">
+                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>
                                 Submit
                             </button>
-                            <a href="{{ route('products.index') }}" class="btn btn-secondary float-left">
+                            <a href="{{ route('products.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>
                                 Back
                             </a>
                         </div>

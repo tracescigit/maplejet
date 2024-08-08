@@ -38,8 +38,8 @@
 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new prod.line</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> Prod.line</p>
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new production Line</h4>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> Production Line</p>
                         <hr>
                     </div>
                 </div>
@@ -165,10 +165,10 @@
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('production-lines.index') }}" class="btn btn-secondary float-left">
+                                    <a href="{{ route('production-lines.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>
                                         Back
                                     </a>
-                                    <button type="submit" class="btn btn-custom float-right">
+                                    <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>
                                         Submit
                                     </button>
                                 </div>

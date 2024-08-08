@@ -35,8 +35,8 @@
                             <input type="text" id="name" name="name" class="form-control" value="{{ $permission->name }}" required>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-custom float-right">Update</button>
-                            <a href="{{ route('permissions.index') }}" class="btn btn-secondary float-left">Back</a>
+                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>Update</button>
+                            <a href="{{ route('permissions.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
                         </div>
                     </form>
                 </div>

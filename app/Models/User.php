@@ -62,7 +62,22 @@ class User extends Authenticatable
             ->logOnly(['name', 'email', 'status'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn (string $eventName) => "User has been {$eventName}")
+            ->setDescriptionForEvent(function (string $eventName) {
+                // Define the log name here
+                $logName = 'User';
+    
+                switch ($eventName) {
+                    case 'created':
+                        return "{$logName} has been created with the following details: Name - {$this->name}, Email - {$this->email}, Status - {$this->status}";
+                    case 'updated':
+                        return "{$logName} has been updated. New details: Name - {$this->name}, Email - {$this->email}, Status - {$this->status}";
+                    case 'deleted':
+                        return "{$logName} with Email - {$this->email} has been deleted.";
+                    default:
+                        return "{$logName} has been {$eventName}.";
+                }
+            })
             ->useLogName('User Management');
     }
+    
 }

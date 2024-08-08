@@ -25,9 +25,20 @@ class ProductionPlant extends Model
     {
         return LogOptions::defaults()
             ->logOnly(['code', 'name', 'status'])
-            ->logOnlyDirty()                      
+            ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Production Plant has been {$eventName}")
-            ->useLogName('Production Plant');                
+            ->setDescriptionForEvent(function (string $eventName) {
+                switch ($eventName) {
+                    case 'created':
+                        return "A new Production Plant has been created with the following details: Code - {$this->code}, Name - {$this->name}, Status - {$this->status}";
+                    case 'updated':
+                        return "Production Plant has been updated. New details: Code - {$this->code}, Name - {$this->name}, Status - {$this->status}";
+                    case 'deleted':
+                        return "Production Plant with Code - {$this->code} has been deleted.";
+                    default:
+                        return "Production Plant has been {$eventName}.";
+                }
+            })
+            ->useLogName('Production Plant');
     }
 }

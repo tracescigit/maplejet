@@ -125,7 +125,7 @@
                                     Back
                                 </a>
 
-                                <button type="submit" class="btn btn-custom float-right">
+                                <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i> 
                                     Submit
                                 </button>
                                 <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-3  float-right" style="margin-top: 2px;">

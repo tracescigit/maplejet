@@ -23,7 +23,8 @@ Route::get('/node-data', function () {
 
 Route::middleware(['increase.execution.time'])->group(function () {
     Route::group(['middleware' => ['auth']], function () {
-        // Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'index']);
+        Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
 
         Route::get('/download-csv', [App\Http\Controllers\QrcodeController::class, 'downloadCsv']);
         Route::post('products/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.updated');
@@ -44,7 +45,6 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/stopprint', [App\Http\Controllers\PrintController::class, 'StopPrint'])->name('stopprint');
         Route::get('/printmoduledownloadexcel', [App\Http\Controllers\PrintController::class, 'downloadexcel'])->name('downloadexcell');
         Route::get('/01/{product_id}/10/{qrcode}', [App\Http\Controllers\ProductController::class, 'getproductdetails'])->name('getscanproduct');
-        http://127.0.0.1:8000/01/987654321/10/21/1?id=29&250207
         Route::get('/11/{qrcode}', [App\Http\Controllers\ProductController::class, 'getproductdetailsqr'])->name('abc');
         Route::get('/cameradatacheck', [App\Http\Controllers\PrintController::class, 'cameradatacheck'])->name('cameradatacheck');
         Route::get('/populatemodal', [App\Http\Controllers\UserLogController::class, 'populatemodal'])->name('populatemodal');
@@ -59,7 +59,6 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         // Route::post('permissions/{id}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permissions.destroy');
         Route::resource('roles', App\Http\Controllers\RoleController::class);
