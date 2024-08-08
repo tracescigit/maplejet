@@ -58,13 +58,13 @@ class UserLogController extends Controller
                 foreach($attributes as $key=>$singleattribute){
                     $log_data.= $key.': '.$singleattribute . ' , ';
                        
-                        $log_datas = rtrim($log_data, ' ,');
+                        $log_data = rtrim($log_data, ' ,');
             }
         } else {
             $new_data = [];
             $old_data = [];
         }
-        return view('userlog.show', compact('userlog','old_data','new_data','log_datas'));
+        return view('userlog.show', compact('userlog','old_data','new_data','log_data'));
     }
 }
 }

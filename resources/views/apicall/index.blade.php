@@ -43,8 +43,6 @@
         /* Initially hidden, will be shown dynamically */
     }
 </style>
-</head>
-
 @if($genuine!='Product is Fake')
 <div class="navbar navbar-header navbar-header-fixed justify-content-center">
     <div class="navbar-brand">
@@ -53,8 +51,6 @@
 
 </div><!-- navbar -->
 @endif
-
-
 <div class="content content-components">
     <div id="flash-message-container"></div>
     <div class="container">
@@ -268,8 +264,6 @@
     @endif
 </div>
 </div>
-
-
 
 <!-- Report Modal -->
 <!-- Modal -->

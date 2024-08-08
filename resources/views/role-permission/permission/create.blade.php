@@ -51,13 +51,18 @@
     }
 </style>
 
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-6">
         <div class="card pd-20 mg-t-8 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h6 class="text-white">Create Permissions</h6>
-                
+        <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Add new Permission</h4>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> permission.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
                 <div class="card-body">
                     <form action="{{ route('permissions.store') }}" method="POST">

@@ -7,16 +7,45 @@
     <a href="https://maplejet.com/in/" class="df-logo">maple<span style="color:crimson;">jet</span></a>
 
   </div><!-- navbar-brand -->
-  
   <div class="navbar-right">
-   
-    <a href="{{route('logout1')}}"  class="btn btn-buy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-        <polyline points="16 17 21 12 16 7"></polyline>
-        <line x1="21" y1="12" x2="9" y2="12"></line>
-      </svg> <span>Log out</span></a>
-     
-  </div><!-- az-header-right -->
+    <div class="dropdown dropdown-profile">
+        <a href="#" class="dropdown-link" data-toggle="dropdown" aria-expanded="false">
+            <div class="avatar avatar-sm">
+                <span class="avatar-initial rounded-circle">kp</span>
+            </div>
+        </a><!-- dropdown-link -->
+        <div class="dropdown-menu dropdown-menu-right tx-13 bg-gray-100">
+            <div class="avatar mg-b-15">
+                <span class="avatar-initial rounded-circle">kp</span>
+            </div>
+            <h6 class="tx-semibold mg-b-5">Katherine Pechon</h6>
+            <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
+
+            <a href="page-profile-view.html" class="dropdown-item">
+                <i data-feather="user"></i> View Profile
+            </a>
+            <a href="#" class="dropdown-item">
+                <i data-feather="edit-3"></i> Change Password
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+            <a href="page-signin.html" class="dropdown-item">
+                <i data-feather="log-out"></i> Sign Out
+            </a>
+        </div><!-- dropdown-menu -->
+    </div><!-- dropdown -->
+</div><!-- navbar-right -->
+
+    <div class="navbar-right">
+
+      <a href="{{route('logout1')}}" class="btn btn-buy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg> <span>Log out</span></a>
+
+    </div><!-- az-header-right -->
 </header>
 <div id="sidebarMenu" class="sidebar sidebar-fixed sidebar-components ps">
   <div class="sidebar-header">

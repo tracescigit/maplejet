@@ -86,115 +86,124 @@
     }
 </style>
 
+
+@if(session('status'))
+<div id="statusMessage" class="alert alert-success mt-2">{{ session('status') }}
+</div>
+@endif
+
 <div class="content content-components">
-    <div class="main-panel" id="main-panel">
-        <div class="row">
-            <div class="col-md-12">
-                @if(session('status'))
-                <div id="statusMessage" class="alert alert-success mt-2">{{ session('status') }}</div>
-                @endif
+    <div class="card pd-20 mg-t-10 col-10 mx-auto">
+        <div class="d-flex bg-gray-10">
+            <div class="pd-10 flex-grow-1">
+                <h4 id="section3" class="mg-b-10">Userlog</h4>
+                <p class="mg-b-30">Use this page to <code>View</code> Recent activities .</p>
+            </div>
+
+            <div class="pd-10 mg-l-auto">
+                <button type=" button" class="btn btn-custom btn-icon" type="submit" onclick="submitForm('export')"><i data-feather="plus-circle"></i> Export Excel</button>
+            </div>
+        </div>
 
 
 
-                <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                    <h3 class="content-header mg-b-25">User Log</h3>
-                    <div class="d-flex justify-content-end align-items-start mb-3">
-                        <form id="userlog-form" class="form-inline mr-4" method="GET">
-                            <input type="hidden" name="action" id="form-action" value="search">
 
-                            <div class="form-group mb-2">
-                                <label class="mx-4">Select User: </label>
-                                <select class="form-control mr-2" name="user">
-                                    @foreach($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group mx-sm-3 mb-2 ">
-                                <label class="mx-4">Start Date: </label>
-                                <input type="date" name="start_date" class="form-control">
-                            </div>
-                            <div class="form-group mx-sm-3 mb-2">
-                                <label class="mx-4">End Date: </label>
-                                <input type="date" name="end_date" class="form-control">
-                            </div>
-                            <button class="btn btn-primary mb-2" type="submit" onclick="submitForm('search')">Search</button>
-                            <button class="btn btn-custom mr-3 mb-2" type="submit" onclick="submitForm('export')">Export Excel</button>
-                        </form>
+
+        <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
+            <div data-label="logs" class="df-example demo-table">
+                <div class="row row-sm  mg-b-10">
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                        <label>Select User: </label>
+                        <select class="form-control mr-2" name="user">
+                            @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                        <label>Start Date: </label>
+                        <input type="date" name="start_date" class="form-control">
+                    </div>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <label>End Date: </label>
+                        <input type="date" name="end_date" class="form-control">
+                    </div>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+                        <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
+                    </div>
+                </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-dashboard mg-b-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-left">Module Name</th>
-                                    <th class="text-left">Details</th>
-                                    <th class="text-left">UserId</th>
-                                    <th class="text-center">Date & Time</th>
-                                    <th class="text-center">View Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($userlog as $index=>$singledata)
-                                @php
-                                $page = $userlog->currentPage();
-                                $perPage = $userlog->perPage();
-                                $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                                @endphp
-                                <tr>
-                                    <td class="tx-color-03 tx-normal text-center">
-                                        {{ $incrementingIndex }}
-                                    </td>
-                                    <td class="tx-medium text-left ">
-                                        {{$singledata->log_name}}
-                                    </td>
-                                    <td class="text-left">
-                                        {{ \Illuminate\Support\Str::limit($singledata->description, 30, '...') }}
-                                    </td>
-                                    <td class="text-left">
-                                        {{$singledata->user->name??""}}
-                                    </td>
-                                    @php
-                                    $dateTime = new DateTime($singledata->created_at);
-                                    $formattedDate = $dateTime->format('d M Y');
-                                    $formattedTime = $dateTime->format('h:i A');
-                                    @endphp
-                                    <td class="text-center text-danger">
-                                        {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i A') }}
-                                    </td>
-                                    <td class="text-center">
-                                        <a type="button" class="btn btn-outline-primary " href="{{route('userlog.show',$singledata->id)}}">View Details</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header" style="background-color:#f5f5ef;">
-                                        <h5 class="modal-title">User Details Log</h5>
-                                        <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-content">
-                                        <div class="p-3" id="modal-card-body">
-                                        </div>
-                                    </div>
-                                </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-striped mg-b-0">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">ID</th>
+                        <th scope="col" class="text-left font-weight-bold">Module Name</th>
+                        <th scope="col" class="text-left font-weight-bold">Details</th>
+                        <th scope="col" class="text-left font-weight-bold">UserId</th>
+                        <th scope="col" class="text-center font-weight-bold">Date & Time</th>
+                        <th scope="col" class="text-center font-weight-bold">View Details</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($userlog as $index=>$singledata)
+                    @php
+                    $page = $userlog->currentPage();
+                    $perPage = $userlog->perPage();
+                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                    @endphp
+                    <tr>
+                        <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                        <td class="tx-medium text-left">{{$singledata->log_name}}</td>
+                        <td class="tx-medium text-left"> {{ \Illuminate\Support\Str::limit($singledata->description, 30, '...') }}</td>
+                        <td class="text-left"> {{$singledata->user->name??""}}</td>
+                        @php
+                        $dateTime = new DateTime($singledata->created_at);
+                        $formattedDate = $dateTime->format('d M Y');
+                        $formattedTime = $dateTime->format('h:i A');
+                        @endphp
+                        <td class="text-center"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i A') }}</td>
+                        <td class="tx-medium text-center">
+                            <a type="button" class="btn btn-outline-primary " href="{{route('userlog.show',$singledata->id)}}">View Details</a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:#f5f5ef;">
+                            <h5 class="modal-title">User Details Log</h5>
+                            <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-content">
+                            <div class="p-3" id="modal-card-body">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-3">
-                    {{ $userlog->links('pagination::bootstrap-5') }}
-                </div>
             </div>
-        </div>
+        </div><!-- table-responsive -->
+    </div><!-- card -->
+
+    <div class="mt-3">
+        {{ $userlog->links('pagination::bootstrap-5') }}
     </div>
+
 </div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
