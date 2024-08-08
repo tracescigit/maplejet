@@ -73,7 +73,7 @@ class ProductController extends Controller
             ],
             'company_name' => ['required', 'string'],
             'web_url' => 'required',
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:204800',
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:5120',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
             'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500'
         ]);
@@ -135,6 +135,10 @@ class ProductController extends Controller
                 'regex:/^[a-zA-Z0-9-_]+$/u'  // Allow letters, numbers, dashes, and underscores
             ],
             'company_name' => ['required', 'string'],
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:5120',
+            'web_url' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
+            'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500'
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

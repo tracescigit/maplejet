@@ -219,7 +219,7 @@
                                 <div class="form-group">
                                     <label for="video">Media (Video)</label>
                                     <input type="file" accept="video/mp4, video/quicktime" id="video" name="video" class="form-control-file" onchange="displayVideoName(this);">
-                                    <small class="form-text" style="color: red;">Video size should be below 50 MB in mp4, mov format.</small>
+                                    <small class="form-text" style="color: red;">Video size should be below 5 MB in mp4, mov format.</small>
                                     @if (!empty($product->media))
                                     <div id="videoName" class="mt-2">{{ url('/') . '/' . $product->media }}</div>
                                     @endif

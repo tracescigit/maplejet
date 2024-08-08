@@ -238,6 +238,7 @@
                                 <th scope="col" class="text-left font-weight-bold">Plant Code</th>
                                 <th scope="col" class="text-left font-weight-bold">Plant Name</th>
                                 <th scope="col" class="text-center font-weight-bold">STATUS</th>
+                                <th scope="col" class="text-center font-weight-bold">Created On</th>
                                 <th scope="col" class="text-center font-weight-bold">Action</th>
 
 

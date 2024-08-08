@@ -86,7 +86,7 @@
     }
 </style>
 
-
+<div class="content content-components">
 <div class="row">
     <div class="col-md-12">
         @if(session('status'))
@@ -146,6 +146,7 @@
             {{ $permissions->links('pagination::bootstrap-5') }}
         </div>
     </div>
+</div>
 </div>
 
 

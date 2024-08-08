@@ -72,7 +72,7 @@
         color: white;
     }
 </style>
-
+<div class="content content-components">
 <div class="wrapper">
     <div class="main-panel" id="main-panel">
         @if(session('status'))
@@ -261,7 +261,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @endsection
 
 

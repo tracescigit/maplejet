@@ -59,7 +59,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
+        Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         // Route::post('permissions/{id}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permissions.destroy');
         Route::resource('roles', App\Http\Controllers\RoleController::class);

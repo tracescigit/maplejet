@@ -216,7 +216,7 @@
                                     @error('video')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <small style="color: red;">Video size should be below 10 MB in MP4, MOV format.</small>
+                                    <small style="color: red;">Video size should be below 5 MB in MP4, MOV format.</small>
                                 </div>
                                 <div id="videoNameContainer">
                                     <span id="videoName" style="display: none;"></span>
