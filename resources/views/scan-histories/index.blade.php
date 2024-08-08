@@ -119,6 +119,7 @@
         </div>
     </div>
 </div>
+<div class="content content-components">
 <div class="d-sm-flex mg-t-10 mx-auto col-11">
                    
 
@@ -252,6 +253,7 @@
     </div><!-- col-md-12 -->
 </div><!-- row -->
 </div><!-- wrapper -->
+</div>
 
 
 

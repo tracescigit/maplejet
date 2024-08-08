@@ -104,7 +104,8 @@ class BulkUploadController extends Controller
             $all_data = Qrcode::where('code_data', $request->start_code)
                 ->with(['product.batches'])
                 ->first();
-                $baseUrl = $all_data->product->web_url ?? "";
+                $baseurl = $all_data->product->web_url ?? "";
+                $baseUrl = rtrim($baseurl, '/');
                 if(empty($all_data->product)){
                     return response()->json(['producterror' => 'Code is not assigned Product and Batch. Please assign Product and Batch First.']);
                 }

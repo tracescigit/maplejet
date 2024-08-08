@@ -2,18 +2,16 @@
 @section('content')
 <style>
   #map {
-    height: 500px;
+    height: 400px; /* Adjust height for responsiveness */
     margin: auto;
     border: 1px solid #ccc;
     overflow: hidden !important;
-    /* Important to override potential conflicting styles */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
-    /* Important to override potential conflicting styles */
   }
 
   #barGraph {
     width: 100%;
-    height: 300px;
+    height: 300px; /* Adjust height for responsiveness */
     margin: 20px auto;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -21,6 +19,34 @@
 
   .card-header {
     background-color: #F0F0F0;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    .btn-custom {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    #map {
+      height: 300px; /* Adjust for smaller screens */
+    }
+
+    #barGraph {
+      height: 250px; /* Adjust for smaller screens */
+    }
+
+    .card-body canvas {
+      height: 250px !important; /* Ensure chart fits on smaller screens */
+    }
+  }
+
+  @media (min-width: 768px) {
+    .btn-custom {
+      display: inline-block;
+      margin-left: 5px;
+    }
   }
 </style>
 
@@ -36,19 +62,23 @@
         </nav>
         <h4 class="mg-b-0 tx-spacing--1">Welcome to Dashboard</h4>
       </div>
-      <div class="d-none d-md-block">
-        <!-- <button class="btn btn-sm pd-x-15 btn-white btn-uppercase"><i data-feather="mail" class="wd-10 mg-r-5"></i> Email</button>
-        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="printer" class="wd-10 mg-r-5"></i> Print</button> -->
-        <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('products.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create products</a>
-        <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('jobs.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create jobs</a>
-        <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('batches.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create Batch</a>
+      <div class="d-none d-md-flex">
+        <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('products.create') }}">
+          <i data-feather="file" class="wd-10 mg-r-5"></i> Create Products
+        </a>
+        <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('jobs.create') }}">
+          <i data-feather="file" class="wd-10 mg-r-5"></i> Create Jobs
+        </a>
+        <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('batches.create') }}">
+          <i data-feather="file" class="wd-10 mg-r-5"></i> Create Batch
+        </a>
       </div>
     </div>
 
     <div class="row row-xs">
       <div class="col-sm-6 col-lg-3">
         <div class="card card-body">
-          <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3 ">Total Products</h6>
+          <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3">Total Products</h6>
           <div class="d-flex d-lg-block d-xl-flex align-items-end">
             <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">{{$total_products}}</h2>
           </div>
@@ -56,7 +86,7 @@
       </div><!-- col -->
       <div class="col-sm-6 col-lg-3 mg-t-10 mg-sm-t-0">
         <div class="card card-body">
-          <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3 ">Total Batches</h6>
+          <h6 class="tx-uppercase tx-17 tx-spacing-1 tx-color-02 tx-semibold mg-b-8 mt-3">Total Batches</h6>
           <div class="d-flex d-lg-block d-xl-flex align-items-end">
             <h2 class="tx-normal tx-rubik mg-b-0 mg-r-5 lh-1">{{$total_batch}}</h2>
           </div>
@@ -82,24 +112,17 @@
         <div class="card">
           <div class="card-header pd-y-20 d-md-flex align-items-center justify-content-between">
             <h6 class="mg-b-0">Jobs Status</h6>
-            <ul class="list-inline d-flex mg-t-20 mg-sm-t-10 mg-md-t-0 mg-b-0">
-              <li class="list-inline-item d-flex align-items-center">
-                <span class="d-block wd-10 ht-10 bg-df-1 rounded mg-r-5"></span>
-                <span class="tx-sans tx-uppercase tx-10 tx-medium tx-color-03">Active</span>
-              </li>
-
-            </ul>
           </div><!-- card-header -->
           <div class="card-body pos-relative pd-0">
             <div class="pos-absolute t-20 l-20 wd-xl-100p z-index-10">
               <div class="row">
                 <div class="col-sm-5">
-                  <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5"> Jobs </h3>
-                  <p class="mg-b-0 tx-12 tx-color-03"> jobs that are being created.</p>
+                  <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5">Jobs</h3>
+                  <p class="mg-b-0 tx-12 tx-color-03">Jobs that are being created.</p>
                   <h4 class="mt-3 tx-primary">{{$total_jobs}}</h4>
                 </div><!-- col -->
                 <div class="col-sm-5 mg-t-20 mg-sm-t-0">
-                  <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5"> Active Jobs </h3>
+                  <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5">Active Jobs</h3>
                   <p class="mg-b-0 tx-12 tx-color-03">Total jobs that are active.</p>
                   <h4 class="mt-3 tx-warning">{{$active_jobs}}</h4>
                 </div><!-- col -->
@@ -109,35 +132,30 @@
             <!-- Adjust canvas size as needed -->
             <canvas id="jobChart" style="width: 100%; height: 300px;margin-top:30%;"></canvas>
           </div><!-- card-body -->
-
-
-
         </div><!-- card-body -->
       </div><!-- card -->
 
       <div class="col-lg-4 col-xl-6 mg-t-10">
         <div class="card h-100 d-flex flex-column">
           <div class="flex-fill">
-
-            <div class="card-header  pd-t-20 pd-b-0 bd-b-0 pb-3">
+            <div class="card-header pd-t-20 pd-b-0 bd-b-0 pb-3">
               <h6 class="mg-b-5">Case Status</h6>
-              <p class="tx-12 tx-color-03 mg-b-0"></p>
             </div>
           </div><!-- card-header -->
           <div class="card-body pd-20">
-            <div style="width: 80%; margin: 0 auto;">
+            <div style="width: 100%; margin: 0 auto;">
               <div class="row">
                 <div class="col-sm mg-sm-t-0">
-                  <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Total </h4>
-                  <div class="tx-20 tx-primary">{{$total_scan??"0"}}</div>
+                  <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Total</h4>
+                  <div class="tx-20 tx-primary">{{$total_scan ?? "0"}}</div>
                 </div><!-- col -->
-                <div class="col-sm  mg-sm-t-0">
+                <div class="col-sm mg-sm-t-0">
                   <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Active</h4>
-                  <div class="tx-20 tx-danger">{{$total_scan??"0"}}</div>
+                  <div class="tx-20 tx-danger">{{$total_scan ?? "0"}}</div>
                 </div><!-- col -->
-                <div class="col-4">
-                  <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5 d-flex ">Common</h4>
-                  <div class="tx-20 tx-warning">{{$mostCommonIssue->report_reason??"--"}}</div>
+                <div class="col-sm">
+                  <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Common</h4>
+                  <div class="tx-20 tx-warning">{{$mostCommonIssue->report_reason ?? "--"}}</div>
                 </div><!-- col -->
                 <div id="barGraph"></div>
               </div><!-- row -->
@@ -151,16 +169,11 @@
         <div class="card">
           <div class="card-header pd-y-20 d-md-flex align-items-center justify-content-between">
             <h6 class="mg-b-0">Recently Scanned</h6>
-            <ul class="list-inline d-flex mg-t-20 mg-sm-t-10 mg-md-t-0 mg-b-0">
-
-            </ul>
           </div>
-          <div class="card-body ">
-
+          <div class="card-body">
             <div class="row">
               <div class="col-12">
-                <div id="map">
-                </div>
+                <div id="map"></div>
               </div>
             </div>
           </div>

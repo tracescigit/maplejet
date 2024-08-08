@@ -89,6 +89,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+<div class="content content-components">
 <div class="container mt-4">
 
     <div class="row justify-content-center">
