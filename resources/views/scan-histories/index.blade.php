@@ -97,7 +97,7 @@
         overflow: hidden;
     }
 </style>
-
+<div class="content content-components">
 <div id="myModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

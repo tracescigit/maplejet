@@ -86,7 +86,7 @@
     }
 </style>
 
-<div class="wrapper">
+<div class="content content-components">
     <div class="main-panel" id="main-panel">
         <div class="card-body content-wrapper" style="margin-top:50px;">
             <div class="row">

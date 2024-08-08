@@ -24,8 +24,8 @@
                 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new prod.Plant</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> Prod.Plant</p>
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add New Production Plant</h4>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> Production Plant</p>
                         <hr>
                     </div>
                 </div>

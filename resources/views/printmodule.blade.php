@@ -82,11 +82,12 @@
         font-weight: bold;
     }
 </style>
+<div class="content content-components">
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <div id="hello"></div>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
+    <div id="hello"></div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <div class="content content-components">
 <div class="container mt-4">
@@ -197,8 +198,6 @@
     </div>
 </div>
 </div>
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $('.alert').hide();
@@ -423,7 +422,7 @@
                     console.error('Error exporting Excel file:', error);
                 }
             });
-        }else{
+        } else {
             $('#job_error').html();
             $('#job_error').text("Please Select a Job First");
             setTimeout(function() {

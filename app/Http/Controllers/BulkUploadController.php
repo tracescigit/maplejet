@@ -105,11 +105,14 @@ class BulkUploadController extends Controller
                 ->with(['product.batches'])
                 ->first();
                 $baseUrl = $all_data->product->web_url ?? "";
+                if(empty($all_data->product)){
+                    return response()->json(['producterror' => 'Code is not assigned Product and Batch. Please assign Product and Batch First.']);
+                }
                 $expDate = date('ymd', strtotime($all_data->batch->exp_date));
                 for ($i = $id_to_start; $i < $id_to_end; $i++) {
                     $qrcode = Qrcode::where('id', $i)->select('code_data')->first();
                     if (!empty($qrcode->code_data)) {
-                        $gslink = $baseUrl . '/01/' . $qrcode->code_data;
+                        $gslink = $baseUrl . '/11/' . $qrcode->code_data.'?id='.$all_data->id;
                     }
                     // else{
                     //     $gslink = $baseUrl . '/01';
@@ -121,9 +124,9 @@ class BulkUploadController extends Controller
                             return response()->json(['status' => 'GTIN number not provided while creating product']);
                         }
                         if ($request->generate_gs1_link_with == 'batch') {
-                            $gslink = $baseUrl . '/01/' . $all_data->product->gtin . '/10/' .'?17=' . $expDate;
+                            $gslink = $baseUrl . '/01/' . $all_data->product->gtin . '/10/' .'1?id='.$all_data->id.'&' . $expDate;
                         } elseif ($request->generate_gs1_link_with == 'serial_no') {
-                            $gslink = $baseUrl . '/01/' . $all_data->product->gtin . '/10/' .'21/' .'?17=' . $expDate;
+                            $gslink = $baseUrl . '/01/' . $all_data->product->gtin . '/10/' .'1?id='.$all_data->id.'&'. $expDate;
                         }
                     }
 

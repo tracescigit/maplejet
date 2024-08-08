@@ -58,8 +58,8 @@
         border-bottom-right-radius: 10px;
     }
 </style>
-
 <div class="content content-components">
+<div class="wrapper">
     <div class="main-panel" id="main-panel">
     <div class="row">
                 <div class="col-md-12">
@@ -134,7 +134,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>

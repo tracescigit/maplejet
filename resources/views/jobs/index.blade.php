@@ -98,7 +98,7 @@
         overflow: hidden;
     }
 </style>
-
+<div class="content content-components">
 <div id="myModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -257,7 +257,6 @@
     </div>
 </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 

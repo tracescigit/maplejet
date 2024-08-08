@@ -245,6 +245,7 @@
           @endphp
           <tr>
             <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+            <td class="tx-medium text-left">{{ str_replace('_', ' ', $product->gtin) }}</td>
             <td class="tx-medium text-left">{{ str_replace('_', ' ', $product->name) }}</td>
             <td class="text-left">{{ $product->brand }}</td>
             <td class="text-center">{{ $product->company_name }}</td>

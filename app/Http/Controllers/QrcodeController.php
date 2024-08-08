@@ -50,7 +50,7 @@ class QrcodeController extends Controller
 
     public function create()
     {
-        if (!Auth::user()->can('create qrcodes')) {
+        if (!Auth::user()->can('create qrcode')) {
             return view('dummy.unauthorized');
         }
         $products = Product::where('status', 'Active')->get();

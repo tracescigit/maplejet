@@ -73,7 +73,7 @@ class ProductController extends Controller
             ],
             'company_name' => ['required', 'string'],
             'web_url' => 'required',
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:204800',
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:5120',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
             'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500'
         ]);
@@ -135,6 +135,10 @@ class ProductController extends Controller
                 'regex:/^[a-zA-Z0-9-_]+$/u'  // Allow letters, numbers, dashes, and underscores
             ],
             'company_name' => ['required', 'string'],
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:5120',
+            'web_url' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
+            'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500'
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -212,18 +216,18 @@ class ProductController extends Controller
         }
         $media_base_url = config('constants.base_url');
         $currentURL = url()->current();
-        if (!empty($product_name) && !empty($qrcode)) {
+        if (!empty($product_name) && !empty($request->id)) {
             $product = str_replace('_', ' ', $product_name);
             $product_id = Product::select('id')->where('name', $product)->first();
             if (empty($product_id)) {
                 $product_id = Product::select('id')->where('gtin', $product)->first();
             }
-            if(empty($product_id)){
-                $genuine='Product is Fake';
+            if (empty($product_id)) {
+                $genuine = 'Product is Fake';
                 return view('apicall.index', compact('genuine'));
             }
             $product_id_ver = DB::table('qrcodes')
-                ->where('qr_code', $qrcode)
+                ->where('qrcodes.id', $request->id)
                 ->where('qrcodes.product_id', $product_id->id)
                 ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
@@ -241,95 +245,73 @@ class ProductController extends Controller
                     ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
                     ->first();
             }
-                $currentDate = Carbon::now();
-                $clientIp = request()->ip();
-                $clientLocation = json_decode(file_get_contents("https://ipinfo.io/{$clientIp}/json"));
+            $currentDate = Carbon::now();
+            $clientIp = request()->ip();
+            $clientLocation = json_decode(file_get_contents("https://ipinfo.io/{$clientIp}/json"));
 
-                $product_scanned_check = ScanHistory::where('qr_code', $qrcode)
-                    ->where('product_id', $product_id)
-                    ->where('ip_address', $clientIp)
-                    ->get()
-                    ->count();
-                $batch_info = DB::table('qrcodes')
-                    ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
-                    ->select('qrcodes.*', 'batches.mfg_date', 'batches.exp_date')
-                    ->where('qrcodes.qr_code', $qrcode)
-                    ->first();
-                if (empty($product_id_ver->name)) {
-                    return response()->json(['status' => 'Product is Suspicious.']);
-                }
-                if (!$request->otp && $product_id_ver->auth_required == 1) {
-                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode'));
-                }
-                if ($request->phone_number) {
-                    $request->validate([
-                        'phone_number' => 'required|numeric',
-                    ]);
-                }
-                if ($product_scanned_check > 5) {
-                    return response()->json(['status' => 'Product is already scanned from this IP or Mobile.']);
-                }
-                ScanHistory::create([
-                    'product' => $product_id_ver->name,
-                    'batch' => $product_id_ver->batch_id,
-                    'genuine' => 1,
-                    'scan_count' => $product_count + 1,
-                    'ip_address' => $clientIp,
-                    'code_id' => $product_id_ver->id,
-                    'product_id' => $product_id->id,
-                    'qr_code' => $qrcode,
-                    'latitude' => $latitude,
-                    'longitude' => $longitude
-                ]);
-                if ($request->phone_number) {
-                    ScanHistory::where('code_id', $request->qrcode_id)->update([
-                        'phone' => $request->phone_number,
-                    ]);
-                }
-                $product_scanned_count = ScanHistory::select('scan_count')->where('qr_code', $qrcode)
-                    ->where('product_id', $product_id)
-                    ->where('ip_address', $clientIp)
-                    ->get()
-                    ->count();
-                $product_id_expiry_check = DB::table('qrcodes')
-                    ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
-                    ->select('qrcodes.*', 'batches.mfg_date', 'batches.exp_date')
-                    ->where('qrcodes.qr_code', $qrcode)
-                    ->where('batches.mfg_date', '<', $currentDate)
-                    ->where('batches.exp_date', '>', $currentDate)
-                    ->get();
-
-                if ($product_scanned_count > 10) {
-                    if ($request->phone_number) {
-                        ScanHistory::where('code_id', $request->qrcode_id)->update([
-                            'genuine' => 2,
-                        ]);
-                    }
-
-                    return response()->json(['status' => 'Product is Suspicious.']);
-                }
-                $genuine = '';
-                if ($product_id_expiry_check->isEmpty()) {
-                    if (($product_count + 1) > 10) {
-                        $genuine = "Product is Suspicious";
-                    } else {
-                        $genuine = "Product is Genuine";
-                        return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'batch_info'));
-                    }
-                } else {
-                    $genuine = "Product is Expired";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'batch_info', 'genuine'));
-                    return response()->json(['status' => 'Product is Suspicious.']);
-                }
-                return response()->json([
-                    'product_name' => $product_id_ver->name,
-                    'genuine' => $genuine,
-                    'scan_count' => $product_count + 1,
-                ]);
-            } else {
-                
-                return response()->json(['status' => 'Product is Fake.']);
+            $product_scanned_check = ScanHistory::where('qr_code', $qrcode)
+                ->where('product_id', $product_id)
+                ->where('ip_address', $clientIp)
+                ->get()
+                ->count();
+            $batch_info = DB::table('qrcodes')
+                ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
+                ->select('qrcodes.*', 'batches.mfg_date', 'batches.exp_date')
+                ->where('qrcodes.qr_code', $qrcode)
+                ->first();
+            if (!$request->otp && $product_id_ver->auth_required == 1) {
+                return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode'));
             }
+            if ($request->phone_number) {
+                $request->validate([
+                    'phone_number' => 'required|numeric',
+                ]);
+            }
+            if ($product_scanned_check > 5) {
+                return response()->json(['status' => 'Product is already scanned from this IP or Mobile.']);
+            }
+            ScanHistory::create([
+                'product' => $product_id_ver->name,
+                'batch' => $product_id_ver->batch_id,
+                'genuine' => 1,
+                'scan_count' => $product_count + 1,
+                'ip_address' => $clientIp,
+                'code_id' => $product_id_ver->id,
+                'product_id' => $product_id->id,
+                'qr_code' => $qrcode,
+                'latitude' => $latitude,
+                'longitude' => $longitude
+            ]);
+            if ($request->phone_number) {
+                ScanHistory::where('code_id', $request->qrcode_id)->update([
+                    'phone' => $request->phone_number,
+                ]);
+            }
+            $product_scanned_count = ScanHistory::select('scan_count')->where('qr_code', $qrcode)
+                ->where('product_id', $product_id)
+                ->where('ip_address', $clientIp)
+                ->get()
+                ->count();
+            $product_id_expiry_check = $product_id_ver->exp_date < $currentDate ? 'Expired' : '';
+
+
+            if ($product_scanned_count > 10) {
+                $genuine = "Product is Suspicious";
+                return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'batch_info'));
+            }
+            $genuine = '';
+            if ($product_id_expiry_check == 'Expired') {
+                $genuine = "Product is Expired";
+                return view('apicall.index', compact('product_id_ver', 'media_base_url', 'batch_info', 'genuine'));
+            } else {
+                $genuine = "Product is Genuine";
+                return view('apicall.index', compact('product_id_ver', 'media_base_url', 'batch_info', 'genuine'));
+            }
+        } else {
+
+            $genuine = 'Product is Fake';
+            return view('apicall.index', compact('genuine'));
+        }
     }
     public function getproductdetailsqr(Request $request, $qrcode)
     {
@@ -344,7 +326,7 @@ class ProductController extends Controller
         if (!empty($qrcode)) {
             $product_id_ver = DB::table('qrcodes')
                 ->where('code_data', $qrcode)
-                ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
+                ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
                 ->first();
@@ -420,30 +402,28 @@ class ProductController extends Controller
 
                 //     return response()->json(['status' => 'Product is Suspicious.']);
                 // }
-                $genuine = '';
-                if ($product_id_expiry_check->isEmpty()) {
-                    if (($product_count + 1) > 10) {
+                $product_id_expiry_check = $product_id_ver->exp_date < $currentDate ? 'Expired' : '';
 
-                        $genuine = "Product is Suspicious";
-                    } else {
-                        $genuine = "Product is Genuine";
-                        return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'clientIp'));
-                    }
-                } else {
-                    $genuine = "Product is Expired";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'clientIp'));
-                    return response()->json(['status' => 'Product is Suspicious.']);
+
+                if ($product_scanned_count > 10) {
+                    $genuine = "Product is Suspicious";
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'batch_info'));
                 }
-                return response()->json([
-                    'product_name' => $product_id_ver->name,
-                    'genuine' => $genuine,
-                    'scan_count' => $product_count + 1,
-                ]);
+                $genuine = '';
+                if ($product_id_expiry_check == 'Expired') {
+                    $genuine = "Product is Expired";
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine'));
+                } else {
+                    $genuine = "Product is Genuine";
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine'));
+                }
             } else {
-                return response()->json(['status' => 'Product is Fake.']);
+                $genuine = 'Product is Fake';
+                return view('apicall.index', compact('genuine'));
             }
         } else {
-            return response()->json(['data' => 'Product is Fake.']);
+            $genuine = 'Product is Fake';
+            return view('apicall.index', compact('genuine'));
         }
     }
 }

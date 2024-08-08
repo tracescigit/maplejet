@@ -1,7 +1,7 @@
 @extends('dummy.app_new')
 
 @section('content')
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row">
         <div class="col-md-12">
             @if(session('status'))
