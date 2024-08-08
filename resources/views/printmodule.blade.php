@@ -88,6 +88,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+<div class="content content-components">
 <div class="container mt-4">
 
     <div class="row justify-content-center">
@@ -195,6 +196,8 @@
         </div>
     </div>
 </div>
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>

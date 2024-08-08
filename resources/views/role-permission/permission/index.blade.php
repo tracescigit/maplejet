@@ -86,13 +86,15 @@
     }
 </style>
 
-
+<div class="content content-components">
 <div class="row">
     <div class="col-md-12">
         @if(session('status'))
         <div id="statusMessage" class="alert alert-success">{{ session('status') }}</div>
         @endif
     </div>
+    </div>
+    
     <div class="card pd-20 mg-t-20 col-10 mx-auto">
         <h3 class="content-header mg-b-25">Permissions</h3>
         <div class="d-flex align-items-start">
@@ -146,7 +148,9 @@
             {{ $permissions->links('pagination::bootstrap-5') }}
         </div>
     </div>
-</div>
+    </div>
+
+
 
 
 

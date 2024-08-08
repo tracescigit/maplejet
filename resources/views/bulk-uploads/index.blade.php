@@ -73,7 +73,7 @@
     }
 </style>
 
-<div class="wrapper">
+<div class="content content-components">
     <div class="main-panel" id="main-panel">
         @if(session('status'))
         <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>

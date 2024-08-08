@@ -59,7 +59,7 @@
     }
 </style>
 
-<div class="wrapper">
+<div class="content content-components">
     <div class="main-panel" id="main-panel">
     <div class="row">
                 <div class="col-md-12">

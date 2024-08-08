@@ -18,13 +18,13 @@
         overflow: hidden;
     }
 </style>
-<div class="content content-components" >
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-            <div class="d-flex bg-gray-10">
+                <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new product</h4>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Add new product</h4>
                         <p class="mg-b-30">Use this page to add <code>NEW</code> product.</p>
                         <hr>
                     </div>
