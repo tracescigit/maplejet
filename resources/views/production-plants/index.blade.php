@@ -237,7 +237,7 @@
                                 <th scope="col" class="text-center font-weight-bold">ID</th>
                                 <th scope="col" class="text-left font-weight-bold">Plant Code</th>
                                 <th scope="col" class="text-left font-weight-bold">Plant Name</th>
-                                <th scope="col" class="text-center font-weight-bold">STATUS</th>
+                                <th scope="col" class="text-center font-weight-bold">Status</th>
                                 <th scope="col" class="text-center font-weight-bold">Created On</th>
                                 <th scope="col" class="text-center font-weight-bold">Action</th>
 
@@ -262,6 +262,9 @@
                                         <span class="badge badge-danger"> {{$singleplant->status}}</span>
                                     </td>
                                     @endif
+                                    <td class="text-center text-danger">
+                            {{ \Carbon\Carbon::parse($singleplant->created_at)->format('d-m-Y') }}
+                        </td>
                                 <td class="text-center">
                                 <a class="btn btn-outline-primary float-center" type="button" href="{{route('production-plants.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
                                         <a href="{{route('production-plants.edit',$singleplant->id)}}" class="btn btn-outline-primary float-center"><i class="fas fa-edit" style="color: #74C0FC;"></i></a>

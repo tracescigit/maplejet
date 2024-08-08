@@ -108,7 +108,11 @@
 
                             </div>
                         </div>
+                     
                     </div>
+                    <div class="form-group mt-4">
+                            <a href="{{ route('batches.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
+                        </div>
                 </div>
             </div>
         </div>

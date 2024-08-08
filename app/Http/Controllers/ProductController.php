@@ -325,7 +325,7 @@ class ProductController extends Controller
         $currentURL = url()->current();
         if (!empty($qrcode)) {
             $product_id_ver = DB::table('qrcodes')
-                ->where('code_data', $qrcode)
+                ->where('qr_code', $qrcode)
                 ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
@@ -334,7 +334,10 @@ class ProductController extends Controller
                 return response()->json(['data' => 'Product is Fake.']);
             }
             $media_base_url = $product_id_ver->web_url;
-
+            if (substr($media_base_url, -1) !== '/') {
+                // Append a slash if it doesn't end with one
+                $media_base_url .= '/';
+            }
             $product_count = ScanHistory::where('qr_code', $qrcode)
                 ->where('product_id', $product_id_ver->product_id)
                 ->get()
@@ -354,7 +357,7 @@ class ProductController extends Controller
                     return response()->json(['status' => 'Product is Suspicious.']);
                 }
                 if (!$request->otp && $product_id_ver->auth_required == 1) {
-                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode', 'clientIp'));
+                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode', 'clientIp','media_base_url'));
                 }
                 if ($request->phone_number) {
                     $request->validate([
@@ -422,6 +425,7 @@ class ProductController extends Controller
                 return view('apicall.index', compact('genuine'));
             }
         } else {
+            dd('fg');
             $genuine = 'Product is Fake';
             return view('apicall.index', compact('genuine'));
         }

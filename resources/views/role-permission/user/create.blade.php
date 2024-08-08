@@ -90,8 +90,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-custom float-right">Save</button>
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary ml-2">Back</a>
+                        <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>Submit</button>
+                        <a href="{{ route('users.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
                         </div>
                     </form>
                 </div>

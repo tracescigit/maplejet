@@ -81,8 +81,10 @@
                                 </table>
                             </div>
 
-                            <div class="m-t-20 text-center">
-                                <button type="submit" class="btn btn-primary">Update</button>
+                            <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>Update</button>
+                            <a href="{{ route('roles.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
+                        </div>
                             </div>
 
                         </form>
