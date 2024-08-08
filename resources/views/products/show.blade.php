@@ -18,13 +18,21 @@
         overflow: hidden;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom ">
-                    <h5 class="mb-0  text-white">Product Details</h5>
+                
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Product Details</h4>
+                        <p class="mg-b-30">Use this page to  <code>View</code> product Details.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
+                
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
@@ -54,13 +62,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="image_preview">Image Preview:</label><br>
-                                <img src="{{($product->web_url. $product->image) }}" alt="Product Image" style="max-width: 200px;"><hr>
+                                <img src="{{($product->web_url.'/'. $product->image) }}" alt="Product Image" style="max-width: 200px;"><hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="label_image_preview">Label Image Preview:</label><br>
-                                <img src="{{($product->web_url. $product->label) }}" alt="Label Image" style="max-width: 200px;"><hr>
+                                <img src="{{($product->web_url.'/'. $product->label) }}" alt="Label Image" style="max-width: 200px;"><hr>
                             </div>
                         </div>
                         <div class="col-12">

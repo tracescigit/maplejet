@@ -18,13 +18,21 @@
         transition: background-color 0.3s ease;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card pd-20 mg-t-8 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h5 class="mb-0 text-white">Edit Product</h5>
+
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Edit product</h4>
+                        <p class="mg-b-30">Use this page to  <code>Edit</code> product.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" id="editor-form">
                         @method('PUT')
@@ -179,7 +187,7 @@
                             <div class="col-md-12">
 
                                 <div id="editor-container" class="ht-200">
-                                   
+
                                 </div>
                                 <input type="hidden" name="editor_content" id="editor-content" value="">
                             </div>
@@ -211,7 +219,7 @@
                                 <div class="form-group">
                                     <label for="video">Media (Video)</label>
                                     <input type="file" accept="video/mp4, video/quicktime" id="video" name="video" class="form-control-file" onchange="displayVideoName(this);">
-                                    <small class="form-text" style="color: red;">Video size should be below 50 MB in mp4, mov format.</small>
+                                    <small class="form-text" style="color: red;">Video size should be below 5 MB in mp4, mov format.</small>
                                     @if (!empty($product->media))
                                     <div id="videoName" class="mt-2">{{ url('/') . '/' . $product->media }}</div>
                                     @endif

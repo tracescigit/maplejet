@@ -72,9 +72,15 @@
         color: white;
     }
 </style>
-
+<div class="content content-components">
 <div class="wrapper">
     <div class="main-panel" id="main-panel">
+        @if(session('status'))
+        <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
+        @endif
+        <div id="statusMessage1" class="alert alert-success mt-2" style="display: none; background-color:#34eb86;"></div>
+        <div id="statusMessage2" class="alert alert-danger mt-2" style="display: none; background-color:#34eb86;"></div>
+
         <div class="card pd-20 mg-t-10 col-11 mx-auto">
 
             <div class="content-header mg-b-25">
@@ -89,7 +95,7 @@
 
             <div class="card-body">
                 <div class="d-flex align-items-end">
-                    <button class="tablink tx-17 font-weight-bold " onclick="openPage('Home', this, '#8392a5')">Upload File</button>
+                    <button class="tablink tx-17 font-weight-bold " onclick="openPage('Home', this, '#8392a5')" style="background-color: rgb(131, 146, 165);">Upload File</button>
                     <button class="tablink tx-17 font-weight-bold " onclick="openPage('News', this, '#8392a5')" id="defaultOpen" style="margin-left: 20px;">Generate By Serial No</button>
                 </div>
                 <div id="Home" class="tabcontent" style="display:block;">
@@ -161,7 +167,7 @@
             <form id="bulkForm" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="bulkTitle">Bulk Action</h5>
+                    <h5 class="modal-title" id="bulkTitle">Assign Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -186,7 +192,7 @@
                                 <select name="product_id" class="form-control">
                                     <option value="">Please select</option>
                                     @foreach($products as $product)
-                                    <option value="{{ $product->id }}"{{ old('product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('product_id')
@@ -200,7 +206,7 @@
                                 <select name="batch_id" class="form-control">
                                     <option value="">Please select Batch</option>
                                     @foreach($batches as $batch)
-                                    <option value="{{ $batch->id }}"{{ old('batch_id') == $batch->id ? 'selected' : '' }}>{{ $batch->code }}</option>
+                                    <option value="{{ $batch->id }}" {{ old('batch_id') == $batch->id ? 'selected' : '' }}>{{ $batch->code }}</option>
                                     @endforeach
                                 </select>
                                 @error('batch_id')
@@ -255,7 +261,7 @@
         </div>
     </div>
 </div>
-
+</div>
 @endsection
 
 
@@ -263,6 +269,10 @@
 
 @section('js')
 <script>
+    $('#bulkActionModal').on('hidden.bs.modal', function() {
+        $('.modal-backdrop').remove();
+    });
+
     function closemodal() {
         $('#bulkActionModal').modal('hide');
     }
@@ -295,10 +305,30 @@
                 data: formData,
                 success: function(response) {
                     if (response.startcodeerror) {
+                        $('text-danger').html('');
                         $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.startcodeerror + '</div>');
-                    } else {
+                    }else if(response.status=='GTIN number not provided while creating product'){
+                        $('#statusMessage2').html(response.status);
+                        $('#statusMessage2').css('display', 'block');
+                        closemodal();
+                    } else if(response.producterror=='Code is not assigned Product and Batch. Please assign Product and Batch First.'){
+                        $('text-danger').html('');
+                        $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.producterror + '</div>');
+                        setTimeout(function() {
+                            closemodal();
+                            }, 2000);
+                    }else {
                         $('#bulkActionModal').modal('hide');
-                        window.location.reload();
+                        if (response.status) {
+                            $('#statusMessage1').html(response.status);
+                            $('#statusMessage1').css('display', 'block');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 4000);
+
+                        }
+
+
                     }
                 },
                 error: function(xhr, status, error) {

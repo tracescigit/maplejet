@@ -37,13 +37,17 @@ class Product extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
+    }
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logOnly(['brand', 'name', 'company_name','price', 'gtin', 'image','web_url','status'])
             ->logOnlyDirty()                      
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Production has been {$eventName}")
+            ->setDescriptionForEvent(fn(string $eventName) => "Product has been {$eventName}")
             ->useLogName('Product');                
     }
 }

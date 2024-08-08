@@ -18,12 +18,18 @@
         overflow: hidden;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components" >
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom ">
-                    <h5 class="mb-0  text-white">Product Form</h5>
+            <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new product</h4>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> product.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" id="editor-form">
@@ -68,7 +74,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="web_url">Web URL <span style="color: red;">*</span></label>
-                                    <input type="text" name="web_url" class="form-control" id="web_url" value="{{ old('web_url') }}" placeholder="Enter web URL" value="{{ url('/') }}">
+                                    <input type="text" name="web_url" class="form-control" id="web_url" placeholder="Enter web URL" value="{{ old('web_url') ?: url('/') }}">
+
                                     @error('web_url')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -209,7 +216,7 @@
                                     @error('video')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <small style="color: red;">Video size should be below 10 MB in MP4, MOV format.</small>
+                                    <small style="color: red;">Video size should be below 5 MB in MP4, MOV format.</small>
                                 </div>
                                 <div id="videoNameContainer">
                                     <span id="videoName" style="display: none;"></span>

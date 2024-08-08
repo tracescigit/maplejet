@@ -98,7 +98,7 @@
         overflow: hidden;
     }
 </style>
-
+<div class="content content-components">
 <div id="myModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -141,7 +141,7 @@
                 <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                 <div class="info-box-content" style="font-weight:bold;">
                   <span class="info-box-text">Last Job Added</span>
-                  <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">tfdffg</span>
+                  <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{$last_added_job->code??""}}</span>
                 </div>
 
               </div>
@@ -151,7 +151,7 @@
                         <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text">Total Jobs</span>
-                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">5</span>
+                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{count($jobdatas)}}</span>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                         <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text">Total Assigned</span>
-                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">3</span>
+                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{$prodactiveCount}}</span>
                         </div>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                         <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
                         <div class="info-box-content" style="font-weight:bold;">
                             <span class="info-box-text">Total Unassigned</span>
-                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">2</span>
+                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{ count($jobdatas) - $prodactiveCount }}</span>
                         </div>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 

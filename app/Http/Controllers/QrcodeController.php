@@ -40,7 +40,10 @@ class QrcodeController extends Controller
         $qractiveCount = $qrdatas->filter(function ($product) {
             return $product->status === 'Active';
         })->count();
-        $last_added_product = Qrcode::select('qr_code')->orderBy('created_at', 'desc')->first();
+        $last_added_product = Qrcode::select('code_data')
+        ->orderBy('created_at', 'desc')
+        ->orderBy('id', 'desc')
+        ->first();
         // $qrdatas = $qrdata->paginate(10);
         return view('qrcodes.index', compact('qrdatas','qr_count','last_added_product','qractiveCount'));
     }
@@ -95,12 +98,19 @@ class QrcodeController extends Controller
     }
     public function bulkstatuschange(Request $request)
     {
+        
+
         if (!empty($request->start_code)) {
             $id_to_start = Qrcode::where('code_data', $request->start_code)->pluck('id')->first();
             if (!empty($id_to_start)) {
                 $quantity = (int)$request->quantity;
                 $id_to_end = $id_to_start + $quantity - 1;
                 if ($request->action == 'active') {
+                    $product_associated=Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
+                    ->whereNull('product_id')->first();
+                    if($product_associated){
+                        return response()->json(['producterror' => 'Code is not associated with product. Kindly associated code data with product']);
+                    }
                     Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
                         ->whereNotNull('product_id')
                         ->update(['status' => 'Active']);

@@ -30,13 +30,21 @@
         /* Add padding for checkbox label */
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card pd-20 mg-t-8 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h5 class="mb-0 text-white">Edit Production Line</h5>
+              
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Edit Prod.line</h4>
+                        <p class="mg-b-30">Use this page to <code>Edit</code> prod.line</p>
+                        <hr>
+                    </div>
+
+
                 </div>
+                
                 <div class="card-body">
                     @if ($errors->any())
                     <div class="alert alert-danger">
@@ -85,9 +93,9 @@
                                 <div class="form-group">
                                     <label for="printer_name">Printer Name <span style="color: red;">*</span></label>
                                     <select name="printer_name" id="printer_name" class="form-control">
-                                        <option value="vj" {{ $productionlines->printer_name == 'vj' ? 'selected' : '' }}>Videojet</option>
-                                        <option value="wb" {{ $productionlines->printer_name == 'wb' ? 'selected' : '' }}>X1 Jet Markoprint (Weber)</option>
-                                        <option value="dn" {{ $productionlines->printer_name == 'dn' ? 'selected' : '' }}>Domino</option>
+                                        <option value="vj" {{ $productionlines->printer_name == 'vj' ? 'selected' : '' }}>maplejet</option>
+                                        <!-- <option value="wb" {{ $productionlines->printer_name == 'wb' ? 'selected' : '' }}>X1 Jet Markoprint (Weber)</option>
+                                        <option value="dn" {{ $productionlines->printer_name == 'dn' ? 'selected' : '' }}>Domino</option> -->
                                     </select>
                                 </div>
                             </div>

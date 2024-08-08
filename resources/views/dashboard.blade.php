@@ -18,11 +18,13 @@
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  .card-header{
-    background-color:#F0F0F0;
+
+  .card-header {
+    background-color: #F0F0F0;
   }
 </style>
-<div class="content-body">
+
+<div class="content content-components">
   <div class="container pd-x-0">
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
       <div>
@@ -35,8 +37,8 @@
         <h4 class="mg-b-0 tx-spacing--1">Welcome to Dashboard</h4>
       </div>
       <div class="d-none d-md-block">
-        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase"><i data-feather="mail" class="wd-10 mg-r-5"></i> Email</button>
-        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="printer" class="wd-10 mg-r-5"></i> Print</button>
+        <!-- <button class="btn btn-sm pd-x-15 btn-white btn-uppercase"><i data-feather="mail" class="wd-10 mg-r-5"></i> Email</button>
+        <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="printer" class="wd-10 mg-r-5"></i> Print</button> -->
         <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('products.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create products</a>
         <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('jobs.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create jobs</a>
         <a class="btn btn-sm pd-x-15 btn-custom btn-uppercase mg-l-5" href="{{ route('batches.create') }}"><i data-feather="file" class="wd-10 mg-r-5"></i> Create Batch</a>
@@ -127,15 +129,15 @@
               <div class="row">
                 <div class="col-sm mg-sm-t-0">
                   <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Total </h4>
-                  <div class="tx-20 tx-primary">12</div>
+                  <div class="tx-20 tx-primary">{{$total_scan??"0"}}</div>
                 </div><!-- col -->
                 <div class="col-sm  mg-sm-t-0">
                   <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Active</h4>
-                  <div class="tx-20 tx-danger">07</div>
+                  <div class="tx-20 tx-danger">{{$total_scan??"0"}}</div>
                 </div><!-- col -->
                 <div class="col-4">
                   <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5 d-flex ">Common</h4>
-                  <div class="tx-20 tx-warning">Damaged Product</div>
+                  <div class="tx-20 tx-warning">{{$mostCommonIssue->report_reason??"--"}}</div>
                 </div><!-- col -->
                 <div id="barGraph"></div>
               </div><!-- row -->
@@ -167,14 +169,56 @@
     </div>
   </div>
 </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
+</script>
+<script>
+  // Define a function to initialize the map
+  function initMap() {
+    // Create the map, centered at a default location
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: 28.7041,
+        lng: 77.1025
+      }, // Default center
+      zoom: 12
+    });
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
+</script>
+<script>
+  // Define a function to initialize the map
+  function initMap() {
+      // Create the map, centered at a default location
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 28.7041, lng: 77.1025 }, // Default center
+        zoom: 12
+      });
 
+      // Define an array of marker data
+      var markers = [
+        { position: { lat: 29.712, lng: 73.1 }, title: 'Marker 1' },
+        { position: { lat: 40.712, lng: -74.1 }, title: 'Marker 2' },
+        { position: { lat: 28.712, lng: 74.1 }, title: 'Marker 3' }
+      ];
+
+      // Add markers to the map
+      markers.forEach(function(markerData) {
+        new google.maps.Marker({
+          position: markerData.position,
+          map: map,
+          title: markerData.title
+        });
+      });
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  // Sample data (static values for total and resolved issues)
-  const totalIssues = 100;
-  const resolvedIssues = 70;
+  // Sample data (dynamic values from Laravel Blade)
+  const totalIssues = '{{$total_scan}}';
+  const resolvedIssues = '{{$total_scan}}';
 
   // Create a function to draw the bar graph
   function drawBarGraph() {
@@ -190,12 +234,12 @@
     const barSpacing = 20;
 
     // Draw total issues bar
-    ctx.fillStyle = ' #ff275994';
-    ctx.fillRect(barMargin, 250, barWidth, -totalIssues);
+    ctx.fillStyle = '#ff275994';
+    ctx.fillRect(barMargin, 250 - totalIssues, barWidth, totalIssues);
 
     // Draw resolved issues bar
     ctx.fillStyle = '#a1c70c82';
-    ctx.fillRect(barMargin + barWidth + barSpacing, 250, barWidth, -resolvedIssues);
+    ctx.fillRect(barMargin + barWidth + barSpacing, 250 - resolvedIssues, barWidth, resolvedIssues);
 
     // Labels
     ctx.fillStyle = 'black';
@@ -212,373 +256,20 @@
   window.onload = drawBarGraph;
 </script>
 
+
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Dummy data for illustration
+  // Data passed from Laravel controller
+  const months = {!!json_encode($months) !!}; // Month names
+  const data = {!!json_encode($data) !!}; // Job counts
 
-    // Update totals
-    var activeTotal = data.datasets[0].data[0];
-    var inactiveTotal = data.datasets[0].data[1];
-    document.getElementById('activeTotal').textContent = '$' + activeTotal.toLocaleString();
-    document.getElementById('inactiveTotal').textContent = '$' + inactiveTotal.toLocaleString();
-  });
-
-  $(function() {
-    'use strict'
-
-    var plot = $.plot('#flotChart', [{
-      data: df3,
-      color: '#69b2f8'
-    }, {
-      data: df1,
-      color: '#d1e6fa'
-    }, {
-      data: df2,
-      color: '#d1e6fa',
-      lines: {
-        fill: false,
-        lineWidth: 1.5
-      }
-    }], {
-      series: {
-        stack: 0,
-        shadowSize: 0,
-        lines: {
-          show: true,
-          lineWidth: 0,
-          fill: 1
-        }
-      },
-      grid: {
-        borderWidth: 0,
-        aboveData: true
-      },
-      yaxis: {
-        show: false,
-        min: 0,
-        max: 350
-      },
-      xaxis: {
-        show: true,
-        ticks: [
-          [0, ''],
-          [8, 'Jan'],
-          [20, 'Feb'],
-          [32, 'Mar'],
-          [44, 'Apr'],
-          [56, 'May'],
-          [68, 'Jun'],
-          [80, 'Jul'],
-          [92, 'Aug'],
-          [104, 'Sep'],
-          [116, 'Oct'],
-          [128, 'Nov'],
-          [140, 'Dec']
-        ],
-        color: 'rgba(255,255,255,.2)'
-      }
-    });
-
-
-    $.plot('#flotChart2', [{
-      data: [
-        [0, 55],
-        [1, 38],
-        [2, 20],
-        [3, 70],
-        [4, 50],
-        [5, 15],
-        [6, 30],
-        [7, 50],
-        [8, 40],
-        [9, 55],
-        [10, 60],
-        [11, 40],
-        [12, 32],
-        [13, 17],
-        [14, 28],
-        [15, 36],
-        [16, 53],
-        [17, 66],
-        [18, 58],
-        [19, 46]
-      ],
-      color: '#69b2f8'
-    }, {
-      data: [
-        [0, 80],
-        [1, 80],
-        [2, 80],
-        [3, 80],
-        [4, 80],
-        [5, 80],
-        [6, 80],
-        [7, 80],
-        [8, 80],
-        [9, 80],
-        [10, 80],
-        [11, 80],
-        [12, 80],
-        [13, 80],
-        [14, 80],
-        [15, 80],
-        [16, 80],
-        [17, 80],
-        [18, 80],
-        [19, 80]
-      ],
-      color: '#f0f1f5'
-    }], {
-      series: {
-        stack: 0,
-        bars: {
-          show: true,
-          lineWidth: 0,
-          barWidth: .5,
-          fill: 1
-        }
-      },
-      grid: {
-        borderWidth: 0,
-        borderColor: '#edeff6'
-      },
-      yaxis: {
-        show: false,
-        max: 80
-      },
-      xaxis: {
-        ticks: [
-          [0, 'Jan'],
-          [4, 'Feb'],
-          [8, 'Mar'],
-          [12, 'Apr'],
-          [16, 'May'],
-          [19, 'Jun']
-        ],
-        color: '#fff',
-      }
-    });
-
-    $.plot('#flotChart3', [{
-      data: df4,
-      color: '#9db2c6'
-    }], {
-      series: {
-        shadowSize: 0,
-        lines: {
-          show: true,
-          lineWidth: 2,
-          fill: true,
-          fillColor: {
-            colors: [{
-              opacity: 0
-            }, {
-              opacity: .5
-            }]
-          }
-        }
-      },
-      grid: {
-        borderWidth: 0,
-        labelMargin: 0
-      },
-      yaxis: {
-        show: false,
-        min: 0,
-        max: 60
-      },
-      xaxis: {
-        show: false
-      }
-    });
-
-    $.plot('#flotChart4', [{
-      data: df5,
-      color: '#9db2c6'
-    }], {
-      series: {
-        shadowSize: 0,
-        lines: {
-          show: true,
-          lineWidth: 2,
-          fill: true,
-          fillColor: {
-            colors: [{
-              opacity: 0
-            }, {
-              opacity: .5
-            }]
-          }
-        }
-      },
-      grid: {
-        borderWidth: 0,
-        labelMargin: 0
-      },
-      yaxis: {
-        show: false,
-        min: 0,
-        max: 80
-      },
-      xaxis: {
-        show: false
-      }
-    });
-
-    $.plot('#flotChart5', [{
-      data: df6,
-      color: '#9db2c6'
-    }], {
-      series: {
-        shadowSize: 0,
-        lines: {
-          show: true,
-          lineWidth: 2,
-          fill: true,
-          fillColor: {
-            colors: [{
-              opacity: 0
-            }, {
-              opacity: .5
-            }]
-          }
-        }
-      },
-      grid: {
-        borderWidth: 0,
-        labelMargin: 0
-      },
-      yaxis: {
-        show: false,
-        min: 0,
-        max: 80
-      },
-      xaxis: {
-        show: false
-      }
-    });
-
-    $.plot('#flotChart6', [{
-      data: df4,
-      color: '#9db2c6'
-    }], {
-      series: {
-        shadowSize: 0,
-        lines: {
-          show: true,
-          lineWidth: 2,
-          fill: true,
-          fillColor: {
-            colors: [{
-              opacity: 0
-            }, {
-              opacity: .5
-            }]
-          }
-        }
-      },
-      grid: {
-        borderWidth: 0,
-        labelMargin: 0
-      },
-      yaxis: {
-        show: false,
-        min: 0,
-        max: 60
-      },
-      xaxis: {
-        show: false
-      }
-    });
-
-    $('#vmap').vectorMap({
-      map: 'usa_en',
-      showTooltip: true,
-      backgroundColor: '#fff',
-      color: '#d1e6fa',
-      colors: {
-        fl: '#69b2f8',
-        ca: '#69b2f8',
-        tx: '#69b2f8',
-        wy: '#69b2f8',
-        ny: '#69b2f8'
-      },
-      selectedColor: '#00cccc',
-      enableZoom: false,
-      borderWidth: 1,
-      borderColor: '#fff',
-      hoverOpacity: .85
-    });
-
-
-    var ctxLabel = ['6am', '10am', '1pm', '4pm', '7pm', '10pm'];
-    var ctxData1 = [20, 60, 50, 45, 50, 60];
-    var ctxData2 = [10, 40, 30, 40, 55, 25];
-
-    // Bar chart
-    var ctx1 = document.getElementById('chartBar1').getContext('2d');
-    new Chart(ctx1, {
-      type: 'horizontalBar',
-      data: {
-        labels: ctxLabel,
-        datasets: [{
-          data: ctxData1,
-          backgroundColor: '#69b2f8'
-        }, {
-          data: ctxData2,
-          backgroundColor: '#d1e6fa'
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        legend: {
-          display: false,
-          labels: {
-            display: false
-          }
-        },
-        scales: {
-          yAxes: [{
-            gridLines: {
-              display: false
-            },
-            ticks: {
-              display: false,
-              beginAtZero: true,
-              fontSize: 10,
-              fontColor: '#182b49'
-            }
-          }],
-          xAxes: [{
-            gridLines: {
-              display: true,
-              color: '#eceef4'
-            },
-            barPercentage: 0.6,
-            ticks: {
-              beginAtZero: true,
-              fontSize: 10,
-              fontColor: '#8392a5',
-              max: 80
-            }
-          }]
-        }
-      }
-    });
-
-  })
-</script>
-<script>
-  // Static data for job creation month-wise
   const jobData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    labels: months,
     datasets: [{
       label: 'Total Jobs Created',
       borderColor: 'rgba(54, 162, 235, 1)',
       borderWidth: 2,
       fill: false,
-      data: [120, 150, 180, 200, 190, 210],
+      data: data
     }]
   };
 
@@ -598,78 +289,5 @@
     }
   });
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU"></script>
-<script>
-  function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: 40.7128,
-        lng: -74.006
-      },
-      zoom: 12
-    });
 
-    var marker = new google.maps.Marker({
-      position: {
-        lat: 40.7128,
-        lng: -74.006
-      },
-      map: map,
-      title: 'Marker 1'
-    });
-
-    var marker2 = new google.maps.Marker({
-      position: {
-        lat: 40.712,
-        lng: -74.1
-      },
-      map: map,
-      title: 'Marker 2'
-    });
-
-    // Add more markers as needed
-  }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
-</script>
-<script>
-  // Data for the bar chart
-  var data = {
-    labels: ["Total Cases", "Active Cases"],
-    datasets: [{
-      label: 'Cases',
-      data: [50, 30], // Replace with your actual data
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.5)', // Red color with transparency
-        'rgba(54, 162, 235, 0.5)' // Blue color with transparency
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)'
-      ],
-      borderWidth: 1
-    }]
-  };
-
-  // Configuration options
-  var options = {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  };
-
-  // Get the canvas element
-  var ctx = document.getElementById('myChart').getContext('2d');
-
-  // Create the bar chart
-  var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: data,
-    options: options
-  });
-</script>
 @endsection

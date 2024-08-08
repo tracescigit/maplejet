@@ -37,6 +37,7 @@ class Batch extends Model
     {
         return $this->hasMany(Qrcode::class, 'batch_id');
     }
+    
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

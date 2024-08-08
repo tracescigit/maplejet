@@ -31,13 +31,19 @@
     }
 </style>
 
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h5 class="text-white">Production Lines</h5>
+
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new prod.line</h4>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> Prod.line</p>
+                        <hr>
+                    </div>
                 </div>
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('production-lines.store') }}">
                         @csrf
@@ -69,7 +75,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="code" class="floating-label">Code <span style="color: red;">*</span></label>
-                                    <input type="text" name="code" id="code" class="form-control" placeholder="Enter Code"  value="{{ old('code')}}" required>
+                                    <input type="text" name="code" id="code" class="form-control" placeholder="Enter Code" value="{{ old('code')}}" required>
                                     @error('code')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -78,7 +84,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="ip_address" class="floating-label">System IP <span style="color: red;">*</span></label>
-                                    <input type="text" name="ip_address" id="ip_address" class="form-control" placeholder="Enter System IP "  value="{{ old('ip_address')}}" required>
+                                    <input type="text" name="ip_address" id="ip_address" class="form-control" placeholder="Enter System IP " value="{{ old('ip_address')}}" required>
                                     @error('ip_address')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -87,7 +93,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="printer_name" class="floating-label">Printer Name <span style="color: red;">*</span></label>
-                                    <select name="printer_name" id="printer_name" class="form-control"  required>
+                                    <select name="printer_name" id="printer_name" class="form-control" required>
                                         <option value="vj" {{ old('printer_name')=="vj" ?'selected':''}}>Maplejet</option>
                                         <!-- <option value="wb">maplejet</option>
                                         <option value="dn"></option> -->

@@ -86,7 +86,7 @@
     }
 </style>
 
-<div class="wrapper">
+<div class="content content-components">
     <div class="main-panel" id="main-panel">
         <div class="row">
             <div class="col-md-12">
@@ -99,12 +99,14 @@
                 <div class="card pd-20 mg-t-10 col-11 mx-auto">
                     <h3 class="content-header mg-b-25">User Log</h3>
                     <div class="d-flex justify-content-end align-items-start mb-3">
-                        <form class="form-inline mr-4" method="GET" action="{{ route('userlog.index') }}">
+                        <form id="userlog-form" class="form-inline mr-4" method="GET">
+                            <input type="hidden" name="action" id="form-action" value="search">
+
                             <div class="form-group mb-2">
                                 <label class="mx-4">Select User: </label>
                                 <select class="form-control mr-2" name="user">
                                     @foreach($users as $user)
-                                    <option>{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -113,12 +115,12 @@
                                 <input type="date" name="start_date" class="form-control">
                             </div>
                             <div class="form-group mx-sm-3 mb-2">
-                                <label class="mx-4">End Date</label>
+                                <label class="mx-4">End Date: </label>
                                 <input type="date" name="end_date" class="form-control">
                             </div>
-                            <button class="btn btn-primary mb-2" type="submit">Search</button>
+                            <button class="btn btn-primary mb-2" type="submit" onclick="submitForm('search')">Search</button>
+                            <button class="btn btn-custom mr-3 mb-2" type="submit" onclick="submitForm('export')">Export Excel</button>
                         </form>
-                        <a href="{{route('userlog.downloadexcel')}}" class="btn btn-custom mr-3 mb-2" type="submit">Export Excel</a>
                     </div>
 
                     <div class="table-responsive">
@@ -186,6 +188,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-3">
+                    {{ $userlog->links('pagination::bootstrap-5') }}
+                </div>
             </div>
         </div>
     </div>
@@ -219,6 +224,18 @@
     }
 </script>
 <script>
+       function submitForm(actionType) {
+        // Set the action attribute based on the button clicked
+        document.getElementById('form-action').value = actionType;
+        
+        // Adjust the form action URL based on the action type
+        var form = document.getElementById('userlog-form');
+        if (actionType === 'search') {
+            form.action = '{{ route("userlog.index") }}';
+        } else if (actionType === 'export') {
+            form.action = '{{ route("userlog.downloadexcel") }}';
+        }
+    }
     function openModal(singledata) {
         var name = '';
         if (singledata.user) {

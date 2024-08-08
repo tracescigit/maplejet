@@ -254,7 +254,7 @@ class PrintController extends Controller
     }
     public function index()
     {
-        $job = ProductionJob::get();
+        $job = ProductionJob::where('status','Assigned')->get();
 
         return view('printmodule', compact('job'));
     }
