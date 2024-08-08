@@ -407,7 +407,7 @@ class ProductController extends Controller
 
                 if ($product_scanned_count > 10) {
                     $genuine = "Product is Suspicious";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'batch_info'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine'));
                 }
                 $genuine = '';
                 if ($product_id_expiry_check == 'Expired') {

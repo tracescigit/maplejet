@@ -40,7 +40,7 @@
       @if (Auth::user()->can('view batches'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label"><a href="{{route('batches.index')}}" class="nav-link  {{ Route::is('batches.*') ? 'active' : '' }}"><i data-feather="box"></i> <span>Batches</span></a></li>
       @endif
-      @if (Auth::user()->can('view qrcodes'))
+      @if (Auth::user()->can('view qrcode'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub  {{ (Route::is('qrcodes.*')  || Route::is('bulkuploads.*') || Route::is('reportlog.*') || Route::is('scanhistories.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label {{ Route::is('Production') ? ' active' : ''}}"><i data-feather="archive"></i><span>Qr-Codes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>

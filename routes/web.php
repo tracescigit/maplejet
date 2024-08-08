@@ -44,7 +44,6 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/stopprint', [App\Http\Controllers\PrintController::class, 'StopPrint'])->name('stopprint');
         Route::get('/printmoduledownloadexcel', [App\Http\Controllers\PrintController::class, 'downloadexcel'])->name('downloadexcell');
         Route::get('/01/{product_id}/10/{qrcode}', [App\Http\Controllers\ProductController::class, 'getproductdetails'])->name('getscanproduct');
-        http://127.0.0.1:8000/01/987654321/10/21/1?id=29&250207
         Route::get('/11/{qrcode}', [App\Http\Controllers\ProductController::class, 'getproductdetailsqr'])->name('abc');
         Route::get('/cameradatacheck', [App\Http\Controllers\PrintController::class, 'cameradatacheck'])->name('cameradatacheck');
         Route::get('/populatemodal', [App\Http\Controllers\UserLogController::class, 'populatemodal'])->name('populatemodal');
