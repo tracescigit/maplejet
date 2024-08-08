@@ -30,20 +30,20 @@
         color: #ff209f !important;
     }
 </style>
-</head>
+
 @php
 $genuine='Product is Fake'
  @endphp
  
  @if($genuine!='Product is Fake')
-<header class="navbar navbar-header navbar-header-fixed justify-content-center">
+<div class="navbar navbar-header navbar-header-fixed justify-content-center">
       <div class="navbar-brand">
         <a href="index.html" class="df-logo">{{$product_id_ver->brand??""}}</a>
       </div><!-- navbar-brand -->
      
-    </header><!-- navbar -->
+</div><!-- navbar -->
 @endif
-<body>
+
 <div class="content content-components">
     <div class="container">
         @if($genuine!='Product is Fake')
@@ -255,7 +255,7 @@ $genuine='Product is Fake'
         @endif
     </div>
 </div>
-</body>
+
 
 
 

@@ -17,17 +17,21 @@
         overflow: hidden;
     }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-8">
         <div class="card pd-20 mg-t-8 col-11 mx-auto">
-                <div class="card-header btn-custom">
-                    <h5 class="mb-0 d-flex justify-content-between align-items-center text-white">
-                        Edit Role
-                       
-                    </h5>
+               
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Edit Role</h4>
+                        <p class="mg-b-30">Use this page to <code>Edit</code> Role.</p>
+                        <hr>
+                    </div>
+
+
                 </div>
-                <div class="card-body">
+                                       <div class="card-body">
                     <form action="{{ route('roles.update', $role->id) }}" method="POST">
                         @csrf
                         @method('PUT')

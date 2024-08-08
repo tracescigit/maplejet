@@ -22,9 +22,17 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom ">
-                    <h5 class="mb-0  text-white">Userlog Details</h5>
-                </div>
+               
+                    <div class="d-flex bg-gray-10">
+                        <div class="pd-10 flex-grow-1">
+                            <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">View Details</h4>
+                            <p class="mg-b-30">Use this page to  <code>View</code> Details.</p>
+                            <hr>
+                        </div>
+
+
+                    </div>
+                
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
