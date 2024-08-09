@@ -9,16 +9,14 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Qrcode;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Events\CsvProcessingCompleted;
+use App\Events\CsvProcessingFailed;
 
 class BulkCsvDataUpload implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     protected $filePath;
 
     public function __construct($filePath)
@@ -26,73 +24,67 @@ class BulkCsvDataUpload implements ShouldQueue
         $this->filePath = $filePath;
     }
 
-    /**
-     * Execute the job.
-     */
-    // public function handle(): void
-    // {
-    //     try {
-    //         $file = Storage::disk('local')->get($this->filePath);
-    //         $rows = explode("\n", $file);
-    //         array_shift($rows);
-
-    //         DB::beginTransaction();
-
-    //         foreach ($rows as $row) {
-    //             $data = str_getcsv(trim($row));
-    //             if (!empty($row) && !empty($data)) {
-    //                 Qrcode::create([
-    //                     'code_data' => $data[0],
-    //                 ]);
-    //             }
-    //         }
-
-    //         DB::commit();
-    //     } catch (\Exception $e) {
-    //         // Handle any exceptions, log them, and rollback the transaction
-    //         DB::rollBack();
-    //         Log::error('Error processing CSV file: ' . $e->getMessage());
-    //     }
-    // }
     public function handle()
     {
-     
+        Log::info('BulkCsvDataUpload job started.');
+        try {
             $file = Storage::disk('local')->get($this->filePath);
             $rows = explode("\n", $file);
-            array_shift($rows);
+            array_shift($rows); // Remove header row
 
-
+            $batchSize = 1000; // Define the batch size
+            $currentBatch = [];
             $allValid = true;
 
             foreach ($rows as $row) {
                 $data = str_getcsv(trim($row));
+
                 if (!empty($row) && !empty($data)) {
                     if (!$this->isAlphanumeric($data[0])) {
                         $allValid = false;
                         break;
                     }
                     if (Qrcode::where('code_data', $data[0])->exists()) {
-                        return "Error: Duplicate data found for code: $data[0]. Aborting data insertion into the database.";
+                        event(new CsvProcessingFailed("Error: Duplicate data found for code: $data[0]. Aborting data insertion into the database."));
+                        return;
+                    }
+
+                    // Prepare data for batch insertion
+                    $qr_code_number = $this->generateUniqueQRCodeNumber();
+                    $currentBatch[] = [
+                        'qr_code' => $qr_code_number,
+                        'code_data' => $data[0],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+
+                    // Insert data in batches
+                    if (count($currentBatch) >= $batchSize) {
+                        Qrcode::insert($currentBatch);
+                        $currentBatch = []; // Clear the batch
                     }
                 }
             }
+
+            // Insert any remaining data in the final batch
+            if (!empty($currentBatch)) {
+                Qrcode::insert($currentBatch);
+            }
+
             if (!$allValid) {
-                return "Error: Data contains invalid characters. Aborting data insertion into the database.";
+                Log::error("Error: Data contains invalid characters. Aborting data insertion.");
+                event(new CsvProcessingFailed("Error: Data contains invalid characters. Aborting data insertion into the database."));
+                return;
             }
 
-            foreach ($rows as $row) {
-                $data = str_getcsv(trim($row));
-                if (!empty($row) && !empty($data)) {
-                    $qr_code_number = $this->generateUniqueQRCodeNumber();
-                    Qrcode::create([
-                        'qr_code' => $qr_code_number,
-                        'code_data' => $data[0],
-                    ]);
-                }
-            }
-
-            return "CSV data processed successfully.";
+            Log::info('BulkCsvDataUpload job completed successfully.');
+            event(new CsvProcessingCompleted("CSV data processed successfully."));
+        } catch (\Exception $e) {
+            Log::error('Error processing CSV file: ' . $e->getMessage());
+            event(new CsvProcessingFailed('Error processing CSV file: ' . $e->getMessage()));
+        }
     }
+
     private function generateUniqueQRCodeNumber()
     {
         $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -104,8 +96,9 @@ class BulkCsvDataUpload implements ShouldQueue
 
         return $qrCodeNumber;
     }
+
     private function isAlphanumeric($str)
     {
-        return preg_match('/^[a-zA-Z0-9.+-]+(?:[eE][0-9]+)?$/', $str);
+        return preg_match('/^[a-zA-Z0-9]+$/', $str);
     }
 }

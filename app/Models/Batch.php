@@ -2,19 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Carbon\Carbon;
 
 class Batch extends Model
 {
-    use HasFactory,LogsActivity;
-    use SoftDeletes;
-    protected static $logAttributes=['product_id','code','currency','price','mfg_date','mfg_date','exp_date','status'];
+    use HasFactory, LogsActivity, SoftDeletes;
 
-    protected $table='batches';
+    // Define log attributes
+    protected static $logAttributes = ['product_id', 'code', 'currency', 'price', 'mfg_date', 'exp_date', 'status'];
+
+    // Specify the table name
+    protected $table = 'batches';
+
+    // Define fillable attributes
     protected $fillable = [
         'product_id',
         'code',
@@ -26,18 +31,29 @@ class Batch extends Model
         'status',
     ];
 
-    /**
-     * Get the product that owns the batch.
-     */
+    // Automatically cast to Carbon instances
+    protected $dates = ['mfg_date', 'exp_date'];
+
+    // Define relationships
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
+
     public function qrcodes()
     {
         return $this->hasMany(Qrcode::class, 'batch_id');
     }
-    
+    public function getMfgDateAttribute($value)
+    {
+        return Carbon::parse($value);
+    }
+
+    public function getExpDateAttribute($value)
+    {
+        return Carbon::parse($value);
+    }
+    // Configure activity logging options
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -45,9 +61,8 @@ class Batch extends Model
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
             ->setDescriptionForEvent(function (string $eventName) {
-                // Define the log name here
                 $logName = 'Batch';
-    
+
                 switch ($eventName) {
                     case 'created':
                         return "{$logName} has been created with the following details: Product ID - {$this->product_id}, Code - {$this->code}, Currency - {$this->currency}, Price - {$this->price}, Manufacturing Date - {$this->mfg_date->format('d-m-Y')}, Expiry Date - {$this->exp_date->format('d-m-Y')}, Status - {$this->status}";
@@ -61,5 +76,4 @@ class Batch extends Model
             })
             ->useLogName('Batch');
     }
-    
 }

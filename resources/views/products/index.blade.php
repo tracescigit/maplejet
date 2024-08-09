@@ -226,7 +226,7 @@
         <thead>
           <tr>
             <th scope="col" class="text-center font-weight-bold">ID</th>
-            <th scope="col" class="text-center font-weight-bold"></th>
+            <th scope="col" class="text-left font-weight-bold">Product Code</th>
             <th scope="col" class="text-left font-weight-bold">NAME</th>
             <th scope="col" class="text-left font-weight-bold">BRAND</th>
             <th scope="col" class="text-center font-weight-bold">COMPANY NAME</th>
