@@ -75,6 +75,37 @@
       display: block;
       /* Show submenu when 'show' class is added to parent <li> */
     }
+    .justify-content-center{
+      margin-bottom:30px;
+    }
+    .btn-outline-primary:hover {
+    background-color: white;
+    border-color: blue; /* Optional: Change the border color to match the background */
+    color: white; /* Optional: Change the text color to ensure it's visible on the red background */
+  }
+  .btn-custom,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Make sure the font size is consistent */
+  }
+  
+  .btn-custom i,
+  .btn-secondary i {
+    margin-right: 8px; /* Space between icon and text */
+  }
+  
+  .btn-custom,
+  .btn-secondary {
+    height: 40px; /* Set a fixed height to ensure consistency */
+    line-height: 20px; /* Adjust line-height to match text height */
+  }
+
+  .btn-custom i,
+  .btn-secondary i {
+    vertical-align: middle; /* Align icons vertically in the center */
+  }
   </style>
 
 </head>

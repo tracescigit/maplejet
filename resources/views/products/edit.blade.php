@@ -21,12 +21,12 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card pd-20 mg-t-8 col-11 mx-auto">
+            <div class="container pd-20 mg-t-8 col-11 mx-auto">
 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Edit product</h4>
-                        <p class="mg-b-30">Use this page to  <code>Edit</code> product.</p>
+                        <h4 id="section3" class="mg-b-10" style="font-weight:bold;">Edit Product</h4>
+                        <p class="mg-b-30">Use this page to  <code>EDIT</code> Product.</p>
                         <hr>
                     </div>
 
@@ -189,13 +189,15 @@
                                 <div id="editor-container" class="ht-200">
 
                                 </div>
-                                <input type="hidden" name="editor_content" id="editor-content" value="">
+                                <input type="hidden" name="editor_content" id="editor-content" value="{{old('description')}}">
                             </div>
                             <div class="col-sm-6">
+                            <h5>Product Images</h5>
+                            <hr>
                                 <div class="form-group">
                                     <label for="image">Image</label>
                                     <input type="file" onchange="readURL(this);" accept="image/*" id="image" name="image" class="form-control-file">
-                                    <small class="form-text" style="color: red;">Image size should be below 500 KB in jpeg, png format.</small>
+                                    <small class="form-text">Image size should be below 500 KB in jpeg, png format.</small>
                                     <img id="imagePreview" src="{{ url('/') . '/' . $product->image }}" alt="Preview" class="img-fluid mt-2 mb-2">
                                     @error('image')
                                     <div class="text-danger">{{ $message }}</div>
@@ -204,10 +206,12 @@
                             </div>
 
                             <div class="col-sm-6">
+                            <h5>Label Image</h5>
+                            <hr>
                                 <div class="form-group">
                                     <label for="label_img">Label Image</label>
                                     <input type="file" onchange="readURLLabel(this);" accept="image/*" id="label_img" name="label_img" class="form-control-file">
-                                    <small class="form-text" style="color:red;">Image size should be below 500 KB in jpeg, png format.</small>
+                                    <small class="form-text" >Image size should be below 500 KB in jpeg, png format.</small>
                                     <img id="imagePreviewLabel" src="{{ url('/') . '/' . $product->label }}" alt="Preview" class="img-fluid mt-2">
                                     @error('label_img')
                                     <div class="text-danger">{{ $message }}</div>
@@ -216,10 +220,12 @@
                             </div>
 
                             <div class="col-12">
+                            <h5>Media</h5>
+                            <hr>
                                 <div class="form-group">
-                                    <label for="video">Media (Video)</label>
+                                    <label for="video">Video</label>
                                     <input type="file" accept="video/mp4, video/quicktime" id="video" name="video" class="form-control-file" onchange="displayVideoName(this);">
-                                    <small class="form-text" style="color: red;">Video size should be below 5 MB in mp4, mov format.</small>
+                                    <small class="form-text">Video size should be below 5 MB in mp4, mov format.</small>
                                     @if (!empty($product->media))
                                     <div id="videoName" class="mt-2">{{ url('/') . '/' . $product->media }}</div>
                                     @endif
