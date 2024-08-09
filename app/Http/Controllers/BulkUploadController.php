@@ -35,7 +35,6 @@ class BulkUploadController extends Controller
     }
     public function store_serial_no(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'starting_code' => 'nullable|numeric|digits_between:7,21',
             'quantity' => 'required|numeric|min:1',
@@ -111,9 +110,9 @@ class BulkUploadController extends Controller
                 }
                 $expDate = date('ymd', strtotime($all_data->batch->exp_date));
                 for ($i = $id_to_start; $i < $id_to_end; $i++) {
-                    $qrcode = Qrcode::where('id', $i)->select('code_data')->first();
-                    if (!empty($qrcode->code_data)) {
-                        $gslink = $baseUrl . '/11/' . $qrcode->code_data.'?id='.$all_data->id;
+                    $qrcode = Qrcode::where('id', $i)->select('qr_code')->first();
+                    if (!empty($qrcode->qr_code)) {
+                        $gslink = $baseUrl . '/11/' . $qrcode->qr_code.'?id='.$all_data->id;
                     }
                     // else{
                     //     $gslink = $baseUrl . '/01';

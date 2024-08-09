@@ -242,6 +242,7 @@
                                 <th scope="col" class="text-left font-weight-bold">Plant Line Code</th>
                                 <th scope="col" class="text-left font-weight-bold">Production Plant Name</th>
                                 <th scope="col" class="text-center font-weight-bold">STATUS</th>
+                                <th scope="col" class="text-center font-weight-bold">Created On</th>
                                 <th scope="col" class="text-center font-weight-bold">Action</th>
 
 
@@ -260,15 +261,18 @@
                                 <td class="text-left">{{$singleplant->code}}</td>
                                 <td class="text-left"> {{$singleplant->plant_name}}</td>
                                 <td class="tx-medium text-center">
-                                @if($singleplant->status == 'Active')
+                                    @if($singleplant->status == 'Active')
                                     <span class="badge badge-success"> {{$singleplant->status}}</span>
                                     @else
                                     <span class="badge badge-danger"> {{$singleplant->status}}</span>
                                 </td>
                                 @endif
+                                <td class="text-center text-danger">
+                                    {{ \Carbon\Carbon::parse($singleplant->created_at)->format('d-m-Y') }}
+                                </td>
                                 <td class="text-center">
-                                <a class="btn btn-outline-primary" type="button" href="{{route('production-lines.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
-                                <a href="{{route('production-lines.edit', $singleplant->id)}}" class="btn btn-outline-primary float-center" type="button"><i class="fas fa-edit" style="color: #74C0FC;"></i></a>
+                                    <a class="btn btn-outline-primary" type="button" href="{{route('production-lines.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
+                                    <a href="{{route('production-lines.edit', $singleplant->id)}}" class="btn btn-outline-primary float-center" type="button"><i class="fas fa-edit" style="color: #74C0FC;"></i></a>
                                 </td>
 
                             </tr>

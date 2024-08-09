@@ -22,74 +22,85 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                
+
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Product Details</h4>
-                        <p class="mg-b-30">Use this page to  <code>View</code> product Details.</p>
+                        <p class="mg-b-30">Use this page to <code>View</code> product Details.</p>
                         <hr>
                     </div>
 
 
                 </div>
-                
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="product_brand">Product Name:</label>
-                               <p> {{$product->name}}</p><hr>
+                                <p> {{$product->name}}</p>
+                                <hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="product_brand">Product Brand:</label>
-                                <p>{{$product->name}}</p><hr>
+                                <p>{{$product->name}}</p>
+                                <hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="company_name">Company Name:</label>
-                                <p>{{$product->company_name}}</p><hr>
+                                <p>{{$product->company_name}}</p>
+                                <hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="gtin">GTIN / Product Code:</label>
-                                <p>{{$product->gtin}}</p><hr>
+                                <p>{{$product->gtin}}</p>
+                                <hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="image_preview">Image Preview:</label><br>
-                                <img src="{{($product->web_url.'/'. $product->image) }}" alt="Product Image" style="max-width: 200px;"><hr>
+                                <img src="{{($product->web_url.'/'. $product->image) }}" alt="Product Image" style="max-width: 200px;">
+                                <hr>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="label_image_preview">Label Image Preview:</label><br>
-                                <img src="{{($product->web_url.'/'. $product->label) }}" alt="Label Image" style="max-width: 200px;"><hr>
+                                <img src="{{($product->web_url.'/'. $product->label) }}" alt="Label Image" style="max-width: 200px;">
+                                <hr>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="description">Description:</label>
-                               <p>{!!$product->description!!}</p><hr>
+                                <p>{!!$product->description!!}</p>
+                                <hr>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="status">Status:</label>
-                               <p>@if($product->status == 'Active')
-                <span class="tx-10 badge badge-success">Active</span>
-                @else
-                <span class="tx-10 badge badge-danger">Inactive</span>
-                @endif
-                </p>
-                <hr>
+                                <p>@if($product->status == 'Active')
+                                    <span class="tx-10 badge badge-success">Active</span>
+                                    @else
+                                    <span class="tx-10 badge badge-danger">Inactive</span>
+                                    @endif
+                                </p>
+                                <hr>
                             </div>
                         </div>
+                      
                     </div>
+                    <div class="form-group mt-4">
+                            <a href="{{ route('products.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
+                        </div>
                 </div>
             </div>
         </div>
