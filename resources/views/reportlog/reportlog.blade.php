@@ -59,83 +59,86 @@
     }
 </style>
 <div class="content content-components">
-<div class="wrapper">
-    <div class="main-panel" id="main-panel">
-    <div class="row">
-                <div class="col-md-12">
-                        @if(session('status'))
-                        <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86">{{session('status')}}</div>
-                        @endif
-                        @if(session('error'))
-                        <div id="errorMessage" class="alert alert-danger" style="background-color:#eb3434">
-                            {{ session('error') }}
-                        </div>
-                        @endif
+    <div class="card pd-20 mg-t-10 col-10 mx-auto">
+        <div class="d-flex bg-gray-10">
+            <div class="pd-10 flex-grow-1">
+                <h4 id="section3" class="mg-b-10">Consumer Alerts</h4>
+                <p class="mg-b-30">Use this page to <code>View</code> Consumer Reports .</p>
+            </div>
 
-                <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                    <h3 class="content-header mg-b-25">Consumer Feedback </h3>
-                    <div class="d-flex justify-content-end align-items-start mb-3">
-                        <form class="form-inline mr-4" method="GET" action="{{route('reportlog.exceldownload')}}">
-                           
-                        
-                            <div class="form-group mx-sm-3 mb-2 ">
-                                <label class="mx-4">Start Date: </label>
-                                <input type="date" name="start_date" class="form-control">
-                            </div>
-                            <div class="form-group mx-sm-3 mb-2">
-                                <label class="mx-4">End Date</label>
-                                <input type="date" name="end_date" class="form-control">
-                            </div>
-                            <button class="btn btn-custom" type="submit">Download Report Excel</button>
-                        </form>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-dashboard mg-b-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-left">Issue</th>
-                                    <th class="text-left">Description</th>
-                                    <th class="text-center">View Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($reportlog as $index=>$singledata)
-                                @php
-                                $page = $reportlog->currentPage();
-                                $perPage = $reportlog->perPage();
-                                $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                                @endphp
-
-                                <tr>
-                                    <td class="tx-color-03 tx-normal text-center">
-                                        {{ $incrementingIndex }}
-                                    </td>
-                                    <td class="tx-medium text-left ">
-                                    {{$singledata->report_reason}}
-                                    </td>
-                                    <td class="text-left">
-                                    {{$singledata->description}}
-                                    </td>
-                                    <td class="text-center">
-                                        <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
-                                            <i class="fas fa-eye mr-2"></i> View Details</a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $reportlog->links('pagination::bootstrap-5') }}
-
-                    </div>
-                </div>
+            <div class="pd-10 mg-l-auto">
+                <button type=" button" class="btn btn-custom btn-icon" type="submit"><i data-feather="plus-circle"></i> Export Excel</button>
             </div>
         </div>
-    </div>
-</div>
-</div>
 
+
+
+
+
+        <form method="GET" action="{{route('reportlog.exceldownload')}}">
+            <div data-label="Consumer-Alerts" class="df-example demo-table">
+                <div class="row row-sm  mg-b-10">
+
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                        <label>Start Date: </label>
+                        <input type="date" name="start_date" class="form-control">
+                    </div>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <label>End Date: </label>
+                        <input type="date" name="end_date" class="form-control">
+                    </div>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+                        <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
+                    </div>
+                </div>
+
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-striped mg-b-0">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">ID</th>
+                        <th scope="col" class="text-left font-weight-bold">Issue</th>
+                        <th scope="col" class="text-left font-weight-bold">Description</th>
+                        <th scope="col" class="text-center font-weight-bold">View Details</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($reportlog as $index=>$singledata)
+                    @php
+                    $page = $reportlog->currentPage();
+                    $perPage = $reportlog->perPage();
+                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                    @endphp
+                    <tr>
+                        <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                        <td class="tx-medium text-left"> {{$singledata->report_reason}}</td>
+                        <td class="tx-medium text-left"> {{$singledata->description}}</td>
+                        <td class="tx-medium text-center">
+                        <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
+                        <i class="fas fa-eye mr-2"></i> View Details</a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            
+        </div><!-- table-responsive -->
+    </div><!-- card -->
+
+    <div class="mt-3">
+        {{ $reportlog->links('pagination::bootstrap-5') }}
+    </div>
+
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
     function closemodal() {
@@ -213,4 +216,3 @@
     }
 </script>
 @endsection
-
