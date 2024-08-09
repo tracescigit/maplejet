@@ -98,7 +98,7 @@
         overflow: hidden;
     }
 </style>
-<div class="content content-components">
+
 <div id="myModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -120,7 +120,6 @@
         </div>
     </div>
 </div>
-<div class="content content-components">
 <div class="row">
     <div class="col-md-12">
         @if(session('status'))
@@ -131,129 +130,177 @@
             {{ session('error') }}
         </div>
         @endif
-
-
-        <div class="d-sm-flex my-3 col-9 mx-auto">
-            <div class="media">
-
-            <div class="col-sm-4 col-lg-4">
-              <div class="info-box mb-3">
-                <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                <div class="info-box-content" style="font-weight:bold;">
-                  <span class="info-box-text">Last Job Added</span>
-                  <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{$last_added_job->code??""}}</span>
-                </div>
-
-              </div>
-            </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-info tx-teal elevation-1 op-6"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                        <div class="info-box-content" style="font-weight:bold;">
-                            <span class="info-box-text">Total Jobs</span>
-                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{count($jobdatas)}}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-lg-4">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-pink elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                        <div class="info-box-content" style="font-weight:bold;">
-                            <span class="info-box-text">Total Assigned</span>
-                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{$prodactiveCount}}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-lg-4">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-primary elevation-1 op-4"><i class="fas fa-chart-line" style="color: #ffffff;"></i></span>
-                        <div class="info-box-content" style="font-weight:bold;">
-                            <span class="info-box-text">Total Unassigned</span>
-                            <span class="info-box-number" style="margin-left: 37px;font-size:x-large;">{{ count($jobdatas) - $prodactiveCount }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+</div>
 
-    <div class="card pd-20 mg-t-10 col-11 mx-auto">
-        <h3 class="content-header mb-3">JOBS</h3>
-        <div class="d-flex justify-content-between align-items-start">
-            <a href="{{ route('jobs.create') }}" class="btn btn-custom op-6">
-                <img src="{{ tracesciimg('icons8-create-16.png') }}" class="mr-1">{{ __('Create Jobs') }}
-            </a>
+<div class="content content-components">
+    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+        <div class="d-flex bg-gray-10">
+            <div class="pd-10 flex-grow-1">
+                <h4 id="section3" class="mg-b-10">Create Jobs</h4>
+                <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Job.</p>
+            </div>
 
-            <form class="form-inline" method="GET" action="{{ route('products.index') }}">
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="search" name="products_search" class="form-control" placeholder="Search By Product" aria-label="Search">
-                </div>
-                <div class="form-group mx-sm-2 mb-2">
-                    <select style="padding:5px;" class="form-select"  name="products_assigned" aria-label="Default select example" id="option-assigned">
-                        <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
-                        <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
-                    </select>
-                    @error('product_id')
-                    <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <button class="btn btn-primary mb-2" type="submit">Search</button>
-                <button id="downloadcsvbtn" onclick="downloadcsv()" class="btn btn-custom op-6 ml-3 mb-2" type="button">
-                    <img src="{{ tracesciimg('icons8-upload-to-cloud-64.png') }}" style="max-width:18px; margin-right:7px;">Download CSV
+            <div class="pd-10 mg-l-auto">
+                <a href="{{ route('jobs.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                <button id="downloadcsvbtn" onclick="downloadcsv()" class="btn btn-custom" type="button">
+                    <img src="{{ tracesciimg('icons8-upload-to-cloud-64.png') }}" style="max-width:18px;">Download CSV
                 </button>
-            </form>
+            </div>
         </div>
 
-        <div class="table-responsive"style="padding:20px;">
-            <table class="table table-dashboard">
+
+
+
+        <div data-label="Stats" class="df-example mg-b-30">
+            <div class="row row-xs">
+                <div class="col-sm">
+                    <div class="media">
+                        <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-teal tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="media-body">
+                            <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Job Added</h6>
+                            <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_job->code??""}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="media">
+                        <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="media-body">
+                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+                            <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{count($jobdatas)}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="media">
+                        <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-pink tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="media-body">
+                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Assigned</h6>
+                            <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$prodactiveCount}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="media">
+                        <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-orange tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="media-body">
+                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Unassigned</h6>
+                            <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{ count($jobdatas) - $prodactiveCount }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- row -->
+        </div>
+
+        <form method="GET" action="{{ route('products.index') }}">
+            <div data-label="codes List" class="df-example demo-table">
+                <div class="row row-sm  mg-b-10">
+                    <div class="col-sm-3">
+                        <input type="text" name="products_search" class="form-control" placeholder="Product">
+                    </div>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <select name="products_assigned" aria-label="Default select example" class="form-control">
+                            <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
+                            <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
+                        </select>
+                        @error('product_id')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+                        <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+                    </div>
+                </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-striped mg-b-0">
                 <thead>
                     <tr>
-                        <th class="text-left">Code</th>
-                        <th class="text-left">Plant</th>
-                        <th class="text-left">Production Line</th>
-                        <th class="text-center">Code Quantity</th>
-                        <th class="text-center">Printed</th>
-                        <th class="text-center">Verified</th>
-                        <th class="text-center">Status</th>
-                        <th class="text-center">Action</th>
+                        <th scope="col" class="text-left font-weight-bold">Code</th>
+                        <th scope="col" class="text-left font-weight-bold">Plant</th>
+                        <th scope="col" class="text-left font-weight-bold ">Production Line</th>
+                        <th scope="col" class="text-center font-weight-bold">Code Quantity</th>
+                        <th scope="col" class="text-center font-weight-bold">Printed</th>
+                        <th scope="col" class="text-center font-weight-bold">Verified</th>
+                        <th scope="col" class="text-center font-weight-bold">Status</th>
+                        <th scope="col" class="text-center font-weight-bold">Action</th>
+
+
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($jobdatas as $index=>$singledata)
+                    @forelse($jobdatas as $index=>$singledata)
                     <tr>
-                        <td class="  text-left">{{$singledata->code}}</td>
+                        <td class="tx-color-03 tx-normal text-center">{{$singledata->code}}</td>
                         <td class="tx-medium text-left">{{$singledata->productionplant->name ?? ""}}</td>
                         <td class="text-left">{{$singledata->productionLines->name ?? ""}}</td>
-                        <td class="text-center">{{$singledata->quantity}}</td>
-                        <td class="text-center tx-success">{{$singledata->printed}}</td>
-                        <td class="text-center">{{$singledata->verified}}</td>
+                        <td class="text-right">{{$singledata->quantity}}</td>
+                        <td class="text-center">
+                        {{$singledata->printed}}
+                        </td>
+                        <td class="text-center text-danger">
+                        {{$singledata->verified}}
+                        </td>
                         <td class="tx-medium text-center">
-                            @if($singledata->status == 'Assigned')
+                        @if($singledata->status == 'Assigned')
                             <span class="badge badge-success">{{$singledata->status}}</span>
                             @else
                             <span class="badge badge-danger">{{$singledata->status}}</span>
                             @endif
                         </td>
+                        </td>
                         <td class="text-center">
                             <div class="btn-group" role="group" aria-label="Actions">
-                                
-                                    <a href="{{ route('jobs.show', $singledata->id) }}" class="btn btn-outline-primary" type="button">
+                            <a href="{{ route('jobs.show', $singledata->id) }}" class="btn btn-outline-primary" type="button">
                                         <i class="fa fa-eye" style="color: #63E6BE; font-size:18px;"></i>
                                     </a>
                                     <a href="{{ route('jobs.edit', $singledata->id) }}" class="btn btn-outline-primary">
                                         <i class="fa fa-edit" style="color: #74C0FC; font-size:18px;"></i>
                                     </a>
-                                   
+
                             </div>
                         </td>
+
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
-            {{ $jobdatas->links('pagination::bootstrap-5') }}
-        </div>
+        </div><!-- table-responsive -->
+    </div><!-- card -->
+
+    <div class="mt-3">
+        {{ $jobdatas->links('pagination::bootstrap-5') }}
     </div>
 </div>
 </div>
