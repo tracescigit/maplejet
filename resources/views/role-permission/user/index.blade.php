@@ -87,70 +87,68 @@
 </style>
 
 <div class="content content-components">
-    <div class="main-panel" id="main-panel">
-        <div class="card-body content-wrapper" style="margin-top:50px;">
-            <div class="row">
-                <div class="col-md-12">
-                    @if(session('status'))
-                    <div id="statusMessage" class="alert alert-success">{{ session('status') }}</div>
-                    @endif
+    <div class="card pd-20 mg-t-10 col-10 mx-auto">
+        <div class="d-flex bg-gray-10">
+            <div class="pd-10 flex-grow-1">
+                <h4 id="section3" class="mg-b-10">User Data</h4>
+                <p class="mg-b-30">Use <code>Add New</code> page to Create <code>New</code> User .</p>
+            </div>
 
-                    <div class="card pd-20 mg-t-8 col-11 mx-auto">
-                        <h3 class="content-header mg-b-25">User Data</h3>
-                        <div class="d-flex justify-content-between align-items-start">
-                            <a href="{{ route('users.create') }}" class="btn btn-custom  ml-3 mb-2">
-                                <img src="{{ tracesciimg('icons8-create-16.png') }}" class="mr-1">{{ __('Add User') }}
-                            </a>
-                            <div class="form-group mx-sm-3 mb-2">
-                            <a href="{{ route('permissions.index') }}" class="btn btn-custom">Permissions</a>
-                            <a href="{{ route('roles.index') }}" class="btn btn-custom">Roles</a>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive"style="padding:40px;">
-    <table class="table table-dashboard mg-b-0">
-        <thead>
-            <tr>
-                <th class="text-left">Id</th>
-                <th class="text-left">Name</th>
-                <th class="text-left">Email</th>
-                <th class="text-left">Status</th>
-                <th class="text-center">Action</th> <!-- Adjusted to align center -->
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($users as $index=> $user)
-            @php
-            $page = $users->currentPage();
-            $perPage = $users->perPage();
-            $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-            @endphp
-            <tr>
-                <td class="text-left">{{ $incrementingIndex }}</td>
-                <td class="text-left">{{ $user->name }}</td>
-                <td class="text-left">{{ $user->email }}</td>
-                <td class="text-left">
-                    @if($user->status == 'Active')
-                    <span class="tx-10 badge badge-success">{{$user->status}}</span>
-                    @else
-                    <span class="tx-10 badge badge-danger">{{$user->status}}</span>
-                    @endif
-                </td>
-                <td class="text-center"> <!-- Adjusted to align center -->
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
-                    
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-    {{ $users->links('pagination::bootstrap-5') }}
-</div>
-
-                </div>
+            <div class="pd-10 mg-l-auto">
+                <a href="{{ route('users.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                <a href="{{ route('permissions.index') }}" class="btn btn-custom ">Permissions</a>
+                <a href="{{ route('roles.index') }}" class="btn btn-custom">Roles</a>
             </div>
         </div>
-    </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped mg-b-0">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-left font-weight-bold">ID</th>
+                        <th scope="col" class="text-left font-weight-bold"> Name</th>
+                        <th scope="col" class="text-left font-weight-bold">Email</th>
+                        <th scope="col" class="text-left font-weight-bold">Status</th>
+                        <th scope="col" class="text-center font-weight-bold">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($users as $index=> $user)
+                    @php
+                    $page = $users->currentPage();
+                    $perPage = $users->perPage();
+                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                    @endphp
+                    <tr>
+                        <td class="tx-color-03 tx-normal text-left">{{ $incrementingIndex }}</td>
+                        <td class="tx-medium text-left">{{ $user->name }}</td>
+
+                        <td class="text-left ">{{ $user->email }}</td>
+
+                        <td class="text-left ">@if($user->status == 'Active')
+                            <span class="tx-10 badge badge-success">{{$user->status}}</span>
+                            @else
+                            <span class="tx-10 badge badge-danger">{{$user->status}}</span>
+                            @endif
+                        </td>
+                        <td class="text-center">
+                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div><!-- table-responsive -->
+
+
+        <div class="mt-3">
+            {{ $users->links('pagination::bootstrap-5') }}
+        </div>
+    </div><!-- card -->
 </div>
 
 <!-- Modal -->
@@ -188,25 +186,25 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script>
-    function openModal(id,name,email,roles) {
-       
+    function openModal(id, name, email, roles) {
+
         var html = '<tr>' +
             '<td><strong>ID:</strong></td>' +
-            '<td>' + id+'</td>' +
+            '<td>' + id + '</td>' +
             '</tr>' +
             '<tr>' +
             '<td><strong>NAME:</strong></td>' +
-            '<td>' + name  +'</td>' +
+            '<td>' + name + '</td>' +
             '</tr>' +
             '<tr>' +
             '<td><strong>EMAIL:</strong></td>' +
-            '<td>' +email+'</td>' +
+            '<td>' + email + '</td>' +
             '</tr>' +
-            '<tr>'+
+            '<tr>' +
             '<td><strong>ROLES:</strong></td>'
-            '<td>'+ roles +'</td>'
-            '</tr';
-            
+        '<td>' + roles + '</td>'
+        '</tr';
+
         $('#table-body').html(html);
         $('#myModal').modal('show');
     }

@@ -9,33 +9,22 @@
   </div><!-- navbar-brand -->
   <div class="navbar-right">
     <div class="dropdown dropdown-profile">
-        <a href="#" class="dropdown-link" data-toggle="dropdown" aria-expanded="false">
-            <div class="avatar avatar-sm">
-                <span class="avatar-initial rounded-circle">kp</span>
-            </div>
-        </a><!-- dropdown-link -->
-        <div class="dropdown-menu dropdown-menu-right tx-13 bg-gray-100">
-            <div class="avatar mg-b-15">
-                <span class="avatar-initial rounded-circle">kp</span>
-            </div>
-            <h6 class="tx-semibold mg-b-5">Katherine Pechon</h6>
-            <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
+      <a href="" class="dropdown-link" data-toggle="dropdown" data-display="static">
+        <div class="avatar avatar-sm"><span class="avatar-initial rounded-circle">kp</span></div>
+      </a><!-- dropdown-link -->
+      <div class="dropdown-menu dropdown-menu-right tx-13 bg-gray-100">
+        <div class="avatar mg-b-15"><span class="avatar-initial rounded-circle">kp</span></div>
+        <h6 class="tx-semibold mg-b-5">{{Auth::user()->name??""}}</h6>
+        <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
 
-            <a href="page-profile-view.html" class="dropdown-item">
-                <i data-feather="user"></i> View Profile
-            </a>
-            <a href="#" class="dropdown-item">
-                <i data-feather="edit-3"></i> Change Password
-            </a>
+        <a href="page-profile-view.html" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
+        <a href="" class="dropdown-item"><i data-feather="edit-3"></i>Change Password</a>
 
-            <div class="dropdown-divider"></div>
-
-            <a href="page-signin.html" class="dropdown-item">
-                <i data-feather="log-out"></i> Sign Out
-            </a>
-        </div><!-- dropdown-menu -->
+        <div class="dropdown-divider"></div>
+        <a href="page-signin.html" class="dropdown-item"><i data-feather="log-out"></i>Sign Out</a>
+      </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
-</div><!-- navbar-right -->
+
 
     <div class="navbar-right">
 
@@ -75,8 +64,9 @@
         <ul>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('qrcodes.*') ? 'active' : '' }}"><a href="{{route('qrcodes.index')}}"><span>Qr-code</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{ Route::is('bulkuploads.*') ? 'active' : '' }}"><a href="{{route('bulkuploads.index')}}"> <span>Bulk Uploads</span></a></li>
-          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('reportlog.*') ? 'active' : '' }}"><a href="{{route('reportlog.index')}}"> <span>Consumer Feedback</span></a></li>
-          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('scanhistories.*') ? 'active' : '' }}"><a href="{{route('scanhistories.index')}}"><span>Scan Histories</span></a></li>
+          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  "><a href="#"> <span>System Alerts</span></a></li>
+          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('reportlog.*') ? 'active' : '' }}"><a href="{{route('reportlog.index')}}"> <span>Consumer Alerts</span></a></li>
+          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('scanhistories.*') ? 'active' : '' }}"><a href="{{route('scanhistories.index')}}"><span>Scan History</span></a></li>
         </ul>
       </li>
       @endif
