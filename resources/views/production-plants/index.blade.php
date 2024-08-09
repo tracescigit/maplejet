@@ -121,8 +121,8 @@
     </div>
 </div>
 
-<div class="wrapper">
-    <div class="main-panel" id="main-panel">
+
+    
         <div class="row">
             <div class="col-md-12">
                 @if(session('status'))
@@ -133,7 +133,7 @@
 
 
 
-            <div class="card pd-20 mg-t-10 col-10 mx-auto">
+            <div class="container pd-20 mg-t-10 col-10 mx-auto">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10">Create Production-Plants</h4>

@@ -91,7 +91,7 @@
 
 
 
-            <div class="card pd-20 mg-t-10 col-10 mx-auto">
+            <div class="container pd-20 mg-t-10 col-10 mx-auto">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10">Create Qrcodes</h4>
@@ -193,7 +193,7 @@
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                                 <input type="text" name="qrcode_search" class="form-control" placeholder="code">
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-5">
+                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                                 <select name="products_assigned" aria-label="Default select example" class="form-control">
                                     <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
                                     <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
