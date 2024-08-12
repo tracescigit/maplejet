@@ -93,7 +93,7 @@
 @endif
 
 <div class="content content-components">
-    <div class="card pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container pd-20 mg-t-10 col-10 mx-auto">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10">Userlog</h4>
@@ -110,7 +110,7 @@
 
 
         <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
-            <div data-label="logs" class="df-example demo-table">
+            <div data-label="Search" class="df-example demo-table">
                 <div class="row row-sm  mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Select User: </label>
@@ -133,74 +133,79 @@
                         <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
                     </div>
                 </div>
+            </div>
 
         </form>
+        <div data-label="Logs" class="df-example demo-table mg-t-20">
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center font-weight-bold">ID</th>
+                            <th scope="col" class="text-left font-weight-bold">Module Name</th>
+                            <th scope="col" class="text-left font-weight-bold">Details</th>
+                            <th scope="col" class="text-left font-weight-bold">UserId</th>
+                            <th scope="col" class="text-center font-weight-bold">Date & Time</th>
+                            <th scope="col" class="text-center font-weight-bold">View Details</th>
 
-        <div class="table-responsive">
-            <table class="table table-striped mg-b-0">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center font-weight-bold">ID</th>
-                        <th scope="col" class="text-left font-weight-bold">Module Name</th>
-                        <th scope="col" class="text-left font-weight-bold">Details</th>
-                        <th scope="col" class="text-left font-weight-bold">UserId</th>
-                        <th scope="col" class="text-center font-weight-bold">Date & Time</th>
-                        <th scope="col" class="text-center font-weight-bold">View Details</th>
 
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($userlog as $index=>$singledata)
-                    @php
-                    $page = $userlog->currentPage();
-                    $perPage = $userlog->perPage();
-                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                    @endphp
-                    <tr>
-                        <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-                        <td class="tx-medium text-left">{{$singledata->log_name}}</td>
-                        <td class="tx-medium text-left"> {{ \Illuminate\Support\Str::limit($singledata->description, 30, '...') }}</td>
-                        <td class="text-left"> {{$singledata->user->name??""}}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($userlog as $index=>$singledata)
                         @php
-                        $dateTime = new DateTime($singledata->created_at);
-                        $formattedDate = $dateTime->format('d M Y');
-                        $formattedTime = $dateTime->format('h:i A');
+                        $page = $userlog->currentPage();
+                        $perPage = $userlog->perPage();
+                        $incrementingIndex = ($page - 1) * $perPage + $index + 1;
                         @endphp
-                        <td class="text-center"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i A') }}</td>
-                        <td class="tx-medium text-center">
-                            <a type="button" class="btn btn-outline-primary " href="{{route('userlog.show',$singledata->id)}}">View Details</a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header" style="background-color:#f5f5ef;">
-                            <h5 class="modal-title">User Details Log</h5>
-                            <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+                        <tr>
+                            <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                            <td class="tx-medium text-left">{{$singledata->log_name}}</td>
+                            <td class="tx-medium text-left"> {{ \Illuminate\Support\Str::limit($singledata->description, 30, '...') }}</td>
+                            <td class="text-left"> {{$singledata->user->name??""}}</td>
+                            @php
+                            $dateTime = new DateTime($singledata->created_at);
+                            $formattedDate = $dateTime->format('d M Y');
+                            $formattedTime = $dateTime->format('h:i A');
+                            @endphp
+                            <td class="text-center"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i A') }}</td>
+                            <td class="tx-medium text-center">
+                                <a type="button" class="btn btn-outline-primary " href="{{route('userlog.show',$singledata->id)}}">View Details</a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="p-3" id="modal-card-body">
+                            <div class="modal-header" style="background-color:#f5f5ef;">
+                                <h5 class="modal-title">User Details Log</h5>
+                                <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-content">
+                                <div class="p-3" id="modal-card-body">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div><!-- table-responsive -->
-    </div><!-- card -->
 
-    <div class="mt-3">
+            </div><!-- table-responsive -->
+
+        </div>
+        <div class="mt-3">
         {{ $userlog->links('pagination::bootstrap-5') }}
     </div>
+    </div><!-- card -->
+
+    
 
 </div>
 

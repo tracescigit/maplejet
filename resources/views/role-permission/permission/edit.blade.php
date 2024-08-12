@@ -20,7 +20,7 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-8">
-        <div class="card pd-20 mg-t-8 col-11 mx-auto">
+        <div class="container pd-20 mg-t-8 col-11 mx-auto">
                 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">

@@ -7,12 +7,12 @@
             @if(session('status'))
             <div id="statusMessage" class="alert alert-success">{{session('status')}}</div>
             @endif
-            <div class="card">
-                <div class="card-header">
-                    <h6 style="margin:auto;">Role :{{$role->name}}
-                        <a href="{{route('roles.index')}}" class="btn btn-danger float-right mr-4">Back</a>
+            <div class="container">
+                <div class="pd-8 mg-l-auto">
+                    <h6 style="margin:auto;font-size:larger;font-weight:bolder;">Role :&nbsp;&nbsp;{{$role->name}}
                     </h6>
                 </div>
+                <hr>
                 <div class="card-body">
                     <!-- <form action="{{route('manageroles',$role->id)}}" method="Post">
                         @csrf
@@ -48,10 +48,10 @@
                                 <table class="table table-striped custom-table">
                                     <thead>
                                         <tr>
-                                            <th class="fw-bolder">Module Permission</th>
-                                            <th class="text-center fw-bolder">View</th>
-                                            <th class="text-center fw-bolder">Create</th>
-                                            <th class="text-center fw-bolder">Update</th>
+                                            <th class="font-weight-bold">Module Permission</th>
+                                            <th class="text-center font-weight-bold">View</th>
+                                            <th class="text-center font-weight-bold">Create</th>
+                                            <th class="text-center font-weight-bold">Update</th>
 
                                         </tr>
                                     </thead>
@@ -59,7 +59,7 @@
                                         @foreach($uniquePermissionNames as $permission)
                                         <tr>
                                             <td>
-                                                <i class="ti-folder">{{ucfirst($permission)}}</i>
+                                                <span class="ti-folder">{{ucfirst($permission)}}</span>
                                                 <input type="hidden" value="" name="module_id[]">
                                             </td>
                                             <td class="text-center">
@@ -82,16 +82,16 @@
                             </div>
 
                             <div class="form-group mt-4">
-                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>Update</button>
-                            <a href="{{ route('roles.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
-                        </div>
+                                <button type="submit" class="btn btn-custom float-right">Update</button>
+                                <a href="{{ route('roles.index') }}" class="btn btn-secondary float-left">Back</a>
                             </div>
-
-                        </form>
                     </div>
+
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

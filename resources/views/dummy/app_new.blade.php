@@ -38,7 +38,9 @@
     }
 
     .btn-custom:hover {
+      transform: scale(1.2);
       background: #2d6ac2 !important;
+      box-shadow: 0 0 30px grey;
       color: white !important;
     }
 
@@ -75,44 +77,61 @@
       display: block;
       /* Show submenu when 'show' class is added to parent <li> */
     }
-    .justify-content-center{
-      margin-bottom:30px;
-    }
-    .btn-outline-primary:hover {
-    background-color: white;
-    border-color: blue; /* Optional: Change the border color to match the background */
-    color: white; /* Optional: Change the text color to ensure it's visible on the red background */
-  }
-  .btn-custom,
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px; /* Adjust padding as needed */
-    font-size: 16px; /* Make sure the font size is consistent */
-  }
-  
-  .btn-custom i,
-  .btn-secondary i {
-    margin-right: 8px; /* Space between icon and text */
-  }
-  
-  .btn-custom,
-  .btn-secondary {
-    height: 40px; /* Set a fixed height to ensure consistency */
-    line-height: 20px; /* Adjust line-height to match text height */
-  }
 
-  .btn-custom i,
-  .btn-secondary i {
-    vertical-align: middle; /* Align icons vertically in the center */
-  }
+    .justify-content-center {
+      margin-bottom: 30px;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: white;
+      border-color: blue;
+      /* Optional: Change the border color to match the background */
+      color: white;
+      /* Optional: Change the text color to ensure it's visible on the red background */
+    }
+
+    .btn-custom,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      font-size: 16px;
+      /* Make sure the font size is consistent */
+    }
+
+    .btn-custom i,
+    .btn-secondary i {
+      margin-right: 8px;
+      /* Space between icon and text */
+    }
+
+    .btn-custom,
+    .btn-secondary {
+      height: 40px;
+      /* Set a fixed height to ensure consistency */
+      line-height: 20px;
+      /* Adjust line-height to match text height */
+    }
+
+    .btn-custom i,
+    .btn-secondary i {
+      vertical-align: middle;
+      /* Align icons vertically in the center */
+    }
+    .profile{
+      padding-top: 5px !important;
+    }
+    .profile_icon{
+      padding:0px !important;
+    }
   </style>
 
 </head>
 
 <body>
 
-  
+
   @if(!Route::is("password.request") && !Route::is("login") && !Route::is("logout1"))
   @include('dummy.navbar_new')
   @include('dummy.top_navbar_new')
@@ -163,6 +182,10 @@
   <script src="{{url('/assets/js/js_new/js.cookie.js')}}"></script>
   <script src="{{url('/assets/js/js_new/dashforge.settings.js')}}"></script>
   <script>
+     function closeProfile() {
+        var profileElement = document.getElementById('open_profile');
+        profileElement.style.display = 'none';
+      }
     $(function() {
       'use strict'
 
@@ -517,6 +540,17 @@
       parentLi.classList.toggle('show');
       parentLi.classList.toggle('active');
       // Find the submenu <ul> inside the parent <li>
+    }
+
+    function openProfile() {
+      var profileElement = document.getElementById('open_profile');
+      if (profileElement.style.display === 'none' || profileElement.style.display === '') {
+        profileElement.style.display = 'block';
+      } else {
+        profileElement.style.display = 'none';
+      }
+
+     
     }
   </script>
   @yield('js')

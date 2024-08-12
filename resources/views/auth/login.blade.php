@@ -55,7 +55,7 @@
                                     @enderror
                             </div>
 
-                            <button class="btn btn-brand-02 btn-block btn-custom">Sign In</button>
+                            <button class="btn btn-brand-02 btn-block btn-custom justify-content-center">Sign In</button>
 
                             
                            

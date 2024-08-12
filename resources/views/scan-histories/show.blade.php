@@ -22,9 +22,9 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="container pd-20 mg-t-10 col-11 mx-auto">
-            <div class="d-flex bg-gray-10">
+                <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Scan Details</h4>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Scan Details</h4>
                         <p class="mg-b-30">Use this page to <code>View</code> Scan Details.</p>
                         <hr>
                     </div>
@@ -67,6 +67,10 @@
                                 <p>{{$scanhistories->created_at}}</p>
                                 <hr>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <a href="{{ route('scanhistories.index') }}" class="btn btn-secondary float-left">
+                                Back</a>
                         </div>
 
                     </div>

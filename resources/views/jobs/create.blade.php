@@ -26,6 +26,7 @@
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10">Add Job</h4>
                         <p class="mg-b-30">Use this page to add <code>NEW</code> Job.</p>
+                        <hr>
                     </div>
                 </div>
                 <div class="card-body">
@@ -94,10 +95,10 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ route('jobs.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>
+                                    <a href="{{ route('jobs.index') }}" class="btn btn-secondary float-left">
                                         Back
                                     </a>
-                                    <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>
+                                    <button type="submit" class="btn btn-custom float-right">
                                         Submit
                                     </button>
                                 </div>

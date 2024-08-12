@@ -21,7 +21,7 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
+            <div class="container pd-20 mg-t-10 col-11 mx-auto">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10">View Details</h4>
@@ -79,6 +79,10 @@
                                 <p>{!!$reportlog->description!!}</p>
                                 <hr>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                        <a href="{{ route('reportlog.index') }}" class="btn btn-secondary float-left">
+                        Back</a>
                         </div>
                     </div>
                 </div>

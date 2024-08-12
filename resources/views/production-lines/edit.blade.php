@@ -33,12 +33,12 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <div class="card pd-20 mg-t-8 col-11 mx-auto">
+            <div class="container pd-20 mg-t-8 col-11 mx-auto">
               
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Edit Prod.line</h4>
-                        <p class="mg-b-30">Use this page to <code>Edit</code> prod.line</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Edit Production line</h4>
+                        <p class="mg-b-30">Use this page to <code>Edit</code> production line</p>
                         <hr>
                     </div>
 
@@ -179,8 +179,8 @@
                             </div>
                         </div>
                         <div class="col-sm-12 mt-3">
-                            <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i> Update</button>
-                            <a href="{{ route('production-lines.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i> Back</a>
+                            <button type="submit" class="btn btn-custom float-right"> Update</button>
+                            <a href="{{ route('production-lines.index') }}" class="btn btn-secondary float-left"> Back</a>
                         </div>
                 </div>
                 </form>

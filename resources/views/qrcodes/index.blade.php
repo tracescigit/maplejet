@@ -106,11 +106,11 @@
                             <!-- Bulk Action Form -->
                             <form id="importForm" action="{{ route('batches.import') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <button onclick="showmodal()" type="button" class="btn btn-primary">
+                                <button onclick="showmodal()" type="button" class="btn btn-custom">
 
                                     Bulk Action
                                 </button>
-                                <a href="{{ route('bulkuploads.index') }}" class="btn btn-primary"> Bulk Uploads</a>
+                                <a href="{{ route('bulkuploads.index') }}" class="btn btn-custom"> Bulk Uploads</a>
                                 <input type="file" id="fileInput" name="file" style="display: none;" onchange="submitForm()">
                                 <button type="submit" style="display: none;">Import</button>
                             </form>
@@ -243,23 +243,23 @@
 
 
                                             @if($singledata->status == 'Active')
-                                            <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
-                                                <i class="fas fa-thumbs-up"></i> Active
+                                            <button class="btn btn-sm btn-outline-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
+                                                <i class="fas fa-thumbs-up"></i>
                                             </button>
                                             <input type="hidden" name="status_to_change" value="Inactive">
                                             @else
-                                            <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
-                                                <i class="fas fa-thumbs-down"></i> Inactive
+                                            <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
+                                                <i class="fas fa-thumbs-down"></i>
                                             </button>
                                             <input type="hidden" name="status_to_change" value="Active">
                                             @endif
                                             @if(!empty($singledata->product->name))
-                                            <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-link"></i> Link
+                                            <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-link"></i>
                                             </a>
                                             @else
-                                            <button class="btn btn-sm btn-primary" disabled>
-                                                <i class="fas fa-link"></i> Link
+                                            <button class="btn btn-sm  btn-outline-primary" disabled>
+                                                <i class="fas fa-link"></i> 
                                             </button>
                                             @endif
                                         </div>
@@ -321,10 +321,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
-                                <i class="fas fa-times"></i> Close
+                                 Close
                             </button>
                             <button class="btn btn-md btn-primary float-right">
-                                <i class="fas fa-download"></i> Submit
+                                Submit
                             </button>
                         </div>
                     </form>

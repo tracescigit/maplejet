@@ -237,8 +237,8 @@
 
                             <div class="col-12">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i> Update</button>
-                                    <a href="{{ route('products.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i> Back</a>
+                                    <button type="submit" class="btn btn-custom float-right"> Update</button>
+                                    <a href="{{ route('products.index') }}" class="btn btn-secondary float-left"> Back</a>
                                 </div>
                             </div>
                         </div>
