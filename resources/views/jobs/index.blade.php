@@ -143,8 +143,7 @@
 
             <div class="pd-10 mg-l-auto">
                 <a href="{{ route('jobs.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
-                <button id="downloadcsvbtn" onclick="downloadcsv()" class="btn btn-custom" type="button">
-                    <img src="{{ tracesciimg('icons8-upload-to-cloud-64.png') }}" style="max-width:18px;">Download CSV
+                <button id="downloadcsvbtn" onclick="downloadcsv()" class="btn btn-custom" type="button">Download CSV
                 </button>
             </div>
         </div>

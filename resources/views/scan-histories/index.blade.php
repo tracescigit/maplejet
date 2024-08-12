@@ -108,9 +108,11 @@
                 <h4 id="section3" class="mg-b-10">Scan History</h4>
                 <p class="mg-b-30">Use this page to <code>View</code> Scan History.</p>
             </div>
+
+            <div class="pd-10 mg-l-auto">
+                <button type="button" class="btn btn-custom"><i data-feather="download"></i> Export</button>
+            </div>
         </div>
-
-
 
         <div data-label="Stats" class="df-example mg-b-30">
             <div class="row row-xs">
@@ -201,25 +203,19 @@
                             placeholder="Company"
                             value="{{ old('company_search', request('company_search')) }}">
                     </div>
-                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                        <button type="submit" class="btn btn-secondary">
-                            <i data-feather="search"></i>
-                        </button>
-                        <button type="button" class="btn btn-secondary">
-                            <i data-feather="download"></i> Export
-                        </button>
+                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                        <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
                     </div>
                 </div>
             </div>
         </form>
-
-
+   
         <div class="table-responsive">
             <table class="table table-striped mg-b-0">
                 <thead>
                     <tr>
                         <th scope="col" class="text-center font-weight-bold">ID</th>
-                        <th scope="col" class="text-center font-weight-bold">Product</th>
+                        <th scope="col" class="text-left font-weight-bold">Product</th>
                         <th scope="col" class="text-left font-weight-bold">Serial No</th>
                         <th scope="col" class="text-left font-weight-bold">IP Address</th>
                         <th scope="col" class="text-center font-weight-bold">Genuine</th>
@@ -252,6 +248,19 @@
                         @else
                         {{ 'Suspicious' }}
                         @endif
+                        <td class="text-center">
+                            @if ($product->genuine == 1)
+                            <!-- Genuine product -->
+                            <span class="badge bg-success" style="font-size: 15px;">Genuine</span>
+                            @elseif ($product->genuine == 2)
+                            <!-- Suspicious product -->
+                            <span class="badge bg-warning"style="font-size: 15px;">Suspicious</span>
+                            @else
+                            <!-- Fake product -->
+                            <span class="badge bg-danger"style="font-size: 15px;">Fake</span>
+                            @endif
+                        </td>
+
                         <td class="text-center">{{$product->qr_code}}</td>
                         <td class="text-center">{{$formattedDateTime}}</td>
                         <td class="text-center">
