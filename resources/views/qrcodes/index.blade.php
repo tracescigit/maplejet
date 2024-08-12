@@ -187,25 +187,38 @@
 
                 <form method="GET" action="{{ route('qrcodes.index') }}">
                     <div data-label="codes List" class="df-example demo-table">
-                        <div class="row row-sm  mg-b-10">
+                        <div class="row row-sm mg-b-10">
                             <div class="col-sm-3">
-                                <input type="text" name="products_search" class="form-control" placeholder="Product">
+                                <input type="text"
+                                    name="products_search"
+                                    class="form-control"
+                                    placeholder="Product"
+                                    value="{{ old('products_search', request('products_search')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                                <input type="text" name="qrcode_search" class="form-control" placeholder="code">
+                                <input type="text"
+                                    name="qrcode_search"
+                                    class="form-control"
+                                    placeholder="code"
+                                    value="{{ old('qrcode_search', request('qrcode_search')) }}">
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                                <select name="products_assigned" aria-label="Default select example" class="form-control">
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <select name="products_assigned"
+                                    aria-label="Default select example"
+                                    class="form-control">
+                                    <option value="">Select Status</option>
                                     <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
                                     <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                                 <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
                                 <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                             </div>
                         </div>
+                    </div>
                 </form>
+
 
 
                 <div class="table-responsive">

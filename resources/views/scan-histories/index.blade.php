@@ -179,23 +179,40 @@
 
         <form method="GET" action="{{ route('products.index') }}">
             <div data-label="Product List" class="df-example demo-table">
-                <div class="row row-sm  mg-b-10">
+                <div class="row row-sm mg-b-10">
                     <div class="col-sm-3">
-                        <input type="text" name="products_search" class="form-control" placeholder="Product">
+                        <input type="text"
+                            name="products_search"
+                            class="form-control"
+                            placeholder="Product"
+                            value="{{ old('products_search', request('products_search')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                        <input type="text" name="brands_search" class="form-control" placeholder="Brand">
+                        <input type="text"
+                            name="brands_search"
+                            class="form-control"
+                            placeholder="Brand"
+                            value="{{ old('brands_search', request('brands_search')) }}">
                     </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                        <input type="text" name="company_search" class="form-control" placeholder="company">
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                        <input type="text"
+                            name="company_search"
+                            class="form-control"
+                            placeholder="Company"
+                            value="{{ old('company_search', request('company_search')) }}">
                     </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                        <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
-                        <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button>
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                        <button type="submit" class="btn btn-secondary">
+                            <i data-feather="search"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                            <i data-feather="download"></i> Export
+                        </button>
                     </div>
                 </div>
             </div>
         </form>
+
 
         <div class="table-responsive">
             <table class="table table-striped mg-b-0">

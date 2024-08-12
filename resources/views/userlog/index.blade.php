@@ -110,31 +110,44 @@
 
 
         <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
-            <div data-label="logs" class="df-example demo-table">
-                <div class="row row-sm  mg-b-10">
-                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                        <label>Select User: </label>
-                        <select class="form-control mr-2" name="user">
-                            @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                        <label>Start Date: </label>
-                        <input type="date" name="start_date" class="form-control">
-                    </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                        <label>End Date: </label>
-                        <input type="date" name="end_date" class="form-control">
-                    </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                        <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
-                        <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
-                    </div>
-                </div>
+    <div data-label="logs" class="df-example demo-table">
+        <div class="row row-sm mg-b-10">
+            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                <label>Select User: </label>
+                <select class="form-control mr-2" name="user">
+                    <option value="">Select a user</option> <!-- Optional: Default empty option -->
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}"
+                            {{ old('user', request('user')) == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                <label>Start Date: </label>
+                <input type="date" 
+                       name="start_date" 
+                       class="form-control"
+                       value="{{ old('start_date', request('start_date')) }}">
+            </div>
+            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                <label>End Date: </label>
+                <input type="date" 
+                       name="end_date" 
+                       class="form-control"
+                       value="{{ old('end_date', request('end_date')) }}">
+            </div>
+            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+                <button type="submit" class="btn btn-secondary" style="margin-top: 28px;">
+                    <i data-feather="search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
 
-        </form>
 
         <div class="table-responsive">
             <table class="table table-striped mg-b-0">
