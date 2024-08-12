@@ -87,7 +87,7 @@
 </style>
 
 <div class="content content-components">
-    <div class="card pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container pd-20 mg-t-10 col-10 mx-auto">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10">User Data</h4>
@@ -100,7 +100,7 @@
                 <a href="{{ route('roles.index') }}" class="btn btn-custom">Roles</a>
             </div>
         </div>
-
+        <div data-label="Users" class="df-example demo-table">
         <div class="table-responsive">
             <table class="table table-striped mg-b-0">
                 <thead>
@@ -143,6 +143,7 @@
                 </tbody>
             </table>
         </div><!-- table-responsive -->
+        </div>
 
 
         <div class="mt-3">

@@ -22,20 +22,21 @@
 </style>
 
 
-<div class="content content-components">    
+<div class="content content-components">
+    <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
-               
+            <div class="Container pd-20 mg-t-10 col-11 mx-auto">
+
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Batch Details</h4>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Batch Details</h4>
                         <p class="mg-b-30">Use this page to <code>View</code> Batch details.</p>
                         <hr>
                     </div>
 
 
                 </div>
-                
+
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
@@ -108,14 +109,15 @@
 
                             </div>
                         </div>
-                     
+
                     </div>
                     <div class="form-group mt-4">
-                            <a href="{{ route('batches.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
-                        </div>
+                        <a href="{{ route('batches.index') }}" class="btn btn-secondary float-left">Back</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 @endsection

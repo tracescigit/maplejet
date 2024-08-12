@@ -49,11 +49,11 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
+            <div class="container pd-20 mg-t-10 col-11 mx-auto">
                 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new Qrcode</h4>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Add new Qrcode</h4>
                         <p class="mg-b-30">Use this page to add <code>NEW</code> Qrcode.</p>
                         <hr>
                     </div>
@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <label class="floating-label">Upload File: <span style="color: red;">*</span></label>
                                     <input type="file" id="file" name="file" class="form-control" onchange="displayFileName()">
-                                    <label for="file" class="floating-label btn-custom mt-2">Upload File</label>
+                                    <label for="file" class="floating-label btn-custom mt-4">Upload File</label>
                                     <span id="fileNameContainer" class="ml-2"></span> <!-- Inline span for file name -->
                                     <span class="text-danger">Please upload a file of type: .csv, .xls, .xlsx.</span>
                                     @error('file')
@@ -125,10 +125,10 @@
                                     Back
                                 </a>
 
-                                <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>
+                                <button type="submit" class="btn btn-custom float-right">
                                     Submit
                                 </button>
-                                <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-3  float-right" style="margin-top: 2px;"><i class="fas fa-download"></i>
+                                <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-2 float-right" >
                                     Download Sample
                                 </a>
                             </div>

@@ -128,6 +128,7 @@
 
       <div class="pd-10 mg-l-auto">
         <a href="{{ route('products.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+        <button type="button" class="btn btn-custom"><i data-feather="download"></i> Export</button>
       </div>
     </div>
 
@@ -221,13 +222,9 @@
               placeholder="Search By Company"
               value="{{ old('company_search', request('company_search')) }}">
           </div>
-          <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-            <button type="submit" class="btn btn-secondary">
-              <i data-feather="search"></i>
-            </button>
-            <button type="button" class="btn btn-secondary">
-              <i data-feather="download"></i> Export
-            </button>
+          <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+            <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+           
           </div>
         </div>
       </div>

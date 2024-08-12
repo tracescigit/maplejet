@@ -241,13 +241,7 @@
                         <td class="tx-medium text-left">{{$product->product}}</td>
                         <td class="tx-medium text-left">{{$product->batch}}</td>
                         <td class="text-left">{{$product->ip_address}}</td>
-                        @if($product->genuine == 1)
-                        {{ 'Genuine' }}
-                        @elseif($product->genuine == 0)
-                        {{ 'Fake' }}
-                        @else
-                        {{ 'Suspicious' }}
-                        @endif
+                        
                         <td class="text-center">
                             @if ($product->genuine == 1)
                             <!-- Genuine product -->

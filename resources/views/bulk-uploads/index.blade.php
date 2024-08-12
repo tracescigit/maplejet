@@ -72,21 +72,35 @@
         color: white;
     }
 </style>
+
+@if(session('status'))
+<div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
+@endif
+<div id="statusMessage1" class="alert alert-success mt-2" style="display: none; background-color:#34eb86;"></div>
+<div id="statusMessage2" class="alert alert-danger mt-2" style="display: none; background-color:#34eb86;"></div>
+
 <div class="content content-components">
-<div class="wrapper">
-    <div class="main-panel" id="main-panel">
-        @if(session('status'))
-        <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
-        @endif
-        <div id="statusMessage1" class="alert alert-success mt-2" style="display: none; background-color:#34eb86;"></div>
-        <div id="statusMessage2" class="alert alert-danger mt-2" style="display: none; background-color:#34eb86;"></div>
+    <div class="container pd-20 mg-t-10 col-11 mx-auto">
+        <div data-label="Bulk-Uploads" class="df-example demo-table">
+            <div class="d-flex bg-gray-10">
+                <div class="pd-10 flex-grow-1">
+                    <h4 id="section3" class="mg-b-10">Bulk-Uploads</h4>
+                    <p class="mg-b-30">Use this page to add <code>NEW</code> Batch.</p>
+                </div>
 
-        <div class="card pd-20 mg-t-10 col-11 mx-auto">
+                <div class="pd-10 mg-l-auto">
+                   <button type=" button" class="btn btn-custom btn-icon" data-toggle="modal" data-target="#bulkActionModal"><i data-feather="plus-circle"></i>Assign Product</button></a>
+                </div>
+            </div>
 
-            <div class="content-header mg-b-25">
+
+
+
+
+            <!-- <div class="content-header mg-b-25">
                 <h3>Bulk-Uploads</h3>
                 <button type="button" class="btn btn-custom float-right" data-toggle="modal" data-target="#bulkActionModal">Assign Product </button>
-            </div>
+            </div> -->
 
 
 
@@ -114,7 +128,7 @@
                             </div>
                             <div class="col-sm-12 mt-3">
                                 <button class="btn btn-custom" type="submit">
-                                    <img src="{{ tracesciimg('icons8-download-50.png') }}" style="max-width: 17px;"> Submit
+                                    Submit
                                 </button>
                                 <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-md btn-primary ml-3">
                                     Download Sample
@@ -159,7 +173,8 @@
         </div>
     </div>
 </div>
-</div>
+
+
 
 <div class="modal fade" id="bulkActionModal" tabindex="-1" role="dialog" aria-labelledby="bulkTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -251,10 +266,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        <img src="{{ tracesciimg('icons8-close-16.png') }}" style="max-width: 17px;"> Close
+                        Close
                     </button>
-                    <button class="btn btn-md btn-primary">
-                        <img src="{{ tracesciimg('icons8-download-50.png') }}" style="max-width: 17px;"> Submit
+                    <button class="btn btn-primary">
+                         Submit
                     </button>
                 </div>
             </form>
@@ -307,17 +322,17 @@
                     if (response.startcodeerror) {
                         $('text-danger').html('');
                         $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.startcodeerror + '</div>');
-                    }else if(response.status=='GTIN number not provided while creating product'){
+                    } else if (response.status == 'GTIN number not provided while creating product') {
                         $('#statusMessage2').html(response.status);
                         $('#statusMessage2').css('display', 'block');
                         closemodal();
-                    } else if(response.producterror=='Code is not assigned Product and Batch. Please assign Product and Batch First.'){
+                    } else if (response.producterror == 'Code is not assigned Product and Batch. Please assign Product and Batch First.') {
                         $('text-danger').html('');
                         $('input[name="start_code"]').closest('.form-group').append('<div class="text-danger">' + response.producterror + '</div>');
                         setTimeout(function() {
                             closemodal();
-                            }, 2000);
-                    }else {
+                        }, 2000);
+                    } else {
                         $('#bulkActionModal').modal('hide');
                         if (response.status) {
                             $('#statusMessage1').html(response.status);

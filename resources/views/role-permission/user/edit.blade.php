@@ -21,7 +21,7 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card pd-20 mg-t-8 col-11 mx-auto">
+            <div class="container pd-20 mg-t-8 col-11 mx-auto">
                
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
@@ -76,8 +76,8 @@
                         </div>
 
                         <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>Update</button>
-                        <a href="{{ route('roles.index') }}}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>Back</a>
+                        <button type="submit" class="btn btn-custom float-right">Update</button>
+                        <a href="{{ route('users.index') }}}" class="btn btn-secondary float-left">Back</a>
                         </div>
                     </form>
                 </div>
