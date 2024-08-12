@@ -67,18 +67,19 @@
 <!-- Page content -->
 <div class="wrapper">
     <div class="main-panel" id="main-panel">
-
         <!-- Status messages -->
         <div class="row">
             <div class="col-md-12">
-                @if(session('status'))
-                <div id="statusMessage" class="alert alert-success" style="background-color:#34eb86">{{session('status')}}</div>
-
-                <!-- <div id="errorMessage" class="alert alert-danger" style="background-color:#eb3434">
+                @if (session('status'))
+                <div class="alert alert-success">
                     {{ session('status') }}
-                </div> -->
+                </div>
                 @endif
-
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    {{ $errors->first() }}
+                </div>
+                @endif
                 <div id="statusMessage1" class="alert alert-success" style="background-color:#34eb86; display:none;">
                     <!-- This content will be set dynamically by JavaScript -->
                 </div>
@@ -95,7 +96,7 @@
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10">Create Qrcodes</h4>
-                        <p class="mg-b-30">Use <code>Add New</code>  page to add <code>NEW</code> Qrcode.</p>
+                        <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Qrcode.</p>
                     </div>
 
                     <div class="pd-10 mg-l-auto">
@@ -105,8 +106,8 @@
                             <!-- Bulk Action Form -->
                             <form id="importForm" action="{{ route('batches.import') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <button onclick="showmodal()" type="button" class="btn btn-primary" >
-                                   
+                                <button onclick="showmodal()" type="button" class="btn btn-primary">
+
                                     Bulk Action
                                 </button>
                                 <a href="{{ route('bulkuploads.index') }}" class="btn btn-primary"> Bulk Uploads</a>
@@ -235,34 +236,34 @@
                                 <td class="text-left">{{ $singledata->code_data }}</td>
                                 <td class="text-center text-danger">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
                                 <td class="text-center">
-                                <form action="{{ route('qrcodes.update', $singledata->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="mx-auto" style="text-align: center;">
+                                    <form action="{{ route('qrcodes.update', $singledata->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mx-auto" style="text-align: center;">
 
 
-                                        @if($singledata->status == 'Active')
-                                        <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
-                                            <i class="fas fa-thumbs-up"></i> Active
-                                        </button>
-                                        <input type="hidden" name="status_to_change" value="Inactive">
-                                        @else
-                                        <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
-                                            <i class="fas fa-thumbs-down"></i> Inactive
-                                        </button>
-                                        <input type="hidden" name="status_to_change" value="Active">
-                                        @endif
-                                        @if(!empty($singledata->product->name))
-                                        <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-link"></i> Link
-                                        </a>
-                                        @else
-                                        <button class="btn btn-sm btn-primary" disabled>
-                                            <i class="fas fa-link"></i> Link
-                                        </button>
-                                        @endif
-                                    </div>
-                                </form>
+                                            @if($singledata->status == 'Active')
+                                            <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
+                                                <i class="fas fa-thumbs-up"></i> Active
+                                            </button>
+                                            <input type="hidden" name="status_to_change" value="Inactive">
+                                            @else
+                                            <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
+                                                <i class="fas fa-thumbs-down"></i> Inactive
+                                            </button>
+                                            <input type="hidden" name="status_to_change" value="Active">
+                                            @endif
+                                            @if(!empty($singledata->product->name))
+                                            <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-link"></i> Link
+                                            </a>
+                                            @else
+                                            <button class="btn btn-sm btn-primary" disabled>
+                                                <i class="fas fa-link"></i> Link
+                                            </button>
+                                            @endif
+                                        </div>
+                                    </form>
                                 </td>
 
                             </tr>
@@ -280,139 +281,139 @@
                 {{ $qrdatas->links('pagination::bootstrap-5') }}
             </div>
         </div>
-          <!-- Modal for bulk actions -->
-          <div class="modal fade" id="bulkActionModal" tabindex="-1" role="dialog" aria-labelledby="bulkTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <form id="bulkForm" method="POST">
-                                @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="bulkTitle">Bulk Action</h5>
-                                    <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="floating-label">Start Code</label>
-                                                <input type="text" name="start_code" class="form-control" placeholder="Start Code" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="floating-label">Quantity</label>
-                                                <input type="number" min="1" name="quantity" class="form-control" placeholder="Quantity" required value="1">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label class="floating-label">Action</label>
-                                                <select name="action" class="form-control">
-                                                    <option value="active">Activate</option>
-                                                    <option value="inactive">Deactivate</option>
-                                                    <option value="Export">Export</option>
-                                                </select>
-                                            </div>
-                                        </div>
+        <!-- Modal for bulk actions -->
+        <div class="modal fade" id="bulkActionModal" tabindex="-1" role="dialog" aria-labelledby="bulkTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form id="bulkForm" method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bulkTitle">Bulk Action</h5>
+                            <button type="button" onclick="closemodal()" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="floating-label">Start Code</label>
+                                        <input type="text" name="start_code" class="form-control" placeholder="Start Code" required>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
-                                        <i class="fas fa-times"></i> Close
-                                    </button>
-                                    <button class="btn btn-md btn-primary float-right">
-                                        <i class="fas fa-download"></i> Submit
-                                    </button>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="floating-label">Quantity</label>
+                                        <input type="number" min="1" name="quantity" class="form-control" placeholder="Quantity" required value="1">
+                                    </div>
                                 </div>
-                            </form>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="floating-label">Action</label>
+                                        <select name="action" class="form-control">
+                                            <option value="active">Activate</option>
+                                            <option value="inactive">Deactivate</option>
+                                            <option value="Export">Export</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
+                                <i class="fas fa-times"></i> Close
+                            </button>
+                            <button class="btn btn-md btn-primary float-right">
+                                <i class="fas fa-download"></i> Submit
+                            </button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+        </div>
 
-                <!-- jQuery -->
-                <!-- Custom JavaScript -->
-                <script>
-                    // Function to close modal
-                    function closemodal() {
-                        $('#bulkActionModal').modal('hide');
-                    }
+        <!-- jQuery -->
+        <!-- Custom JavaScript -->
+        <script>
+            // Function to close modal
+            function closemodal() {
+                $('#bulkActionModal').modal('hide');
+            }
 
-                    // Function to show modal
-                    function showmodal() {
-                        $('#bulkActionModal').modal('show');
-                    }
+            // Function to show modal
+            function showmodal() {
+                $('#bulkActionModal').modal('show');
+            }
 
-                    // Function to submit form for import
-                    function submitForm() {
-                        document.getElementById('importForm').submit();
-                    }
+            // Function to submit form for import
+            function submitForm() {
+                document.getElementById('importForm').submit();
+            }
 
-                    // Function to update status
-                    function updateStatus(status) {
-                        if (confirm('Are you sure to change the Status?')) {
-                            document.getElementById('statusInput').value = status;
-                            document.getElementById('updateForm').submit();
+            // Function to update status
+            function updateStatus(status) {
+                if (confirm('Are you sure to change the Status?')) {
+                    document.getElementById('statusInput').value = status;
+                    document.getElementById('updateForm').submit();
+                }
+            }
+
+            // jQuery to handle bulk action form submission
+            $(document).ready(function() {
+                $('#bulkForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    var url = '{{url("")}}';
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('batches.bulstatuschange') }}",
+                        data: formData,
+                        success: function(response) {
+                            if (response.status == 'Status updated successfully') {
+                                $('#bulkActionModal').modal('hide');
+                                showStatusMessage('Status Updated successfully');
+                            } else if (response.status == 'Invalid or missing start_code or quantity') {
+                                $('#bulkActionModal').modal('hide');
+                                errorMessage('Invalid or missing start_code or quantity');
+                            } else {
+                                var downloadUrl = '{{ url("download") }}/' + response.filename;
+
+                                // Trigger download using hidden iframe
+                                var iframe = document.createElement('iframe');
+                                iframe.style.display = 'none';
+                                iframe.src = downloadUrl;
+                                document.body.appendChild(iframe);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
                         }
-                    }
-
-                    // jQuery to handle bulk action form submission
-                    $(document).ready(function() {
-                        $('#bulkForm').submit(function(event) {
-                            event.preventDefault();
-                            var formData = $(this).serialize();
-                            var url = '{{url("")}}';
-                            $.ajax({
-                                type: 'POST',
-                                url: "{{ route('batches.bulstatuschange') }}",
-                                data: formData,
-                                success: function(response) {
-                                    if (response.status == 'Status updated successfully') {
-                                        $('#bulkActionModal').modal('hide');
-                                        showStatusMessage('Status Updated successfully');
-                                    } else if (response.status == 'Invalid or missing start_code or quantity') {
-                                        $('#bulkActionModal').modal('hide');
-                                        errorMessage('Invalid or missing start_code or quantity');
-                                    } else {
-                                        var downloadUrl = '{{ url("download") }}/' + response.filename;
-
-                                        // Trigger download using hidden iframe
-                                        var iframe = document.createElement('iframe');
-                                        iframe.style.display = 'none';
-                                        iframe.src = downloadUrl;
-                                        document.body.appendChild(iframe);
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-                            });
-                        });
                     });
+                });
+            });
 
-                    function showStatusMessage(message) {
-                        var statusMessageElement = document.getElementById('statusMessage');
-                        if (statusMessageElement) {
-                            statusMessageElement.textContent = message; // Set the message content
-                            statusMessageElement.style.display = 'block'; // Show the message
-                        }
-                        setTimeout(function() {
-                            statusMessageElement.style.display = 'none'; // Hide the message
-                        }, 5000); // 5000 milliseconds = 5 seconds
-                    }
+            function showStatusMessage(message) {
+                var statusMessageElement = document.getElementById('statusMessage');
+                if (statusMessageElement) {
+                    statusMessageElement.textContent = message; // Set the message content
+                    statusMessageElement.style.display = 'block'; // Show the message
+                }
+                setTimeout(function() {
+                    statusMessageElement.style.display = 'none'; // Hide the message
+                }, 5000); // 5000 milliseconds = 5 seconds
+            }
 
-                    function errorMessage(message) {
-                        var statusMessageElement = document.getElementById('errorMessage');
-                        if (statusMessageElement) {
-                            statusMessageElement.textContent = message; // Set the message content
-                            statusMessageElement.classList.remove('alert-success');
-                            statusMessageElement.classList.add('alert-danger');
-                            statusMessageElement.style.display = 'block'; // Show the message
-                            setTimeout(function() {
-                                statusMessageElement.style.display = 'none'; // Hide the message
-                            }, 5000); // 5000 milliseconds = 5 seconds
-                        }
-                    }
-                </script>
-                @endsection
+            function errorMessage(message) {
+                var statusMessageElement = document.getElementById('errorMessage');
+                if (statusMessageElement) {
+                    statusMessageElement.textContent = message; // Set the message content
+                    statusMessageElement.classList.remove('alert-success');
+                    statusMessageElement.classList.add('alert-danger');
+                    statusMessageElement.style.display = 'block'; // Show the message
+                    setTimeout(function() {
+                        statusMessageElement.style.display = 'none'; // Hide the message
+                    }, 5000); // 5000 milliseconds = 5 seconds
+                }
+            }
+        </script>
+        @endsection

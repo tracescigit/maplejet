@@ -19,6 +19,7 @@
 
   .card-header {
     background-color: #F0F0F0;
+    border-bottom: 1px solid rgba(72, 94, 144, 0.16);
   }
 
   /* Responsive Styles */
@@ -124,7 +125,7 @@
                 <div class="col-sm-5 mg-t-20 mg-sm-t-0">
                   <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5">Active Jobs</h3>
                   <p class="mg-b-0 tx-12 tx-color-03">Total jobs that are active.</p>
-                  <h4 class="mt-3 tx-warning">{{$active_jobs}}</h4>
+                  <h4 class="mt-3 tx-success">{{$active_jobs}}</h4>
                 </div><!-- col -->
               </div><!-- row -->
             </div>
@@ -151,7 +152,7 @@
                 </div><!-- col -->
                 <div class="col-sm mg-sm-t-0">
                   <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Active</h4>
-                  <div class="tx-20 tx-danger">{{$total_scan ?? "0"}}</div>
+                  <div class="tx-20 tx-success">{{$total_scan ?? "0"}}</div>
                 </div><!-- col -->
                 <div class="col-sm">
                   <h4 class="tx-normal tx-rubik tx-spacing--1 mg-b-5">Common</h4>
@@ -164,13 +165,13 @@
         </div>
       </div>
     </div>
-    <div class="row mt-4">
+    <div class="row mt-4 mb-4">
       <div class="col-12">
-        <div class="card">
+        <div class="card mb-4">
           <div class="card-header pd-y-20 d-md-flex align-items-center justify-content-between">
             <h6 class="mg-b-0">Recently Scanned</h6>
           </div>
-          <div class="card-body">
+          <div class="card-body mb-3">
             <div class="row">
               <div class="col-12">
                 <div id="map"></div>
@@ -251,7 +252,7 @@
     ctx.fillRect(barMargin, 250 - totalIssues, barWidth, totalIssues);
 
     // Draw resolved issues bar
-    ctx.fillStyle = '#a1c70c82';
+    ctx.fillStyle = '#10b759';
     ctx.fillRect(barMargin + barWidth + barSpacing, 250 - resolvedIssues, barWidth, resolvedIssues);
 
     // Labels

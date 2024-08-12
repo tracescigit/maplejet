@@ -16,6 +16,14 @@ use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Listeners\LogUserLoginAndLogout;
 use App\Listeners\LogUserPasswordChange;
+use App\Events\CsvProcessingCompleted;
+use App\Events\CsvProcessingFailed;
+use App\Listeners\SendCsvProcessingNotification;
+use App\Events\DispatchQrUploadBySerial;
+use App\Listeners\HandleDispatchQrUploadBySerial;
+use App\Events\QrUploadRequested;
+use App\Listeners\HandleQrUploadRequested;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -40,6 +48,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         PasswordReset::class => [
             LogUserPasswordChange::class,
+        ],
+        CsvProcessingCompleted::class => [
+            SendCsvProcessingNotification::class,
+        ],
+        CsvProcessingFailed::class => [
+            SendCsvProcessingNotification::class,
+        ],
+        DispatchQrUploadBySerial::class => [
+            HandleDispatchQrUploadBySerial::class,
+        ],
+        QrUploadRequested::class => [
+            HandleQrUploadRequested::class,
         ],
         // AccessTokenCreated::class => [
         //     StoreTokenInDatabase::class,

@@ -122,8 +122,8 @@
   <div class="container pd-20 mg-t-10 col-10 mx-auto">
     <div class="d-flex bg-gray-10">
       <div class="pd-10 flex-grow-1">
-        <h4 id="section3" class="mg-b-10">Create products</h4>
-        <p class="mg-b-30">Use this page to add <code>NEW</code> product.</p>
+        <h4 id="section3" class="mg-b-10">Create Product</h4>
+        <p class="mg-b-30">Use this page to add <code>NEW</code> Product.</p>
       </div>
 
       <div class="pd-10 mg-l-auto">
@@ -202,13 +202,13 @@
       <div data-label="Product List" class="df-example demo-table">
         <div class="row row-sm  mg-b-10">
           <div class="col-sm-3">
-            <input type="text" name="products_search" class="form-control" placeholder="Product">
+            <input type="text" name="products_search" class="form-control" placeholder="Search By Product">
           </div>
           <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-            <input type="text" name="brands_search" class="form-control" placeholder="Brand">
+            <input type="text" name="brands_search" class="form-control" placeholder="Search By Brand">
           </div>
           <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-            <input type="text" name="company_search" class="form-control" placeholder="company">
+            <input type="text" name="company_search" class="form-control" placeholder="Search By Company">
           </div>
           <div class="col-sm-3 mg-t-10  mg-sm-t-0">
             <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
@@ -223,11 +223,11 @@
         <thead>
           <tr>
             <th scope="col" class="text-center font-weight-bold">ID</th>
-            <th scope="col" class="text-center font-weight-bold"></th>
+            <th scope="col" class="text-left font-weight-bold">Product Code</th>
             <th scope="col" class="text-left font-weight-bold">NAME</th>
             <th scope="col" class="text-left font-weight-bold">BRAND</th>
-            <th scope="col" class="text-center font-weight-bold">COMPANY NAME</th>
-            <th scope="col" class="text-center font-weight-bold">STATUS</th>
+            <th scope="col" class="text-left font-weight-bold">COMPANY NAME</th>
+            <th scope="col" class="text-left font-weight-bold">STATUS</th>
             <th scope="col" class="text-center font-weight-bold">Action</th>
 
 
@@ -242,11 +242,11 @@
           @endphp
           <tr>
             <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-            <td class="tx-medium text-left">{{ str_replace('_', ' ', $product->gtin) }}</td>
-            <td class="tx-medium text-left">{{ str_replace('_', ' ', $product->name) }}</td>
+            <td class="tx-medium text-left">{{ $product->gtin??"   --  "}}</td>
+            <td class="tx-medium text-left">{{$product->name}}</td>
             <td class="text-left">{{ $product->brand }}</td>
-            <td class="text-center">{{ $product->company_name }}</td>
-            <td class="tx-medium text-center">
+            <td class="text-left">{{ $product->company_name }}</td>
+            <td class="tx-medium text-left">
               @if($product->status == 'Active')
               <span class="tx-10 badge badge-success">Active</span>
               @else
