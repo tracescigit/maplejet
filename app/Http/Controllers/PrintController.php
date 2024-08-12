@@ -395,6 +395,7 @@ class PrintController extends Controller
     }
     public function downloadexcel(Request $request)
     {
+        dd($request->all());
         $datarequired = [
             'id' => $request->data['qr_id'],
             'quantity' => $request->data['quantity']

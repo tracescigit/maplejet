@@ -116,17 +116,20 @@
                         <label>Select User: </label>
                         <select class="form-control mr-2" name="user">
                             @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" {{ old('user', request('user')) == $user->id ? 'selected' : '' }} >{{ $user->name }}</option>
+                           
                             @endforeach
                         </select>
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Start Date: </label>
-                        <input type="date" name="start_date" class="form-control">
+                        <input type="date" name="start_date" class="form-control"
+                        value="{{ old('start_date', request('start_date')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <label>End Date: </label>
-                        <input type="date" name="end_date" class="form-control">
+                        <input type="date" name="end_date" class="form-control" 
+                        value="{{ old('end_date', request('end_date')) }}">>
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->

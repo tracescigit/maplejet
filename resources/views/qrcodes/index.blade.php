@@ -187,25 +187,38 @@
 
                 <form method="GET" action="{{ route('qrcodes.index') }}">
                     <div data-label="codes List" class="df-example demo-table">
-                        <div class="row row-sm  mg-b-10">
+                        <div class="row row-sm mg-b-10">
                             <div class="col-sm-3">
-                                <input type="text" name="products_search" class="form-control" placeholder="Product">
+                                <input type="text"
+                                    name="products_search"
+                                    class="form-control"
+                                    placeholder="Product"
+                                    value="{{ old('products_search', request('products_search')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                                <input type="text" name="qrcode_search" class="form-control" placeholder="code">
+                                <input type="text"
+                                    name="qrcode_search"
+                                    class="form-control"
+                                    placeholder="code"
+                                    value="{{ old('qrcode_search', request('qrcode_search')) }}">
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                                <select name="products_assigned" aria-label="Default select example" class="form-control">
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <select name="products_assigned"
+                                    aria-label="Default select example"
+                                    class="form-control">
+                                    <option value="">Select Status</option>
                                     <option value="assigned" {{ request('products_assigned') == 'assigned' ? 'selected' : '' }}>Assigned</option>
                                     <option value="unassigned" {{ request('products_assigned') == 'unassigned' ? 'selected' : '' }}>Unassigned</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                                 <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
                                 <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                             </div>
                         </div>
+                    </div>
                 </form>
+
 
 
                 <div class="table-responsive">
@@ -236,23 +249,19 @@
                                 <td class="text-left">{{ $singledata->code_data }}</td>
                                 <td class="text-center text-danger">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
                                 <td class="text-center">
-                                    <form action="{{ route('qrcodes.update', $singledata->id) }}" method="POST">
+                                    <form id="statusform" method="POST">
                                         @csrf
-                                        @method('PUT')
                                         <div class="mx-auto" style="text-align: center;">
-
-
                                             @if($singledata->status == 'Active')
                                             <button class="btn btn-sm btn-outline-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
                                                 <i class="fas fa-thumbs-up"></i>
                                             </button>
-                                            <input type="hidden" name="status_to_change" value="Inactive">
                                             @else
                                             <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
                                                 <i class="fas fa-thumbs-down"></i>
                                             </button>
-                                            <input type="hidden" name="status_to_change" value="Active">
                                             @endif
+
                                             @if(!empty($singledata->product->name))
                                             <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-link"></i>
@@ -332,88 +341,144 @@
             </div>
         </div>
 
-        <!-- jQuery -->
-        <!-- Custom JavaScript -->
-        <script>
-            // Function to close modal
-            function closemodal() {
-                $('#bulkActionModal').modal('hide');
-            }
+        <div class="modal" tabindex="-1" role="dialog" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Status Change</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="confirm" onclick="confirmStatusChange()" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+@section('js')
+<!-- jQuery -->
+<!-- Custom JavaScript -->
+<script>
+    // Function to close modal
+    function closemodal() {
+        $('#bulkActionModal').modal('hide');
+    }
 
-            // Function to show modal
-            function showmodal() {
-                $('#bulkActionModal').modal('show');
-            }
+    // Function to show modal
+    function showmodal() {
+        $('#bulkActionModal').modal('show');
+    }
 
-            // Function to submit form for import
-            function submitForm() {
-                document.getElementById('importForm').submit();
-            }
+    // Function to submit form for import
+    function submitForm() {
+        document.getElementById('importForm').submit();
+    }
 
-            // Function to update status
-            function updateStatus(status) {
-                if (confirm('Are you sure to change the Status?')) {
-                    document.getElementById('statusInput').value = status;
-                    document.getElementById('updateForm').submit();
+    // Function to update status
+    function updateStatus(status) {
+        if (confirm('Are you sure to change the Status?')) {
+            document.getElementById('statusInput').value = status;
+            document.getElementById('updateForm').submit();
+        }
+    }
+
+    // jQuery to handle bulk action form submission
+    $(document).ready(function() {
+        $('#bulkForm').submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            var url = '{{url("")}}';
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('batches.bulstatuschange') }}",
+                data: formData,
+                success: function(response) {
+                    if (response.status == 'Status updated successfully') {
+                        $('#bulkActionModal').modal('hide');
+                        showStatusMessage('Status Updated successfully');
+                    } else if (response.status == 'Invalid or missing start_code or quantity') {
+                        $('#bulkActionModal').modal('hide');
+                        errorMessage('Invalid or missing start_code or quantity');
+                    } else {
+                        var downloadUrl = '{{ url("download") }}/' + response.filename;
+
+                        // Trigger download using hidden iframe
+                        var iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = downloadUrl;
+                        document.body.appendChild(iframe);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
                 }
-            }
-
-            // jQuery to handle bulk action form submission
-            $(document).ready(function() {
-                $('#bulkForm').submit(function(event) {
-                    event.preventDefault();
-                    var formData = $(this).serialize();
-                    var url = '{{url("")}}';
-                    $.ajax({
-                        type: 'POST',
-                        url: "{{ route('batches.bulstatuschange') }}",
-                        data: formData,
-                        success: function(response) {
-                            if (response.status == 'Status updated successfully') {
-                                $('#bulkActionModal').modal('hide');
-                                showStatusMessage('Status Updated successfully');
-                            } else if (response.status == 'Invalid or missing start_code or quantity') {
-                                $('#bulkActionModal').modal('hide');
-                                errorMessage('Invalid or missing start_code or quantity');
-                            } else {
-                                var downloadUrl = '{{ url("download") }}/' + response.filename;
-
-                                // Trigger download using hidden iframe
-                                var iframe = document.createElement('iframe');
-                                iframe.style.display = 'none';
-                                iframe.src = downloadUrl;
-                                document.body.appendChild(iframe);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-                    });
-                });
             });
+        });
+    });
 
-            function showStatusMessage(message) {
-                var statusMessageElement = document.getElementById('statusMessage');
-                if (statusMessageElement) {
-                    statusMessageElement.textContent = message; // Set the message content
-                    statusMessageElement.style.display = 'block'; // Show the message
-                }
-                setTimeout(function() {
-                    statusMessageElement.style.display = 'none'; // Hide the message
-                }, 5000); // 5000 milliseconds = 5 seconds
-            }
+    function showStatusMessage(message) {
+        var statusMessageElement = document.getElementById('statusMessage');
+        if (statusMessageElement) {
+            statusMessageElement.textContent = message; // Set the message content
+            statusMessageElement.style.display = 'block'; // Show the message
+        }
+        setTimeout(function() {
+            statusMessageElement.style.display = 'none'; // Hide the message
+        }, 5000); // 5000 milliseconds = 5 seconds
+    }
 
-            function errorMessage(message) {
-                var statusMessageElement = document.getElementById('errorMessage');
-                if (statusMessageElement) {
-                    statusMessageElement.textContent = message; // Set the message content
-                    statusMessageElement.classList.remove('alert-success');
-                    statusMessageElement.classList.add('alert-danger');
-                    statusMessageElement.style.display = 'block'; // Show the message
-                    setTimeout(function() {
-                        statusMessageElement.style.display = 'none'; // Hide the message
-                    }, 5000); // 5000 milliseconds = 5 seconds
-                }
+    function errorMessage(message) {
+        var statusMessageElement = document.getElementById('errorMessage');
+        if (statusMessageElement) {
+            statusMessageElement.textContent = message; // Set the message content
+            statusMessageElement.classList.remove('alert-success');
+            statusMessageElement.classList.add('alert-danger');
+            statusMessageElement.style.display = 'block'; // Show the message
+            setTimeout(function() {
+                statusMessageElement.style.display = 'none'; // Hide the message
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    }
+
+    function openmodal() {
+        $('#statusModal').modal('show');
+    }
+</script>
+<script>
+    var statusToChange;
+    var requestId;
+
+    function changestatus(value, id) {
+        $('#statusModal').modal('show'); // Show the modal
+        statusToChange = value; // Store the value
+        requestId = id; // Store the id
+    }
+
+    function confirmStatusChange() {
+        var url = `{{ route('qrcodes.update', ':id') }}`.replace(':id', requestId);
+
+        $.ajax({
+            type: 'PUT',
+            url: url,
+            data: {
+                _token: '{{ csrf_token() }}',
+                status_to_change: statusToChange
+            },
+            success: function(response) {
+                // Handle success, e.g., reload the page or update UI
+                location.reload(); // Example: reload the page to see the update
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
             }
-        </script>
-        @endsection
+        });
+
+        $('#statusModal').modal('hide'); // Hide the modal
+    }
+</script>
+@endsection

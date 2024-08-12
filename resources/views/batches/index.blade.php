@@ -210,25 +210,38 @@
 
         <form method="GET" action="{{ route('batches.index') }}">
             <div data-label="Batches List" class="df-example demo-table">
-                <div class="row row-sm  mg-b-10">
+                <div class="row row-sm mg-b-10">
                     <div class="col-sm-3">
-                        <input type="search" name="batches_search" class="form-control" placeholder="Batch">
+                        <input type="search"
+                            name="batches_search"
+                            class="form-control"
+                            placeholder="Batch"
+                            value="{{ old('batches_search', request('batches_search')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                        <input type="text" name="product_search" class="form-control" placeholder="Product">
+                        <input type="text"
+                            name="product_search"
+                            class="form-control"
+                            placeholder="Product"
+                            value="{{ old('product_search', request('product_search')) }}">
                     </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <select name="status_search" id="status" class="form-control">
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                            <option value="">-- Select Status --</option>
+                            <option value="Active" {{ old('status_search', request('status_search')) == 'Active' ? 'selected' : '' }}>Active</option>
+                            <option value="Inactive" {{ old('status_search', request('status_search')) == 'Inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
                     </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                        <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                        <button type="submit" class="btn btn-secondary">
+                            <i data-feather="search"></i>
+                        </button>
                         <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                     </div>
                 </div>
+            </div>
         </form>
+
 
 
         <div class="table-responsive">

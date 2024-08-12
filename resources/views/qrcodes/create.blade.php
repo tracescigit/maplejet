@@ -121,7 +121,7 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <a href="{{ route('qrcodes.index') }}" class="btn btn-secondary float-left">
+                                <a href="{{ route('qrcodes.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>
                                     Back
                                 </a>
 

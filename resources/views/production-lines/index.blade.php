@@ -215,22 +215,38 @@
 
                 <form method="GET" action="{{ route('production-lines.index') }}">
                     <div data-label="Prod. list" class="df-example demo-table">
-                        <div class="row row-sm  mg-b-10">
+                        <div class="row row-sm mg-b-10">
                             <div class="col-sm-3">
-                                <input type="text" name="pl_name" class="form-control" placeholder="prod.line ">
+                                <input type="text"
+                                    name="pl_name"
+                                    class="form-control"
+                                    placeholder="prod.line"
+                                    value="{{ old('pl_name', request('pl_name')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                                <input type="text" name="pl_code" class="form-control" placeholder="prod.line code">
+                                <input type="text"
+                                    name="pl_code"
+                                    class="form-control"
+                                    placeholder="prod.line code"
+                                    value="{{ old('pl_code', request('pl_code')) }}">
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                                <input type="text" name="pp_name" class="form-control" placeholder="plant">
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <input type="text"
+                                    name="pp_name"
+                                    class="form-control"
+                                    placeholder="plant"
+                                    value="{{ old('pp_name', request('pp_name')) }}">
                             </div>
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                                <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <button type="submit" class="btn btn-secondary">
+                                    <i data-feather="search"></i>
+                                </button>
                                 <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                             </div>
                         </div>
+                    </div>
                 </form>
+
 
 
                 <div class="table-responsive">

@@ -75,25 +75,30 @@
 
 
 
-        <form method="GET" action="{{route('reportlog.exceldownload')}}">
+        <form method="GET" action="{{ route('reportlog.exceldownload') }}">
             <div data-label="Consumer-Alerts" class="df-example demo-table">
-                <div class="row row-sm  mg-b-10">
-
+                <div class="row row-sm mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Start Date: </label>
-                        <input type="date" name="start_date" class="form-control">
+                        <input type="date"
+                            name="start_date"
+                            class="form-control"
+                            value="{{ old('start_date', request('start_date')) }}">
                     </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>End Date: </label>
-                        <input type="date" name="end_date" class="form-control">
+                        <input type="date"
+                            name="end_date"
+                            class="form-control"
+                            value="{{ old('end_date', request('end_date')) }}">
                     </div>
-                    <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                        <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
+                    <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
                     </div>
                 </div>
-
+            </div>
         </form>
+
 
         <div class="table-responsive">
             <table class="table table-striped mg-b-0">
@@ -119,8 +124,8 @@
                         <td class="tx-medium text-left"> {{$singledata->report_reason}}</td>
                         <td class="tx-medium text-left"> {{$singledata->description}}</td>
                         <td class="tx-medium text-center">
-                        <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
-                        <i class="fas fa-eye mr-2"></i> View Details</a>
+                            <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
+                                <i class="fas fa-eye mr-2"></i> View Details</a>
                         </td>
                     </tr>
                     @empty
@@ -130,7 +135,7 @@
                     @endforelse
                 </tbody>
             </table>
-            
+
         </div><!-- table-responsive -->
     </div><!-- card -->
 

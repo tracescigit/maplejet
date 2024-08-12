@@ -95,11 +95,11 @@
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10">Print Module</h4>
                 <p class="mg-b-30">Use this page for <code>Print</code> Jobs.</p>
-            <hr>
+                <hr>
             </div>
 
             <div class="pd-10 mg-l-auto">
-               <button type=" button" class="btn btn-custom btn-icon" onclick="downloadexcel()"><i data-feather="download" class="mr-2"></i>Export</button>
+                <button type=" button" class="btn btn-custom btn-icon" onclick="downloadexcel()"><i data-feather="download" class="mr-2"></i>Export</button>
             </div>
         </div>
 
@@ -197,6 +197,46 @@
             </div>
             </form>
         </div>
+        <!-- Modal HTML -->
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="statusModalLabel">Change Job Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="statusForm">
+                            <div class="form-group">
+                                <label for="jobSelect">Select Job</label>
+                                <select id="jobSelect" name="jobSelect" class="form-control" required>
+                                    <option value="all">Select All</option>
+                                    @foreach($job as $value)
+                                    <option value="{{ $value->id }}">{{ $value->code }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="statusSelect">Select Status</label>
+                                <select id="statusSelect" name="statusSelect" class="form-control" required>
+                                    <option value="">Select status</option>
+                                    <option value="printed">Printed</option>
+                                    <option value="verified">Verified</option>
+                                </select>
+                            </div>
+                            <div id="job_error" class="text-danger"></div> <!-- Error message container -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
@@ -262,6 +302,41 @@
         });
 
     });
+    $(document).ready(function() {
+        $('#statusForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            // Serialize the form data
+            var formData = $(this).serialize();
+            // Make AJAX request
+            $.ajax({
+                url: '{{ route("downloadexcell") }}', // Ensure this is the correct route
+                type: 'GET',
+                data: formData,
+                xhrFields: {
+                    responseType: 'blob' // Ensure response is handled as binary data
+                },
+                success: function(blob) {
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'jobdataexcel.xlsx'; // Set the filename for download
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    console.log('Excel file exported successfully');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error exporting Excel file:', error);
+                }
+            });
+        });
+
+    });
+
+
+
 
     function ajaxfunction() {
         if (data) {
@@ -395,44 +470,9 @@
     }
 
     function downloadexcel() {
-        console.log(data); // Ensure 'data' is defined and correct
-
-        if (data) {
-            var jobId = $('#job').val();
-
-            $.ajax({
-                url: '{{ route("downloadexcell") }}',
-                type: 'GET',
-                data: {
-                    job_id: jobId,
-                    data: data
-                },
-                xhrFields: {
-                    responseType: 'blob' // Set the response type to blob (binary data)
-                },
-                success: function(blob) { // Corrected: Use 'blob' as parameter here
-                    var url = window.URL.createObjectURL(blob);
-                    var a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'jobdataexcel.xlsx'; // Set the filename for download
-                    document.body.append(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                    console.log('Excel file exported successfully');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error exporting Excel file:', error);
-                }
-            });
-        } else {
-            $('#job_error').html();
-            $('#job_error').text("Please Select a Job First");
-            setTimeout(function() {
-                $('#job_error').text('');
-            }, 5000);
-        }
+        $('#statusModal').modal('show'); // Corrected selector: remove the dot before the ID selector
     }
+
 
     document.addEventListener("DOMContentLoaded", function() {
 

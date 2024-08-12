@@ -15,7 +15,7 @@
     transition: background-color 0.3s ease;
     opacity: 1;
   }
-     
+
   .btn-custom:hover {
     /* background-color: #8a0278; */
   }
@@ -118,7 +118,7 @@
 </div>
 
 
-<div class="content content-components" >
+<div class="content content-components">
   <div class="container pd-20 mg-t-10 col-10 mx-auto">
     <div class="d-flex bg-gray-10">
       <div class="pd-10 flex-grow-1">
@@ -198,25 +198,38 @@
         </div>
       </div><!-- row -->
     </div>
-
     <form method="GET" action="{{ route('products.index') }}">
       <div data-label="Product List" class="df-example demo-table">
-        <div class="row row-sm  mg-b-10">
+        <div class="row row-sm mg-b-10">
           <div class="col-sm-3">
-            <input type="text" name="products_search" class="form-control" placeholder="Search By Product">
+            <input type="text"
+              name="products_search"
+              class="form-control"
+              placeholder="Search By Product"
+              value="{{ old('products_search', request('products_search')) }}">
           </div>
           <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-            <input type="text" name="brands_search" class="form-control" placeholder="Search By Brand">
+            <input type="text"
+              name="brands_search"
+              class="form-control"
+              placeholder="Search By Brand"
+              value="{{ old('brands_search', request('brands_search')) }}">
           </div>
-          <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-            <input type="text" name="company_search" class="form-control" placeholder="Search By Company">
+          <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+            <input type="text"
+              name="company_search"
+              class="form-control"
+              placeholder="Search By Company"
+              value="{{ old('company_search', request('company_search')) }}">
           </div>
           <div class="col-sm-3 mg-t-10  mg-sm-t-0">
             <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
            
           </div>
         </div>
+      </div>
     </form>
+
 
 
     <div class="table-responsive">

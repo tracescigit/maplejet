@@ -122,14 +122,14 @@
 </div>
 
 
-    
-        <div class="row">
-            <div class="col-md-12">
-                @if(session('status'))
-                <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
-                @endif
 
-                <div class="content content-components">
+<div class="row">
+    <div class="col-md-12">
+        @if(session('status'))
+        <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
+        @endif
+
+        <div class="content content-components">
 
 
 
@@ -214,20 +214,31 @@
 
                 <form method="GET" action="{{ route('production-plants.index') }}">
                     <div data-label="Prod. list" class="df-example demo-table">
-                        <div class="row row-sm  mg-b-10">
+                        <div class="row row-sm mg-b-10">
                             <div class="col-sm-3">
-                                <input type="text"name="plants_search" class="form-control" placeholder="code ">
+                                <input type="text"
+                                    name="plants_search"
+                                    class="form-control"
+                                    placeholder="code"
+                                    value="{{ old('plants_search', request('plants_search')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                                <input type="text" name="plants_name_search" class="form-control" placeholder="name">
+                                <input type="text"
+                                    name="plants_name_search"
+                                    class="form-control"
+                                    placeholder="name"
+                                    value="{{ old('plants_name_search', request('plants_name_search')) }}">
                             </div>
-                           
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                                <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <button type="submit" class="btn btn-secondary">
+                                    <i data-feather="search"></i>
+                                </button>
                                 <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                             </div>
                         </div>
+                    </div>
                 </form>
+
 
 
                 <div class="table-responsive">
@@ -256,18 +267,18 @@
                                 <td class="tx-medium text-left">{{$singleplant->code}}</td>
                                 <td class="text-left">{{$singleplant->name}}</td>
                                 <td class="tx-medium text-center">
-                                @if($singleplant->status == 'Active')
-                                        <span class="badge badge-success"> {{$singleplant->status}}</span>
-                                        @else
-                                        <span class="badge badge-danger"> {{$singleplant->status}}</span>
-                                    </td>
-                                    @endif
-                                    <td class="text-center text-danger">
-                            {{ \Carbon\Carbon::parse($singleplant->created_at)->format('d-m-Y') }}
-                        </td>
+                                    @if($singleplant->status == 'Active')
+                                    <span class="badge badge-success"> {{$singleplant->status}}</span>
+                                    @else
+                                    <span class="badge badge-danger"> {{$singleplant->status}}</span>
+                                </td>
+                                @endif
+                                <td class="text-center text-danger">
+                                    {{ \Carbon\Carbon::parse($singleplant->created_at)->format('d-m-Y') }}
+                                </td>
                                 <td class="text-center">
-                                <a class="btn btn-outline-primary float-center" type="button" href="{{route('production-plants.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
-                                        <a href="{{route('production-plants.edit',$singleplant->id)}}" class="btn btn-outline-primary float-center"><i class="fas fa-edit" style="color: #74C0FC;"></i></a>
+                                    <a class="btn btn-outline-primary float-center" type="button" href="{{route('production-plants.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
+                                    <a href="{{route('production-plants.edit',$singleplant->id)}}" class="btn btn-outline-primary float-center"><i class="fas fa-edit" style="color: #74C0FC;"></i></a>
                                 </td>
 
                             </tr>
@@ -286,36 +297,36 @@
             </div>
         </div>
 
-@endsection
+        @endsection
 
 
 
 
-@section('js')
-<script>
-    function openModal(id, plantscode, plantsname) {
-        console.log(id, plantscode, plantsname);
-        var html = '<tr>' +
-            '<td><strong>ID:</strong></td>' +
-            '<td>' + id + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td><strong>PLANTS-CODE:</strong></td>' +
-            '<td>' + plantscode + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td><strong>PLANTS-NAME:</strong></td>' +
-            '<td>' + plantsname + '</td>' +
-            '</tr>' +
-            '<tr>';
-        $('#table-body').html(html);
-        $('#myModal').modal('show');
-    }
-</script>
-<script>
-    function closemodal() {
-        $('#myModal').modal('hide');
-    }
-</script>
+        @section('js')
+        <script>
+            function openModal(id, plantscode, plantsname) {
+                console.log(id, plantscode, plantsname);
+                var html = '<tr>' +
+                    '<td><strong>ID:</strong></td>' +
+                    '<td>' + id + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><strong>PLANTS-CODE:</strong></td>' +
+                    '<td>' + plantscode + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><strong>PLANTS-NAME:</strong></td>' +
+                    '<td>' + plantsname + '</td>' +
+                    '</tr>' +
+                    '<tr>';
+                $('#table-body').html(html);
+                $('#myModal').modal('show');
+            }
+        </script>
+        <script>
+            function closemodal() {
+                $('#myModal').modal('hide');
+            }
+        </script>
 
-@endsection
+        @endsection
