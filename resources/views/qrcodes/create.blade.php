@@ -121,14 +121,14 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <a href="{{ route('qrcodes.index') }}" class="btn btn-secondary float-left">
+                                <a href="{{ route('qrcodes.index') }}" class="btn btn-secondary float-left"><i class="fas fa-arrow-left"></i>
                                     Back
                                 </a>
 
-                                <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i> 
+                                <button type="submit" class="btn btn-custom float-right"><i class="fas fa-save"></i>
                                     Submit
                                 </button>
-                                <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-3  float-right" style="margin-top: 2px;">
+                                <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-3  float-right" style="margin-top: 2px;"><i class="fas fa-download"></i>
                                     Download Sample
                                 </a>
                             </div>

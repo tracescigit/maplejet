@@ -84,8 +84,10 @@ class QrcodeController extends Controller
         $qrcode->update([
             'status' => $request->status_to_change,
         ]);
-        return redirect()->route('qrcodes.index')->with('success', 'Qrcode updated successfully');
+    
+        return response()->json(['success' => true, 'message' => 'Qrcode updated successfully']);
     }
+    
     public function destroy($id)
     {
         // $batch = Batch::find($id);
