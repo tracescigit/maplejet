@@ -185,8 +185,8 @@
                     </div><!-- row -->
                 </div>
 
-                <form method="GET" action="{{ route('qrcodes.index') }}">
-                    <div data-label="codes List" class="df-example demo-table">
+                <div data-label="codes List" class="df-example demo-table">
+                    <form method="GET" action="{{ route('qrcodes.index') }}">
                         <div class="row row-sm mg-b-10">
                             <div class="col-sm-3">
                                 <input type="text"
@@ -216,74 +216,75 @@
                                 <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                             </div>
                         </div>
-                    </div>
-                </form>
+
+                    </form>
 
 
 
-                <div class="table-responsive">
-                    <table class="table table-striped mg-b-0">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-center font-weight-bold">ID</th>
-                                <th scope="col" class="text-left font-weight-bold">Product Name</th>
-                                <th scope="col" class="text-left font-weight-bold">Batch Name</th>
-                                <th scope="col" class="text-left font-weight-bold">Code Data</th>
-                                <th scope="col" class="text-center font-weight-bold">Created At</th>
-                                <th scope="col" class="text-center font-weight-bold">Action</th>
+                    <div class="table-responsive">
+                        <table class="table table-striped mg-b-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center font-weight-bold">ID</th>
+                                    <th scope="col" class="text-left font-weight-bold">Product Name</th>
+                                    <th scope="col" class="text-left font-weight-bold">Batch Name</th>
+                                    <th scope="col" class="text-left font-weight-bold">Code Data</th>
+                                    <th scope="col" class="text-center font-weight-bold">Created At</th>
+                                    <th scope="col" class="text-center font-weight-bold">Action</th>
 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($qrdatas as $index => $singledata)
-                            @php
-                            $page = $qrdatas->currentPage();
-                            $perPage = $qrdatas->perPage();
-                            $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                            @endphp
-                            <tr>
-                                <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-                                <td class="tx-medium text-left">{{ str_replace("_", " ", $singledata->product->name ?? '') }}</td>
-                                <td class="text-left">{{$singledata->batch->code??"" }}</td>
-                                <td class="text-left">{{ $singledata->code_data }}</td>
-                                <td class="text-center text-danger">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
-                                <td class="text-center">
-                                    <form id="statusform" method="POST">
-                                        @csrf
-                                        <div class="mx-auto" style="text-align: center;">
-                                            @if($singledata->status == 'Active')
-                                            <button class="btn btn-sm btn-outline-success" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </button>
-                                            @else
-                                            <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Are you sure to change the Status?')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
-                                                <i class="fas fa-thumbs-down"></i>
-                                            </button>
-                                            @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($qrdatas as $index => $singledata)
+                                @php
+                                $page = $qrdatas->currentPage();
+                                $perPage = $qrdatas->perPage();
+                                $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                                @endphp
+                                <tr>
+                                    <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                                    <td class="tx-medium text-left">{{ str_replace("_", " ", $singledata->product->name ?? '') }}</td>
+                                    <td class="text-left">{{$singledata->batch->code??"" }}</td>
+                                    <td class="text-left">{{ $singledata->code_data }}</td>
+                                    <td class="text-center text-danger">{{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
+                                    <td class="text-center">
+                                        <form id="statusform" method="POST">
+                                            @csrf
+                                            <div class="mx-auto" style="text-align: center;">
+                                                @if($singledata->status == 'Active')
+                                                <button class="btn btn-sm btn-outline-success" type="button" onclick="changestatus('Inactive','{{$singledata->id}}')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                </button>
+                                                @else
+                                                <button class="btn btn-sm btn-outline-danger" type="button" onclick="changestatus('Active','{{$singledata->id}}')" {{ empty($singledata->product->name) ? 'disabled' : '' }}>
+                                                    <i class="fas fa-thumbs-down"></i>
+                                                </button>
+                                                @endif
 
-                                            @if(!empty($singledata->product->name))
-                                            <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-link"></i>
-                                            </a>
-                                            @else
-                                            <button class="btn btn-sm  btn-outline-primary" disabled>
-                                                <i class="fas fa-link"></i> 
-                                            </button>
-                                            @endif
-                                        </div>
-                                    </form>
-                                </td>
+                                                @if(!empty($singledata->product->name))
+                                                <a href="{{$singledata->url}}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-link"></i>
+                                                </a>
+                                                @else
+                                                <button class="btn btn-sm  btn-outline-primary" disabled>
+                                                    <i class="fas fa-link"></i>
+                                                </button>
+                                                @endif
+                                            </div>
+                                        </form>
+                                    </td>
 
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div><!-- table-responsive -->
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div><!-- table-responsive -->
+                </div>
             </div><!-- card -->
 
             <div class="mt-3">
@@ -330,7 +331,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
-                                 Close
+                                Close
                             </button>
                             <button class="btn btn-md btn-primary float-right">
                                 Submit
@@ -351,7 +352,7 @@
                         </button>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="confirm" onclick="confirmStatusChange()" class="btn btn-primary">Confirm</button>
+                        <button type="button" onclick="confirmStatusChange()" class="btn btn-primary">Confirm</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -443,10 +444,6 @@
                 statusMessageElement.style.display = 'none'; // Hide the message
             }, 5000); // 5000 milliseconds = 5 seconds
         }
-    }
-
-    function openmodal() {
-        $('#statusModal').modal('show');
     }
 </script>
 <script>

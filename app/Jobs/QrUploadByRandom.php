@@ -24,59 +24,52 @@ class QrUploadByRandom implements ShouldQueue
         $this->quantity = $quantity;
         $this->baseUrl = $baseUrl;
     }
+ 
     public function handle(): void
     {
-        Log::info('Starting QrUploadByRandom job.');
-    
-        // Existing logic
-    
-        Log::info('Completed QrUploadByRandom job.');
+        set_time_limit(0); // Remove the time limit
+
+        Log::info('QrUploadByRandom job started.');
+
+        $batchSize = 1000; // Adjust based on your system's performance
+        $totalGenerated = 0;
+        $codeLength = 16;
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+        try {
+            while ($totalGenerated < $this->quantity) {
+                $currentBatchSize = min($batchSize, $this->quantity - $totalGenerated);
+
+                // Generate a pool of unique codes
+                $uniqueCodes = $this->generateUniqueQRCodeNumbers($currentBatchSize, $characters, $codeLength);
+
+                if (empty($uniqueCodes)) {
+                    Log::warning('No unique QR codes generated.');
+                    break;
+                }
+
+                // Prepare data for bulk insert
+                $codesToInsert = array_map(function ($code) {
+                    return [
+                        'qr_code' => $code,
+                        'code_data' => $code,
+                        'url' => $this->baseUrl . '/' . $code
+                    ];
+                }, $uniqueCodes);
+
+                // Insert codes into the database
+                DB::transaction(function () use ($codesToInsert) {
+                    Qrcode::insert($codesToInsert);
+                });
+
+                $totalGenerated += $currentBatchSize;
+            }
+
+            Log::info('QrUploadByRandom job completed successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error in QrUploadByRandom job: ' . $e->getMessage());
+        }
     }
-    // public function handle(): void
-    // {
-    //     set_time_limit(0); // Remove the time limit
-
-    //     Log::info('QrUploadByRandom job started.');
-
-    //     $batchSize = 1000; // Adjust based on your system's performance
-    //     $totalGenerated = 0;
-    //     $codeLength = 16;
-    //     $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-    //     try {
-    //         while ($totalGenerated < $this->quantity) {
-    //             $currentBatchSize = min($batchSize, $this->quantity - $totalGenerated);
-
-    //             // Generate a pool of unique codes
-    //             $uniqueCodes = $this->generateUniqueQRCodeNumbers($currentBatchSize, $characters, $codeLength);
-
-    //             if (empty($uniqueCodes)) {
-    //                 Log::warning('No unique QR codes generated.');
-    //                 break;
-    //             }
-
-    //             // Prepare data for bulk insert
-    //             $codesToInsert = array_map(function ($code) {
-    //                 return [
-    //                     'qr_code' => $code,
-    //                     'code_data' => $code,
-    //                     'url' => $this->baseUrl . '/' . $code
-    //                 ];
-    //             }, $uniqueCodes);
-
-    //             // Insert codes into the database
-    //             DB::transaction(function () use ($codesToInsert) {
-    //                 Qrcode::insert($codesToInsert);
-    //             });
-
-    //             $totalGenerated += $currentBatchSize;
-    //         }
-
-    //         Log::info('QrUploadByRandom job completed successfully.');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error in QrUploadByRandom job: ' . $e->getMessage());
-    //     }
-    // }
 
     private function generateUniqueQRCodeNumbers($quantity, $characters, $codeLength)
     {

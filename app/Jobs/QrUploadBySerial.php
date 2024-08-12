@@ -83,7 +83,7 @@ class QrUploadBySerial implements ShouldQueue
                     'url' => $this->data['baseurl'] . '/' .$qr_code_number
                 ];
             }
-    
+            Log::info('Inserting QR codes: ' . json_encode($codesToInsert));
             Qrcode::insert($codesToInsert);
     
             $current = $batchEnd; // Move to the next batch
