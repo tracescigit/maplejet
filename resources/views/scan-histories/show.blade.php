@@ -68,6 +68,28 @@
                                 <hr>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="image_preview">Reporter:</label>
+                                <p>{{$scanhistories->reporter_id}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="image_preview">Mobile:</label>
+                                <p>{{$scanhistories->mobile}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="image_preview">Description:</label>
+                                <p>{{$scanhistories->description}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                       
                         <div class="col-md-12">
                             <a href="{{ route('scanhistories.index') }}" class="btn btn-secondary float-left">
                                 Back</a>
