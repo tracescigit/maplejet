@@ -94,7 +94,7 @@
                                 <div class="form-group">
                                     <label for="printer_name" class="floating-label">Printer Name <span style="color: red;">*</span></label>
                                     <select name="printer_name" id="printer_name" class="form-control" required>
-                                        <option value="vj" {{ old('printer_name')=="vj" ?'selected':''}}>Maplejet</option>
+                                        <option value="maplejet" {{ old('printer_name')=="maplejet" ?'selected':''}}>Maplejet</option>
                                         <!-- <option value="wb">maplejet</option>
                                         <option value="dn"></option> -->
                                     </select>

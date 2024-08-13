@@ -12,7 +12,18 @@ class ReportLogController extends Controller
 {
    public function index(Request $request)
    {
-      $reportlog = ReportLog::paginate(10);
+      $query = ReportLog::query();
+
+      // Apply filters
+      if ($request->start_date) {
+         $query->where('created_at', '>=', $request->start_date);
+      }
+
+      if ($request->end_date) {
+         $query->where('created_at', '<=', $request->end_date);
+      }
+      // Apply pagination
+      $reportlog = $query->paginate(10);
       $ipAddress = $request->ip();
       $geoIPData = GeoIP::getLocation($ipAddress);
 
@@ -36,12 +47,8 @@ class ReportLogController extends Controller
    }
    public function exceldownload(Request $request)
    {
-      // \DB::enableQueryLog();
-
-      // Your original query
-      $from = $request->start_date . ' 00:00:00';
-      $to = $request->end_date . ' 23:59:59';
-      $userlog = ReportLog::whereBetween('created_at', [$from, $to])->get();
+ 
+      $userlog = ReportLog::get();
       return Excel::download(new ReportLogExport($userlog, $request->url()), 'reportlog.xlsx');
    }
 }

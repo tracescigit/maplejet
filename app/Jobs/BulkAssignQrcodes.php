@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Qrcode;
+use App\Models\Batch;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,18 +37,21 @@ class BulkAssignQrcodes implements ShouldQueue
         Log::info('BulkAssignQrcodes job started.');
 
         try {
-            $firstCode = Qrcode::where('code_data', $this->startCode)->first();
+            $firstCode = Qrcode::where('code_data', $this->startCode)
+                ->with('batch') // Eager load the batch relationship
+                ->first();
             if (!$firstCode) {
                 Log::error('Start code not found.');
                 return;
             }
-
+            $batch_all = Batch::where('id', $this->batchId)
+            ->first();
             $idToStart = $firstCode->id;
             $idToEnd = $idToStart + $this->quantity;
 
             $baseUrl = $firstCode->product->web_url ?? "";
             $baseUrl = rtrim($baseUrl, '/');
-            $expDate = date('ymd', strtotime($firstCode->batch->exp_date));
+            $expDate = date('ymd', strtotime($batch_all->exp_date));
 
             Qrcode::whereBetween('id', [$idToStart, $idToEnd])
                 ->chunk(1000, function ($qrcodes) use ($baseUrl, $expDate) {
