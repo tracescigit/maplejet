@@ -129,7 +129,7 @@
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <label>End Date: </label>
                         <input type="date" name="end_date" class="form-control" 
-                        value="{{ old('end_date', request('end_date')) }}">>
+                        value="{{ old('end_date', request('end_date')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->

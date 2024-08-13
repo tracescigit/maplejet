@@ -60,11 +60,11 @@
   <div class="container pd-x-0">
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
       <div>
-      @if (session('status'))
-    <div id="statusAlert" class="alert alert-success">
-        {{ session('status') }}
-    </div>
-@endif
+        @if (session('status'))
+        <div id="statusAlert" class="alert alert-success">
+          {{ session('status') }}
+        </div>
+        @endif
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-style1 mg-b-10">
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -207,6 +207,7 @@
       }, // Default center
       zoom: 12
     });
+  }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
 </script>
@@ -303,12 +304,8 @@
 
 <script>
   // Data passed from Laravel controller
-  const months = {
-    !!json_encode($months) !!
-  }; // Month names
-  const data = {
-    !!json_encode($data) !!
-  }; // Job counts
+  const months = {!!json_encode($months) !!}; // Month names
+  const data = {!!json_encode($data) !!}; // Job counts
 
   const jobData = {
     labels: months,
@@ -338,16 +335,16 @@
   });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var statusAlert = document.getElementById('statusAlert');
-        if (statusAlert) {
-            setTimeout(function() {
-                statusAlert.style.opacity = 0;
-                setTimeout(function() {
-                    statusAlert.style.display = 'none';
-                }, 600); // Delay to allow fade-out transition
-            }, 5000); // 5 seconds before hiding
-        }
-    });
+  document.addEventListener('DOMContentLoaded', function() {
+    var statusAlert = document.getElementById('statusAlert');
+    if (statusAlert) {
+      setTimeout(function() {
+        statusAlert.style.opacity = 0;
+        setTimeout(function() {
+          statusAlert.style.display = 'none';
+        }, 600); // Delay to allow fade-out transition
+      }, 5000); // 5 seconds before hiding
+    }
+  });
 </script>
 @endsection
