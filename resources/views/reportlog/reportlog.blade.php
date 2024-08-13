@@ -67,15 +67,10 @@
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type=" button" class="btn btn-custom btn-icon" type="submit"><i data-feather="plus-circle"></i> Export Excel</button>
+                <a href="{{ route('reportlog.exceldownload') }}" class="btn btn-custom btn-icon" type="submit"><i data-feather="plus-circle"></i> Export Excel</a>
             </div>
         </div>
-
-
-
-
-
-        <form method="GET" action="{{ route('reportlog.exceldownload') }}">
+        <form method="GET" action="{{ route('reportlog.index') }}">
             <div data-label="Consumer-Alerts" class="df-example demo-table">
                 <div class="row row-sm mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
@@ -183,7 +178,18 @@
                         console.log(response);
                         console.log(response);
                         var link = document.createElement('a');
-                        link.href = 'http://192.168.0.166:8000/' + response.filename;
+                        // Assuming `response.filename` contains the filename you want to append
+                        const filename = response.filename;
+
+                        // Get the current page's base URL
+                        const baseUrl = window.location.origin;
+
+                        // Construct the full URL
+                        const fullUrl = `${baseUrl}/${filename}`;
+
+                        // Assuming `link` is a reference to your link element
+                        link.href = fullUrl;
+
                         link.download = response.filename;
                         document.body.appendChild(link);
                         link.click();

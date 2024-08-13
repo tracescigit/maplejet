@@ -425,7 +425,6 @@ class ProductController extends Controller
                 return view('apicall.index', compact('genuine'));
             }
         } else {
-            dd('fg');
             $genuine = 'Product is Fake';
             return view('apicall.index', compact('genuine'));
         }

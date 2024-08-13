@@ -57,33 +57,30 @@ class BulkUploadController extends Controller
     }
 
     public function bulkassign(Request $request)
-{
-    $startCode = $request->start_code;
-    $quantity = (int)$request->quantity;
-    $productId = $request->product_id;
-    $batchId = $request->batch_id;
-    $generateGs1LinkWith = $request->generate_gs1_link_with;
-    $gs1Link = $request->gs1_link;
+    {
+        $startCode = $request->start_code;
+        $quantity = (int)$request->quantity;
+        $productId = $request->product_id;
+        $batchId = $request->batch_id;
+        $generateGs1LinkWith = $request->generate_gs1_link_with;
+        $gs1Link = $request->gs1_link;
 
-    // Validation
-    if (empty($startCode) || $quantity <= 0 || empty($productId) || empty($batchId)) {
-        return response()->json(['status' => 'Invalid or missing start_code, quantity, product_id, or batch_id'], 400);
+        // Validation
+        if (empty($startCode) || $quantity <= 0 || empty($productId) || empty($batchId)) {
+            return response()->json(['status' => 'Invalid or missing start_code, quantity, product_id, or batch_id'], 400);
+        }
+
+        $checkSerial = Qrcode::where('code_data', $startCode)->first();
+        if (!$checkSerial) {
+            return response()->json(['startcodeerror' => 'Code not Found']);
+        }
+
+        $checkSerialInactive = Qrcode::where('code_data', $startCode)->where('status', 'Active')->first();
+        if ($checkSerialInactive) {
+            return response()->json(['startcodeerror' => 'Code is already associated and active. Please deactivate and then assign.']);
+        }
+        dispatch(new BulkAssignQrcodes($startCode, $quantity, $productId, $batchId, $generateGs1LinkWith, $gs1Link));
+
+        return response()->json(['status' => 'Job dispatched for processing'], 200);
     }
-
-    $checkSerial = Qrcode::where('code_data', $startCode)->first();
-    if (!$checkSerial) {
-        return response()->json(['startcodeerror' => 'Code not Found']);
-    }
-
-    $checkSerialInactive = Qrcode::where('code_data', $startCode)->where('status', 'Active')->first();
-    if ($checkSerialInactive) {
-        return response()->json(['startcodeerror' => 'Code is already associated and active. Please deactivate and then assign.']);
-    }
-
-    dispatch(new BulkAssignQrcodes($startCode, $quantity, $productId, $batchId, $generateGs1LinkWith, $gs1Link));
-
-    return response()->json(['status' => 'Job dispatched for processing'], 200);
-}
-
-  
 }

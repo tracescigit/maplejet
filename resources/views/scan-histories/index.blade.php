@@ -110,7 +110,7 @@
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type="button" class="btn btn-custom"><i data-feather="download"></i> Export</button>
+                <button type="button" onclick="scandownload()" class="btn btn-custom"><i data-feather="download"></i> Export</button>
             </div>
         </div>
 
@@ -186,22 +186,22 @@
                         <input type="text"
                             name="products_search"
                             class="form-control"
-                            placeholder="Product"
+                            placeholder="Search By Product"
                             value="{{ old('products_search', request('products_search')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <input type="text"
-                            name="brands_search"
+                            name="genuine"
                             class="form-control"
-                            placeholder="Brand"
-                            value="{{ old('brands_search', request('brands_search')) }}">
+                            placeholder="Search By Qr code"
+                            value="{{ old('genuine', request('genuine')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <input type="text"
-                            name="company_search"
+                            name="qrcode"
                             class="form-control"
-                            placeholder="Company"
-                            value="{{ old('company_search', request('company_search')) }}">
+                            placeholder="Search By Qr code"
+                            value="{{ old('qrcode', request('qrcode')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
@@ -209,7 +209,7 @@
                 </div>
             </div>
         </form>
-   
+
         <div class="table-responsive">
             <table class="table table-striped mg-b-0">
                 <thead>
@@ -241,17 +241,17 @@
                         <td class="tx-medium text-left">{{$product->product}}</td>
                         <td class="tx-medium text-left">{{$product->batch}}</td>
                         <td class="text-left">{{$product->ip_address}}</td>
-                        
+
                         <td class="text-center">
                             @if ($product->genuine == 1)
                             <!-- Genuine product -->
                             <span class="badge tx-success" style="font-size: 15px;">Genuine</span>
                             @elseif ($product->genuine == 2)
                             <!-- Suspicious product -->
-                            <span class="badge tx-warning"style="font-size: 15px;">Suspicious</span>
+                            <span class="badge tx-warning" style="font-size: 15px;">Suspicious</span>
                             @else
                             <!-- Fake product -->
-                            <span class="badge tx-danger"style="font-size: 15px;">Fake</span>
+                            <span class="badge tx-danger" style="font-size: 15px;">Fake</span>
                             @endif
                         </td>
 
@@ -266,7 +266,11 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                        <td colspan="5" class="text-center" style="text-align: center; color: red;">
+                            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                                ---No data found ---
+                            </div>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -308,5 +312,9 @@
     function closeModal() {
         $('#myModal').modal('hide');
     }
+
+    function scandownload() {
+        window.location.href = "{{ route('scanhistoriesdownloadexcel') }}";
+    };
 </script>
 @endsection

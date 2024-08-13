@@ -33,6 +33,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::resource('production-lines', App\Http\Controllers\ProductionLinesController::class);
         // Route::put('production-plants/{id}/edit', [App\Http\Controllers\ProductionPlantController::class, 'update'])->name('production-plants.update');
         Route::resource('scanhistories', App\Http\Controllers\ScanHistoriesController::class);
+        Route::get('/scanhistoriesexceldownload', [App\Http\Controllers\ScanHistoriesController::class, 'exceldownloadscanhistories'])->name('scanhistoriesdownloadexcel');
         Route::resource('jobs', App\Http\Controllers\JobsController::class);
         Route::get('/jobscsvdownload', [App\Http\Controllers\JobsController::class, 'jobscsvdownload'])->name('jobs.downloadcsv');
 

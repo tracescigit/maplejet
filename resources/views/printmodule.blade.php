@@ -212,7 +212,6 @@
                             <div class="form-group">
                                 <label for="jobSelect">Select Job</label>
                                 <select id="jobSelect" name="jobSelect" class="form-control" required>
-                                    <option value="all">Select All</option>
                                     @foreach($job as $value)
                                     <option value="{{ $value->id }}">{{ $value->code }}</option>
                                     @endforeach
@@ -221,9 +220,11 @@
                             <div class="form-group">
                                 <label for="statusSelect">Select Status</label>
                                 <select id="statusSelect" name="statusSelect" class="form-control" required>
-                                    <option value="">Select status</option>
+                                    <option value="all">Select All</option>
                                     <option value="printed">Printed</option>
+                                    <option value="not_printed">Not Printed</option>
                                     <option value="verified">Verified</option>
+                                    <option value="not_verified">Not Verified</option>
                                 </select>
                             </div>
                             <div id="job_error" class="text-danger"></div> <!-- Error message container -->

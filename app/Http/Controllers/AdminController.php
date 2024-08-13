@@ -145,10 +145,27 @@ class AdminController extends Controller
         return view('auth.changepassword');
     }
     public function changepasssave(Request $request){
-        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum length of 8 characters
+                'regex:/[A-Za-z]/', // Must contain at least one letter
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // Must contain at least one special character
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $user = Auth::user();
+        $user->password = Hash::make($request->input('new_password'));
+        $user->update();
+    
+        return redirect()->route('dashboard')->with('status', 'Password updated successfully.');
     }
     public function viewprofile(Request $request){
-        return view('auth.viewprofile');
+        $user=Auth::user();
+        return view('auth.viewprofile',compact('user'));
     }
     
  }
