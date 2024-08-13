@@ -2,7 +2,8 @@
 @section('content')
 <style>
   #map {
-    height: 400px; /* Adjust height for responsiveness */
+    height: 400px;
+    /* Adjust height for responsiveness */
     margin: auto;
     border: 1px solid #ccc;
     overflow: hidden !important;
@@ -11,7 +12,8 @@
 
   #barGraph {
     width: 100%;
-    height: 300px; /* Adjust height for responsiveness */
+    height: 300px;
+    /* Adjust height for responsiveness */
     margin: 20px auto;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -31,15 +33,18 @@
     }
 
     #map {
-      height: 300px; /* Adjust for smaller screens */
+      height: 300px;
+      /* Adjust for smaller screens */
     }
 
     #barGraph {
-      height: 250px; /* Adjust for smaller screens */
+      height: 250px;
+      /* Adjust for smaller screens */
     }
 
     .card-body canvas {
-      height: 250px !important; /* Ensure chart fits on smaller screens */
+      height: 250px !important;
+      /* Ensure chart fits on smaller screens */
     }
   }
 
@@ -55,6 +60,11 @@
   <div class="container pd-x-0">
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
       <div>
+      @if (session('status'))
+    <div id="statusAlert" class="alert alert-success">
+        {{ session('status') }}
+    </div>
+@endif
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-style1 mg-b-10">
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -203,28 +213,48 @@
 <script>
   // Define a function to initialize the map
   function initMap() {
-      // Create the map, centered at a default location
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 28.7041, lng: 77.1025 }, // Default center
-        zoom: 12
-      });
+    // Create the map, centered at a default location
+    var map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: 28.7041,
+        lng: 77.1025
+      }, // Default center
+      zoom: 12
+    });
 
-      // Define an array of marker data
-      var markers = [
-        { position: { lat: 29.712, lng: 73.1 }, title: 'Marker 1' },
-        { position: { lat: 40.712, lng: -74.1 }, title: 'Marker 2' },
-        { position: { lat: 28.712, lng: 74.1 }, title: 'Marker 3' }
-      ];
+    // Define an array of marker data
+    var markers = [{
+        position: {
+          lat: 29.712,
+          lng: 73.1
+        },
+        title: 'Marker 1'
+      },
+      {
+        position: {
+          lat: 40.712,
+          lng: -74.1
+        },
+        title: 'Marker 2'
+      },
+      {
+        position: {
+          lat: 28.712,
+          lng: 74.1
+        },
+        title: 'Marker 3'
+      }
+    ];
 
-      // Add markers to the map
-      markers.forEach(function(markerData) {
-        new google.maps.Marker({
-          position: markerData.position,
-          map: map,
-          title: markerData.title
-        });
+    // Add markers to the map
+    markers.forEach(function(markerData) {
+      new google.maps.Marker({
+        position: markerData.position,
+        map: map,
+        title: markerData.title
       });
-    }
+    });
+  }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -273,8 +303,12 @@
 
 <script>
   // Data passed from Laravel controller
-  const months = {!!json_encode($months) !!}; // Month names
-  const data = {!!json_encode($data) !!}; // Job counts
+  const months = {
+    !!json_encode($months) !!
+  }; // Month names
+  const data = {
+    !!json_encode($data) !!
+  }; // Job counts
 
   const jobData = {
     labels: months,
@@ -303,5 +337,17 @@
     }
   });
 </script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var statusAlert = document.getElementById('statusAlert');
+        if (statusAlert) {
+            setTimeout(function() {
+                statusAlert.style.opacity = 0;
+                setTimeout(function() {
+                    statusAlert.style.display = 'none';
+                }, 600); // Delay to allow fade-out transition
+            }, 5000); // 5 seconds before hiding
+        }
+    });
+</script>
 @endsection

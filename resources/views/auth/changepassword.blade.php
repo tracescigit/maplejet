@@ -7,12 +7,22 @@
             <div class="wd-70p wd-sm-250 wd-lg-300 mg-b-15">
                 <img src="{{tracesciimg('changepassword.jpg')}}" class="img-fluid" alt="">
             </div>
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <h1 class="tx-color-01 tx-24 tx-sm-32 tx-lg-36 mg-xl-b-20">Change Password</h1>
             <form id="passwordForm" method="POST">
                 @csrf
                 <div>
                     New Password: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="password" id="newPassword" class="tx-normal mg-b-20" placeholder="Enter Password" required>
+                    <input type="password" id="newPassword" name="password" class="tx-normal" placeholder="Enter Password" required>
+                    <small class="form-text  mg-b-20">Password should be at least 8 digits and must contain atleast one special characters and one alphabets</small>
                 </div>
                 <div>
                     Confirm Password: &nbsp;
@@ -31,7 +41,6 @@
 <script>
     $(document).ready(function() {
         $('#passwordForm').submit(function(event) {
-            alert("hello");
             var newPassword = document.getElementById('newPassword').value;
             var confirmPassword = document.getElementById('confirmPassword').value;
             var errorMessage = document.getElementById('error-message');
@@ -45,7 +54,7 @@
             } else {
                 // Hide error message if passwords match
                 errorMessage.style.display = 'none';
-                var formData = $('passwordForm').serialize();
+                var formData = $(this).serialize();
                 console.log(formdata);
                 $.ajax({
                     type: 'POST',

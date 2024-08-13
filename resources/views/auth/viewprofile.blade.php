@@ -101,11 +101,13 @@
                                 <!-- Form Group (first name)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputFirstName">First name</label>
+                                    <p>{{$user->name}}</p>
                                     <hr>
                                 </div>
                                 <!-- Form Group (last name)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputLastName">Last name</label>
+                                    <p>--</p>
                                     <hr>
                                 </div>
                             </div>
@@ -125,6 +127,7 @@
                             <!-- Form Group (email address)-->
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                                <p>{{$user->email}}</p>
                                 <hr>
                             </div>
                             <!-- Form Row-->
@@ -134,24 +137,45 @@
                                     <label class="small mb-1" for="inputPhone">Phone number</label>
                                     <hr>
                                 </div>
-                                <!-- Form Group (birthday)-->
-                                <!-- <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputPhone">Status</label>
+                                    <p class="{{ $user->status == 'Active' ? 'text-success' : 'text-danger' }}">
+                                        {{ $user->status }}
+                                    </p>
+
+                                    <hr>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputPhone">Profile Created At</label>
+                                    <p>
+                                        <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}
+                                        </td>
+                                    </p>
+
+                                    <hr>
+
+                                    <!-- Form Group (birthday)-->
+                                    <!-- <div class="col-md-6">
                                     <label class="small mb-1" for="inputBirthday">Birthday</label>
                                     <hr>
                                 </div> -->
-                            </div>
-                            <!-- Save changes button-->
+                                </div>
+                                <!-- Save changes button-->
 
                         </form>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
-                        <a href="{{ route('dashboard') }}" class="btn btn-secondary justify-content-center ">
-                                        Close
-                                    </a>
-                                </div>
+                            <a href="{{ route('dashboard') }}" class="btn btn-secondary justify-content-center ">
+                                Close
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
