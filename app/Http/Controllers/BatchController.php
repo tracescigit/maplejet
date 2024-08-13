@@ -31,7 +31,7 @@ class BatchController extends Controller
         if ($request->status_search) {
             $query->where('status', 'like', '%' . $request->status_search . '%');
         }
-
+        $query->orderBy('created_at', 'desc');
         // Apply pagination
         $batches = $query->paginate(10);
 
