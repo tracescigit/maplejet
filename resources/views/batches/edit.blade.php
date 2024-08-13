@@ -90,18 +90,17 @@
 
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="mfg_date">Manufactured Date</label>
-                                    <input type="date" name="mfg_date" id="mfg_date" class="form-control" value="{{ $batch->mfg_date }}">
+                                    <label for="mfg_date">Manufacturing Date</label>
+                                    <input type="date" name="mfg_date" id="mfg_date" class="form-control" value="{{ $batch->mfg_date ? $batch->mfg_date->format('Y-m-d') : '' }}">
                                     @error('mfg_date')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="exp_date">Expiry Date</label>
-                                    <input type="date" name="exp_date" id="exp_date" class="form-control" value="{{ $batch->exp_date }}">
+                                    <input type="date" name="exp_date" id="exp_date" class="form-control" value="{{ $batch->exp_date ? $batch->exp_date->format('Y-m-d') : '' }}"> 
                                     @error('exp_date')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror

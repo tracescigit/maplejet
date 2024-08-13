@@ -95,8 +95,8 @@
             <div class="container pd-20 mg-t-10 col-10 mx-auto">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10">Create Qrcodes</h4>
-                        <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Qrcode.</p>
+                        <h4 id="section3" class="mg-b-10">Create Qr-codes</h4>
+                        <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Qr-code.</p>
                     </div>
 
                     <div class="pd-10 mg-l-auto">
@@ -333,7 +333,7 @@
                             <button type="button" class="btn btn-secondary" onclick="closemodal()" data-dismiss="modal">
                                 Close
                             </button>
-                            <button class="btn btn-md btn-primary float-right">
+                            <button class="btn btn-md btn-custom float-right">
                                 Submit
                             </button>
                         </div>

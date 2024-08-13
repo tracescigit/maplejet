@@ -253,7 +253,7 @@
                         <th scope="col" class="text-left font-weight-bold ">Product Name</th>
                         <th scope="col" class="text-right font-weight-bold">Price</th>
                         <th scope="col" class="text-center font-weight-bold">Manufacturing Date</th>
-                        <th scope="col" class="text-center font-weight-bold">Expiring Date</th>
+                        <th scope="col" class="text-center font-weight-bold">Expiry Date</th>
                         <th scope="col" class="text-center font-weight-bold">Status</th>
                         <th scope="col" class="text-center font-weight-bold">Action</th>
 

@@ -179,7 +179,7 @@
             </div><!-- row -->
         </div>
 
-        <form method="GET" action="{{ route('products.index') }}">
+        <form method="GET" action="{{ route('scanhistories.index') }}">
             <div data-label="Product List" class="df-example demo-table">
                 <div class="row row-sm mg-b-10">
                     <div class="col-sm-3">

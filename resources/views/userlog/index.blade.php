@@ -173,7 +173,7 @@
                             @endphp
                             <td class="text-center"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i A') }}</td>
                             <td class="tx-medium text-center">
-                                <a type="button" class="btn btn-outline-primary " href="{{route('userlog.show',$singledata->id)}}">View Details</a>
+                                <a type="button" class="btn btn-outline-primary" href="{{route('userlog.show',$singledata->id)}}"> <i class="fas fa-eye"></i></a>
                             </td>
                         </tr>
                         @empty
