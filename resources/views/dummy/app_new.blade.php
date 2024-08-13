@@ -83,7 +83,6 @@
     }
 
     .btn-outline-primary:hover {
-      background-color: white;
       border-color: blue;
       /* Optional: Change the border color to match the background */
       color: white;

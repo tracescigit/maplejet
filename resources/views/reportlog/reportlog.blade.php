@@ -120,7 +120,7 @@
                         <td class="tx-medium text-left"> {{$singledata->description}}</td>
                         <td class="tx-medium text-center">
                             <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
-                                <i class="fas fa-eye mr-2"></i> View Details</a>
+                                <i class="fas fa-eye"></i></a>
                         </td>
                     </tr>
                     @empty

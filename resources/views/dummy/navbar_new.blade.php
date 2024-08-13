@@ -27,11 +27,11 @@
         <h6 class="tx-semibold mg-b-5">{{ Auth::user()->name ?? "" }}</h6>
         <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
 
-        <a href="page-profile-view.html" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
-        <a href="" class="dropdown-item"><i data-feather="edit-3"></i>Change Password</a>
+        <a href="{{route('profile')}}" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
+        <a href="{{route('changepassword')}}" class="dropdown-item"><i data-feather="edit-3"></i>Change Password</a>
 
         <div class="dropdown-divider"></div>
-        <a href="{{route('logout1')}}" class="dropdown-item"><i data-feather="log-out"></i>Sign Out</a>
+      
       </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
 

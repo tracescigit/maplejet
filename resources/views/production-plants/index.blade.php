@@ -137,7 +137,7 @@
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10">Create Production-Plants</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> production-Plant.</p>
+                        <p class="mg-b-30">Use this page to add <code>NEW</code> Production-Plant.</p>
                     </div>
 
                     <div class="pd-10 mg-l-auto">
@@ -159,7 +159,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Prod.Plant</h6>
+                                    <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Production Plant</h6>
                                     <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_plplant->name??"--"}}</h4>
                                 </div>
                             </div>
@@ -219,14 +219,14 @@
                                 <input type="text"
                                     name="plants_search"
                                     class="form-control"
-                                    placeholder="code"
+                                    placeholder="Code"
                                     value="{{ old('plants_search', request('plants_search')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                                 <input type="text"
                                     name="plants_name_search"
                                     class="form-control"
-                                    placeholder="name"
+                                    placeholder="Name"
                                     value="{{ old('plants_name_search', request('plants_name_search')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">

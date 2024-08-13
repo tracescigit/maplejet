@@ -82,8 +82,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="mfg_date">Manufactured at <span style="color: red;">*</span></label>
-                                    <input type="date" name="mfg_date" id="mfg_date" class="form-control" value="{{ old('company_name') }}">
+                                    <label for="mfg_date">Manufacturing date <span style="color: red;">*</span></label>
+                                    <input type="date" name="mfg_date" id="mfg_date" class="form-control" value="{{ old('mfg_date') }}">
                                     @error('mfg_date')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -92,7 +92,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exp_date">Expiry Date <span style="color: red;">*</span></label>
-                                    <input type="date" name="exp_date" id="exp_date" class="form-control">
+                                    <input type="date" name="exp_date" id="exp_date" class="form-control" value="{{ old('exp_date') }}">
                                     @error('exp_date')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror

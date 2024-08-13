@@ -141,4 +141,14 @@ class AdminController extends Controller
 
         return view('auth.logout');
     }
-}
+    public function changepass(Request $request){
+        return view('auth.changepassword');
+    }
+    public function changepasssave(Request $request){
+        // dd($request->all());
+    }
+    public function viewprofile(Request $request){
+        return view('auth.viewprofile');
+    }
+    
+ }
