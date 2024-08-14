@@ -145,7 +145,6 @@
           </div><!-- card-body -->
         </div><!-- card-body -->
       </div><!-- card -->
-
       <div class="col-lg-4 col-xl-6 mg-t-10">
         <div class="card h-100 d-flex flex-column">
           <div class="flex-fill">
@@ -193,69 +192,38 @@
     </div>
   </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
 </script>
 <script>
-  // Define a function to initialize the map
   function initMap() {
-    // Create the map, centered at a default location
+    // Assuming these values are being rendered correctly
+ 
     var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 5,
       center: {
         lat: 28.7041,
         lng: 77.1025
-      }, // Default center
-      zoom: 12
-    });
-  }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
-</script>
-<script>
-  // Define a function to initialize the map
-  function initMap() {
-    // Create the map, centered at a default location
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: 28.7041,
-        lng: 77.1025
-      }, // Default center
-      zoom: 12
+      } // Change this to your desired location
     });
 
-    // Define an array of marker data
-    var markers = [{
-        position: {
-          lat: 29.712,
-          lng: 73.1
-        },
-        title: 'Marker 1'
-      },
-      {
-        position: {
-          lat: 40.712,
-          lng: -74.1
-        },
-        title: 'Marker 2'
-      },
-      {
-        position: {
-          lat: 28.712,
-          lng: 74.1
-        },
-        title: 'Marker 3'
-      }
-    ];
 
-    // Add markers to the map
-    markers.forEach(function(markerData) {
-      new google.maps.Marker({
-        position: markerData.position,
-        map: map,
-        title: markerData.title
-      });
-    });
+
+    // Add markers
+    var locationsString = '{{$jsonLocations}}';
+    var decodedString = locationsString.replace(/&quot;/g, '"');
+    var locations = JSON.parse(decodedString);
+
+    for (var i = 0; i < locations.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: { lat: parseFloat(locations[i].lat), lng: parseFloat(locations[i].lng) },
+                    map: map,
+                    title: location.title || 'No Title'
+                });
+            }
   }
+
+  // Initialize the map when the page loads
+  window.onload = initMap;
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

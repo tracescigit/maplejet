@@ -50,13 +50,13 @@ class AdminController extends Controller
             $data[$jobCount->month - 1] = $jobCount->count; // Adjust month index
         }
         $locations=ScanHistory::select('latitude','longitude')->get();
-        $formattedLocations = $locations->map(function($location) {
+        $formattedLocations1 = $locations->map(function($location) {
             return [
                 'lat' => $location->latitude,
                 'lng' => $location->longitude,
-                'title' => ""
             ];
         });
+        $formattedLocations=json_encode($formattedLocations1);
         // return view('dashboard', compact('total_products', 'total_batch', 'total_user', 'total_qrcodes', 'total_jobs', 'active_jobs', 'total_scan', 'mostCommonIssue','months','data','formattedLocations'));
         return view('dashboard', [
             'jsonLocations' => $formattedLocations,
