@@ -28,7 +28,7 @@
     }
 
     .btn-custom {
-      background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+      background: #b70a9b !important;
       color: white;
       border-radius: 5px;
       padding: 10px 20px;
@@ -38,9 +38,7 @@
     }
 
     .btn-custom:hover {
-      transform: scale(1.2);
       background: #2d6ac2 !important;
-      box-shadow: 0 0 30px grey;
       color: white !important;
     }
 

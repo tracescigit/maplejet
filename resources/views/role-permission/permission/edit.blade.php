@@ -8,7 +8,7 @@
         overflow: hidden;
     }
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -19,12 +19,12 @@
 </style>
 <div class="content content-components">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-        <div class="container pd-20 mg-t-8 col-11 mx-auto">
+        <div class="col-md-10">
+        <div class="container">
                 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Edit Permission</h4>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Edit Permission</h4>
                         <p class="mg-b-30">Use this page to  <code>Edit</code> permission.</p>
                         <hr>
                     </div>

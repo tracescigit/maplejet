@@ -4,7 +4,7 @@
 <style>
     /* Custom button styles */
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -87,66 +87,65 @@
 </style>
 
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">Roles</h4>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Roles</h4>
                 <p class="mg-b-30">Use this page to Create <code>New</code> Roles .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <a href="{{ route('roles.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                <a href="{{ route('roles.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle" class="mr-1"></i> Add New</button></a>
             </div>
         </div>
         <div data-label="Roles" class="df-example demo-table">
-        <div class="table-responsive">
-            <table class="table table-striped mg-b-0">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-left font-weight-bold">ID</th>
-                        <th scope="col" class="text-left font-weight-bold"> Name</th>
-                        <th scope="col" class="text-left font-weight-bold"> Emails</th>
-                        <th scope="col" class="text-center font-weight-bold">Created At</th>
-                        <th scope="col" class="text-center font-weight-bold">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @forelse($roles as $index=> $role)
-                            @php
-                            $page = $roles->currentPage();
-                            $perPage = $roles->perPage();
-                            $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                            @endphp
-                    <tr>
-                        <td class="tx-color-03 tx-normal text-left">{{ $incrementingIndex }}</td>
-                        <td class="tx-medium text-left">{{ $role->name  }}</td>
-                        <td class="tx-medium text-left">{{ $role->email }}</td>
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-left font-weight-bold">ID</th>
+                            <th scope="col" class="text-left font-weight-bold"> Name</th>
+                            <th scope="col" class="text-center font-weight-bold">Created At</th>
+                            <th scope="col" class="text-center font-weight-bold">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($roles as $index=> $role)
                         @php
-                                $dateTime = new DateTime($role->created_at);
-                                $formattedDate = $dateTime->format('d M Y');
-                                $formattedTime = $dateTime->format('h:i:s');
-                                @endphp
-                        <td class="text-center text-danger"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i:s') }}</td>
-                        <td class="text-center">
-                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
-                                    <a href="{{route('manageroles',$role->id)}}" class="btn btn-warning btn-sm">Add/Edit Role</i></a>
+                        $page = $roles->currentPage();
+                        $perPage = $roles->perPage();
+                        $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                        @endphp
+                        <tr>
+                            <td class="tx-color-03 tx-normal text-left">{{ $incrementingIndex }}</td>
+                            <td class="tx-medium text-left">{{ $role->name  }}</td>
+                            @php
+                            $dateTime = new DateTime($role->created_at);
+                            $formattedDate = $dateTime->format('d M Y');
+                            $formattedTime = $dateTime->format('h:i:s');
+                            @endphp
+                            <td class="text-center text-danger"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i:s') }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
+                                <a href="{{route('manageroles',$role->id)}}" class="btn btn-warning btn-sm">Add/Edit Role</i></a>
 
 
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div><!-- table-responsive -->
-        </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div><!-- table-responsive -->
 
 
-        <div class="mt-3">
-            {{ $roles->links('pagination::bootstrap-5') }}
+
+            <div class="mt-3">
+                {{ $roles->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div><!-- card -->
 </div>

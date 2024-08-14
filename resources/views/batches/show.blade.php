@@ -5,7 +5,7 @@
 
 <style>
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -25,7 +25,7 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="Container pd-20 mg-t-10 col-11 mx-auto">
+            <div class="Container">
 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">

@@ -6,7 +6,7 @@
 
     /* Button styles */
     .btn-custom {
-        background: transparent linear-gradient(45deg, #700877 0%, #ff2759 100%, #ff2759 100%) repeat scroll 0 0;
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -134,16 +134,16 @@
 </div>
 
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">Create Jobs</h4>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Jobs</h4>
                 <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Job.</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <a href="{{ route('jobs.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
-                <button id="downloadcsvbtn" onclick="downloadcsv()" class="btn btn-custom" type="button"><i data-feather="download"></i> Download CSV
+                <a href="{{ route('jobs.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle" class="mr-1"></i> Add New</button></a>
+                <button id="downloadcsvbtn" onclick="downloadcsv()" class="btn btn-custom" type="button"><i data-feather="download" class="mr-1"></i> Download CSV
                 </button>
             </div>
         </div>
@@ -163,7 +163,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Job Added</h6>
+                            <h6 class="tx-sans  tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Job Added</h6>
                             <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_job->code??""}}</h4>
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+                            <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
                             <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{count($jobdatas)}}</h4>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Assigned</h6>
+                            <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Assigned</h6>
                             <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$prodactiveCount}}</h4>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Unassigned</h6>
+                            <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Unassigned</h6>
                             <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{ count($jobdatas) - $prodactiveCount }}</h4>
                         </div>
                     </div>
@@ -260,7 +260,7 @@
                         <td class="tx-color-03 tx-normal text-center">{{$singledata->code}}</td>
                         <td class="tx-medium text-left">{{$singledata->productionplant->name ?? ""}}</td>
                         <td class="text-left">{{$singledata->productionLines->name ?? ""}}</td>
-                        <td class="text-right">{{$singledata->quantity}}</td>
+                        <td class="text-center">{{$singledata->quantity}}</td>
                         <td class="text-center">
                         {{$singledata->printed}}
                         </td>

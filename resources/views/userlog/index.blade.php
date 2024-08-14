@@ -4,7 +4,7 @@
 <style>
     /* Custom button styles */
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -93,15 +93,15 @@
 @endif
 
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">Userlog</h4>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Userlog</h4>
                 <p class="mg-b-30">Use this page to <code>View</code> Recent activities .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type=" button" class="btn btn-custom btn-icon" type="submit" onclick="submitForm('export')"><i data-feather="plus-circle"></i> Export Excel</button>
+                <button type=" button" class="btn btn-custom btn-icon" type="submit" onclick="submitForm('export')"><i data-feather="download" class="mr-1"></i> Export</button>
             </div>
         </div>
 
@@ -109,36 +109,36 @@
 
 
 
-        <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
-            <div data-label="Search" class="df-example demo-table">
+        <div data-label="Search" class="df-example demo-table">
+            <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
                 <div class="row row-sm  mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Select User: </label>
                         <select class="form-control mr-2" name="user">
                             @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user', request('user')) == $user->id ? 'selected' : '' }} >{{ $user->name }}</option>
-                           
+                            <option value="{{ $user->id }}" {{ old('user', request('user')) == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+
                             @endforeach
                         </select>
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Start Date: </label>
                         <input type="date" name="start_date" class="form-control"
-                        value="{{ old('start_date', request('start_date')) }}">
+                            value="{{ old('start_date', request('start_date')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <label>End Date: </label>
-                        <input type="date" name="end_date" class="form-control" 
-                        value="{{ old('end_date', request('end_date')) }}">
+                        <input type="date" name="end_date" class="form-control"
+                            value="{{ old('end_date', request('end_date')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                         <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
                     </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        </div>
         <div data-label="Logs" class="df-example demo-table mg-t-20">
             <div class="table-responsive">
                 <table class="table table-striped mg-b-0">
@@ -202,13 +202,14 @@
 
             </div><!-- table-responsive -->
 
+
+            <div class="mt-3">
+                {{ $userlog->links('pagination::bootstrap-5') }}
+            </div>
         </div>
-        <div class="mt-3">
-        {{ $userlog->links('pagination::bootstrap-5') }}
-    </div>
     </div><!-- card -->
 
-    
+
 
 </div>
 

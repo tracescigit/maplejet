@@ -83,10 +83,11 @@ Route::middleware(['increase.execution.time'])->group(function () {
 
 
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        Route::get('/log_out', [App\Http\Controllers\adminController::class, 'logoutlanding'])->name('logout1');
-        Route::get('/profileinfo', [App\Http\Controllers\adminController::class, 'viewprofile'])->name('profile');
-        Route::get('/changepassword', [App\Http\Controllers\adminController::class, 'changepass']);
-        Route::post('/changepassword', [App\Http\Controllers\adminController::class, 'changepasssave'])->name('changepassword');
+        Route::get('/log_out', [App\Http\Controllers\AdminController::class, 'logoutlanding'])->name('logout1');
+        Route::get('/profileinfo', [App\Http\Controllers\AdminController::class, 'viewprofile'])->name('profile');
+        Route::get('/changepassword', [App\Http\Controllers\AdminController::class, 'changepass']);
+        Route::post('/changepassword', [App\Http\Controllers\AdminController::class, 'changepasssave'])->name('changepassword');
+        Route::get('/Underprocess', [App\Http\Controllers\AdminController::class, 'development'])->name('underdevelopment');
         Route::get('/reportlog', [App\Http\Controllers\ReportLogController::class, 'index'])->name('reportlog.index');
         Route::get('/reportlogshow/{id}', [App\Http\Controllers\ReportLogController::class, 'show'])->name('reportlog.show');
 

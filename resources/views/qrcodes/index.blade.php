@@ -7,7 +7,7 @@
 <style>
     /* Button styles */
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -90,12 +90,10 @@
         <!-- Info boxes -->
         <div class="content content-components">
 
-
-
-            <div class="container pd-20 mg-t-10 col-10 mx-auto">
+            <div class="container">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10">Create Qr-codes</h4>
+                        <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Qr-codes</h4>
                         <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Qr-code.</p>
                     </div>
 
@@ -132,7 +130,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Code-Data</h6>
+                                    <h6 class="tx-sans  tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Code-Data</h6>
                                     <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_product->code_data??''}}</h4>
                                 </div>
                             </div>
@@ -147,7 +145,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+                                    <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
                                     <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$qr_count}}</h4>
                                 </div>
                             </div>
@@ -162,7 +160,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
+                                    <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
                                     <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$qractiveCount}}</h4>
                                 </div>
                             </div>
@@ -177,7 +175,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
+                                    <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
                                     <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$qr_count-$qractiveCount}}</h4>
                                 </div>
                             </div>
@@ -283,12 +281,13 @@
                                 @endforelse
                             </tbody>
                         </table>
-                    </div><!-- table-responsive -->
-                </div>
-            </div><!-- card -->
+                        <!-- table-responsive -->
+                    </div>
+                </div><!-- card -->
 
-            <div class="mt-3">
-                {{ $qrdatas->links('pagination::bootstrap-5') }}
+                <div class="mt-3 mx-auto">
+                    {{ $qrdatas->links('pagination::bootstrap-5') }}
+                </div>
             </div>
         </div>
         <!-- Modal for bulk actions -->
