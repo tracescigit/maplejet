@@ -43,6 +43,7 @@
         /* Initially hidden, will be shown dynamically */
     }
 </style>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 @if($genuine!='Product is Fake')
 <div class="navbar navbar-header navbar-header-fixed justify-content-center">
     <div class="navbar-brand">
@@ -473,5 +474,51 @@
         }
     }
 </script>
+<script>
+   $(document).ready(function() {
+    // Check if geolocation is supported
+    if (navigator.geolocation) {
+        // Get the geolocation of the user
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            
+            // Retrieve IDs from Blade template
+            var systemAlertId = '{{ $systemAlertId ?? "" }}';
+            var scanHistoryId = '{{ $scanHistoryId ?? "" }}';
+
+            // Send an AJAX request to update location
+            $.ajax({
+                url: '{{ route("update.location") }}', // Ensure this route is correctly defined in web.php
+                type: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token
+                    latitude: lat,
+                    longitude: long,
+                    systemAlertId: systemAlertId,
+                    scanHistoryId: scanHistoryId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log(response.message); // Log message or handle success
+                    } else {
+                        console.log('Failed to update location.'); // Log error message
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // Log detailed error response
+                    console.log('An error occurred.'); // Log a generic error message
+                }
+            });
+        }, function() {
+            // Handle error if location retrieval fails
+            console.log('Unable to retrieve your location.'); // Log or handle location retrieval failure
+        });
+    } else {
+        // Handle case where geolocation is not supported
+        console.log('Geolocation is not supported by this browser.'); // Log or handle geolocation not supported
+    }
+});
+
 </script>
 @endsection

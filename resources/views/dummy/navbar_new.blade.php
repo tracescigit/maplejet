@@ -77,7 +77,7 @@
         <ul>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('qrcodes.*') ? 'active' : '' }}"><a href="{{route('qrcodes.index')}}"><span>Qr-code</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{ Route::is('bulkuploads.*') ? 'active' : '' }}"><a href="{{route('bulkuploads.index')}}"> <span>Bulk Uploads</span></a></li>
-          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  "><a href="#"> <span>System Alerts</span></a></li>
+          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{ Route::is('systemalerts.*') ? 'active' : '' }}" ><a href="{{route('systemalerts')}}"> <span>System Alerts</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('reportlog.*') ? 'active' : '' }}"><a href="{{route('reportlog.index')}}"> <span>Consumer Alerts</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('scanhistories.*') ? 'active' : '' }}"><a href="{{route('scanhistories.index')}}"><span>Scan History</span></a></li>
         </ul>

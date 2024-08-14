@@ -84,8 +84,10 @@ class BulkAssignQrcodes implements ShouldQueue
             } elseif ($this->generateGs1LinkWith == 'serial_no') {
                 return $baseUrl . '/01/' . $qrcode->product->gtin . '/10/1?id=' . $qrcode->id . '&' . $expDate;
             }
+        }else{
+
+            return $baseUrl . '/11/' . $qrcode->qr_code . '?id=' . $qrcode->id;
         }
 
-        return $baseUrl . '/11/' . $qrcode->qr_code . '?id=' . $qrcode->id;
     }
 }

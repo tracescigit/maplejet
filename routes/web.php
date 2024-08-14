@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserLogController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,8 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::post('batches/import', [App\Http\Controllers\BatchController::class, 'import'])->name('batches.import');
         Route::post('batches/bulkstatuschange', [App\Http\Controllers\QrcodeController::class, 'bulkstatuschange'])->name('batches.bulstatuschange');
         Route::resource('qrcodes', App\Http\Controllers\QrcodeController::class);
+        Route::get('systemalerts', [App\Http\Controllers\QrcodeController::class, 'systemalerts'])->name('systemalerts');
+
         Route::get('bulkuploads', [App\Http\Controllers\BulkUploadController::class, 'index'])->name('bulkuploads.index');
         Route::post('bulkuploads/store', [App\Http\Controllers\BulkUploadController::class, 'store'])->name('bulkuploads.store');
         Route::post('bulkuploads/storeserial_no', [App\Http\Controllers\BulkUploadController::class, 'store_serial_no'])->name('bulkuploads.store_serial_no');
@@ -91,6 +94,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/reportlogshow/{id}', [App\Http\Controllers\ReportLogController::class, 'show'])->name('reportlog.show');
 
         Route::get('/reportexceldownload', [App\Http\Controllers\ReportLogController::class, 'exceldownload'])->name('reportlog.exceldownload');
+        Route::post('/update-location', [ProductController::class, 'updateLocation'])->name('update.location');
     });
 });
 Route::get('/checkcameraconn', [App\Http\Controllers\DashboardController::class, 'checkConnection'])->name('dashboard.checkConnection');
