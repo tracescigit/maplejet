@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Qrcode;
 use App\Models\Batch;
 use App\Models\ScanHistory;
+use App\Models\SystemAlert;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -243,6 +244,12 @@ class ProductController extends Controller
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
                 ->first();
+                $product_ok_check = DB::table('qrcodes')
+                ->where('qr_code', $qrcode)
+                ->join('batches', 'qrcodes.batch_id', 'batches.id')
+                ->join('products', 'qrcodes.product_id', 'products.id')
+                ->select('qrcodes.status as qr_status', 'batches.status as batch_status', 'products.status as prod_status') // Select columns from both tables as needed
+                ->first(); 
             $product_count = ScanHistory::where('qr_code', $qrcode)
                 ->where('product_id', $product_id)
                 ->get()
@@ -277,21 +284,65 @@ class ProductController extends Controller
                     'phone_number' => 'required|numeric',
                 ]);
             }
-            if ($product_scanned_check > 5) {
-                return response()->json(['status' => 'Product is already scanned from this IP or Mobile.']);
+            if($product_ok_check->prod_status=="Inactive"){
+                $systemAlert = SystemAlert::create([
+                    'product' => $product_id_ver->name,
+                    'batch' => $product_id_ver->batch_id,
+                    'ip' => $clientIp,
+                    'report_reason' => "Inactive code is scanned",
+                    'code_id' => $product_id_ver->id,
+                    'product_id' => $product_id_ver->product_id,
+                    'qr_code' => $qrcode
+                ]);
+                $systemAlertId = $systemAlert->id;
             }
-            ScanHistory::create([
+            if ($product_scanned_check > 5) {
+                $systemAlert = SystemAlert::create([
+                    'product' => $product_id_ver->name,
+                    'batch' => $product_id_ver->batch_id,
+                    'ip' => $clientIp,
+                    'report_reason' => "Code is scanned more than 10 times",
+                    'code_id' => $product_id_ver->id,
+                    'product_id' => $product_id_ver->product_id,
+                    'qr_code' => $qrcode
+                ]);
+                $systemAlertId = $systemAlert->id;
+            }
+            if($product_ok_check->batch_status=="Inactive"){
+                $systemAlert = SystemAlert::create([
+                    'product' => $product_id_ver->name,
+                    'batch' => $product_id_ver->batch_id,
+                    'ip' => $clientIp,
+                    'report_reason' => "Batch is Inactive",
+                    'code_id' => $product_id_ver->id,
+                    'product_id' => $product_id_ver->product_id,
+                    'qr_code' => $qrcode
+                ]);
+                $systemAlertId = $systemAlert->id; 
+            }
+            if($product_ok_check->prod_status=="Inactive"){
+                $systemAlert = SystemAlert::create([
+                    'product' => $product_id_ver->name,
+                    'batch' => $product_id_ver->batch_id,
+                    'ip' => $clientIp,
+                    'report_reason' => "Product is Inactive",
+                    'code_id' => $product_id_ver->id,
+                    'product_id' => $product_id_ver->product_id,
+                    'qr_code' => $qrcode
+                ]);
+                $systemAlertId = $systemAlert->id; 
+            }
+            $scanHistory = ScanHistory::create([
                 'product' => $product_id_ver->name,
                 'batch' => $product_id_ver->batch_id,
                 'genuine' => 1,
                 'scan_count' => $product_count + 1,
                 'ip_address' => $clientIp,
                 'code_id' => $product_id_ver->id,
-                'product_id' => $product_id->id,
-                'qr_code' => $qrcode,
-                'latitude' => $latitude,
-                'longitude' => $longitude
+                'product_id' => $product_id_ver->product_id,
+                'qr_code' => $qrcode
             ]);
+            $scanHistoryId = $scanHistory->id;
             if ($request->phone_number) {
                 ScanHistory::where('code_id', $request->qrcode_id)->update([
                     'phone' => $request->phone_number,
@@ -326,13 +377,13 @@ class ProductController extends Controller
     public function getproductdetailsqr(Request $request, $qrcode)
     {
         $clientIp = request()->ip();
-
         if ($request->otp) {
             if ($request->otp != '123456') {
                 return redirect()->back()->withInput()->with(['status' => 'OTP is incorrect. Please enter the correct OTP.']);
             }
         }
         $currentURL = url()->current();
+        $systemAlertId='';
         if (!empty($qrcode)) {
             $product_id_ver = DB::table('qrcodes')
                 ->where('qr_code', $qrcode)
@@ -340,9 +391,16 @@ class ProductController extends Controller
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
                 ->first();
+                $product_ok_check = DB::table('qrcodes')
+                ->where('qr_code', $qrcode)
+                ->join('batches', 'qrcodes.batch_id', 'batches.id')
+                ->join('products', 'qrcodes.product_id', 'products.id')
+                ->select('qrcodes.status as qr_status', 'batches.status as batch_status', 'products.status as prod_status') // Select columns from both tables as needed
+                ->first();  
             if (empty($product_id_ver)) {
                 return response()->json(['data' => 'Product is Fake.']);
             }
+           
             $media_base_url = $product_id_ver->web_url;
             if (substr($media_base_url, -1) !== '/') {
                 // Append a slash if it doesn't end with one
@@ -367,17 +425,62 @@ class ProductController extends Controller
                     return response()->json(['status' => 'Product is Suspicious.']);
                 }
                 if (!$request->otp && $product_id_ver->auth_required == 1) {
-                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode', 'clientIp','media_base_url'));
+                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode', 'clientIp','media_base_url','systemAlertId'));
                 }
                 if ($request->phone_number) {
                     $request->validate([
                         'phone_number' => 'required|numeric',
                     ]);
                 }
-                // if ($product_scanned_check > 5) {
-                //     return response()->json(['status' => 'Product is already scanned from this IP or Mobile.']);
-                // }
-                ScanHistory::create([
+                if($product_ok_check->prod_status=="Inactive"){
+                    $systemAlert = SystemAlert::create([
+                        'product' => $product_id_ver->name,
+                        'batch' => $product_id_ver->batch_id,
+                        'ip' => $clientIp,
+                        'report_reason' => "Inactive code is scanned",
+                        'code_id' => $product_id_ver->id,
+                        'product_id' => $product_id_ver->product_id,
+                        'qr_code' => $qrcode
+                    ]);
+                    $systemAlertId = $systemAlert->id;
+                }
+                if ($product_scanned_check > 5) {
+                    $systemAlert = SystemAlert::create([
+                        'product' => $product_id_ver->name,
+                        'batch' => $product_id_ver->batch_id,
+                        'ip' => $clientIp,
+                        'report_reason' => "Code is scanned more than 10 times",
+                        'code_id' => $product_id_ver->id,
+                        'product_id' => $product_id_ver->product_id,
+                        'qr_code' => $qrcode
+                    ]);
+                    $systemAlertId = $systemAlert->id;
+                }
+                if($product_ok_check->batch_status=="Inactive"){
+                    $systemAlert = SystemAlert::create([
+                        'product' => $product_id_ver->name,
+                        'batch' => $product_id_ver->batch_id,
+                        'ip' => $clientIp,
+                        'report_reason' => "Batch is Inactive",
+                        'code_id' => $product_id_ver->id,
+                        'product_id' => $product_id_ver->product_id,
+                        'qr_code' => $qrcode
+                    ]);
+                    $systemAlertId = $systemAlert->id; 
+                }
+                if($product_ok_check->prod_status=="Inactive"){
+                    $systemAlert = SystemAlert::create([
+                        'product' => $product_id_ver->name,
+                        'batch' => $product_id_ver->batch_id,
+                        'ip' => $clientIp,
+                        'report_reason' => "Product is Inactive",
+                        'code_id' => $product_id_ver->id,
+                        'product_id' => $product_id_ver->product_id,
+                        'qr_code' => $qrcode
+                    ]);
+                    $systemAlertId = $systemAlert->id; 
+                }
+                $scanHistory = ScanHistory::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
                     'genuine' => 1,
@@ -387,6 +490,7 @@ class ProductController extends Controller
                     'product_id' => $product_id_ver->product_id,
                     'qr_code' => $qrcode
                 ]);
+                $scanHistoryId = $scanHistory->id;
                 if ($request->phone_number) {
                     ScanHistory::where('code_id', $request->qrcode_id)->update([
                         'phone' => $request->phone_number,
@@ -411,24 +515,33 @@ class ProductController extends Controller
                 //             'genuine' => 2,
                 //         ]);
                 //     } 
-                //     dd('ab');
+               
 
-                //     return response()->json(['status' => 'Product is Suspicious.']);
                 // }
                 $product_id_expiry_check = $product_id_ver->exp_date < $currentDate ? 'Expired' : '';
 
 
                 if ($product_scanned_count > 10) {
+                    $systemAlert = SystemAlert::create([
+                        'product' => $product_id_ver->name,
+                        'batch' => $product_id_ver->batch_id,
+                        'ip' => $clientIp,
+                        'report_reason' => "Code is scanned more than 10 times",
+                        'code_id' => $product_id_ver->id,
+                        'product_id' => $product_id_ver->product_id,
+                        'qr_code' => $qrcode
+                    ]);
+                    $systemAlertId = $systemAlert->id;
                     $genuine = "Product is Suspicious";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine','systemAlertId','scanHistoryId'));
                 }
                 $genuine = '';
                 if ($product_id_expiry_check == 'Expired') {
                     $genuine = "Product is Expired";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine','systemAlertId','scanHistoryId'));
                 } else {
                     $genuine = "Product is Genuine";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine','systemAlertId','scanHistoryId'));
                 }
             } else {
                 $genuine = 'Product is Fake';
@@ -438,5 +551,20 @@ class ProductController extends Controller
             $genuine = 'Product is Fake';
             return view('apicall.index', compact('genuine'));
         }
+    }
+    public function updateLocation(Request $request){
+       if(!empty($request->systemAlertId)){
+        SystemAlert::where('id',$request->systemAlertId)->update([
+            'lat' => $request->latitude,
+            'long' => $request->longitude
+        ]);
+       }
+       if(!empty($request->scanHistoryId)){
+        ScanHistory::where('id',$request->scanHistoryId)->update([
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
+        ]);
+       }
+
     }
 }

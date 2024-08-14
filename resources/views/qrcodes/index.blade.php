@@ -70,30 +70,44 @@
         <!-- Status messages -->
         <div class="row">
             <div class="col-md-12">
-                @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-                @endif
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    {{ $errors->first() }}
-                </div>
-                @endif
-                <div id="statusMessage1" class="alert alert-success" style="background-color:#34eb86; display:none;">
-                    <!-- This content will be set dynamically by JavaScript -->
-                </div>
+
 
             </div>
         </div>
 
         <!-- Info boxes -->
         <div class="content content-components">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (session('status'))
+                    <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> {{ session('status') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
 
-            <div class="container">
+                    @if ($errors->any())
+                    <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> {{ $errors->first() }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+                </div>
+            </div>
+
+
+            <div class="container pd-20 mg-t-10 col-10 mx-auto">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Qr-codes</h4>
+
+                        <div id="statusMessage1" class="alert alert-success" style="background-color:#34eb86; display:none;">
+                            <!-- This content will be set dynamically by JavaScript -->
+                        </div>
+                        <h4 id="section3" class="mg-b-10">Create Qr-codes</h4>
                         <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Qr-code.</p>
                     </div>
 
@@ -445,6 +459,7 @@
         }
     }
 </script>
+
 <script>
     var statusToChange;
     var requestId;
@@ -476,5 +491,24 @@
 
         $('#statusModal').modal('hide'); // Hide the modal
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide status message after 2 seconds
+        var statusMessage = document.getElementById('statusMessage');
+        if (statusMessage) {
+            setTimeout(function() {
+                statusMessage.style.display = 'none';
+            }, 2000); // 2000 milliseconds = 2 seconds
+        }
+
+        // Hide error message after 2 seconds (optional)
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 2000); // 2000 milliseconds = 2 seconds
+        }
+    });
 </script>
 @endsection

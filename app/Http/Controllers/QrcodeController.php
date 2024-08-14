@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\ExportDataToCSV;
+use App\Models\SystemAlert;
 
 class QrcodeController extends Controller
 {
@@ -138,7 +139,11 @@ class QrcodeController extends Controller
             return response()->json(['status' => 'Invalid or missing start_code or quantity']);
         }
     }
-    public function downloadCsv()
+    public function systemalerts()
     {
+        $systemalerts = SystemAlert::with('batches')->orderBy('created_at', 'desc')->paginate(10);
+
+    // Pass the paginated results to the view
+    return view('qrcodes.systemalert', compact('systemalerts'));
     }
 }

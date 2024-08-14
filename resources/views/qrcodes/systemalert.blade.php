@@ -4,7 +4,7 @@
 <style>
     /* Custom button styles */
     .btn-custom {
-        background: #b70a9b !important;
+        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -59,19 +59,19 @@
     }
 </style>
 <div class="content content-components">
-    <div class="container">
+    <div class="container pd-20 mg-t-10 col-10 mx-auto">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10 font-weight-bolder">Consumer Alerts</h4>
-                <p class="mg-b-30">Use this page to <code>View</code> Consumer Reports .</p>
+                <h4 id="section3" class="mg-b-10">System Alerts</h4>
+                <p class="mg-b-30">Use this page to <code>View</code> System Reports .</p>
             </div>
 
-            <div class="pd-10 mg-l-auto">
-                <a href="{{ route('reportlog.exceldownload') }}" class="btn btn-custom btn-icon" type="submit"><i data-feather="plus-circle" class="mr-1"></i> Export</a>
-            </div>
+            <!-- <div class="pd-10 mg-l-auto">
+                <a href="#" class="btn btn-custom btn-icon" type="submit"><i data-feather="plus-circle"></i> Export Excel</a>
+            </div> -->
         </div>
-        <div data-label="Consumer-Alerts" class="df-example demo-table">
-            <form method="GET" action="{{ route('reportlog.index') }}">
+        <form method="GET" action="{{ route('reportlog.index') }}">
+            <div data-label="Systems-Alerts" class="df-example demo-table">
                 <div class="row row-sm mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Start Date: </label>
@@ -91,58 +91,55 @@
                         <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
                     </div>
                 </div>
+            </div>
+        </form>
 
-            </form>
+        <div class="table-responsive">
+            <table class="table table-striped mg-b-0">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">ID</th>
+                        <th scope="col" class="text-left font-weight-bold">Product</th>
+                        <th scope="col" class="text-left font-weight-bold">Batch</th>
+                        <th scope="col" class="text-left font-weight-bold">Issue</th>
+                        <th scope="col" class="text-left font-weight-bold">Logged On</th>
+                        <th scope="col" class="text-center font-weight-bold">View Details</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($systemalerts as $index=>$singledata)
+                    @php
+                    $page = $systemalerts->currentPage();
+                    $perPage = $systemalerts->perPage();
+                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                    @endphp
 
 
-            <div class="table-responsive">
-                <table class="table table-striped mg-b-0">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-center font-weight-bold">ID</th>
-                            <th scope="col" class="text-left font-weight-bold">Issue</th>
-                            <th scope="col" class="text-left font-weight-bold">Product</th>
-                            <th scope="col" class="text-left font-weight-bold">Batch</th>
-                            <th scope="col" class="text-left font-weight-bold">IP Address</th>
-                            <th scope="col" class="text-left font-weight-bold">Description</th>
-                            <th scope="col" class="text-center font-weight-bold">View Details</th>
+                    <tr>
+                        <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                        <td class="tx-medium text-left"> {{$singledata->product}}</td>
+                        <td class="tx-medium text-left"> {{$singledata->batches->code}}</td>
+                        <td class="tx-medium text-left"> {{$singledata->report_reason}}</td>
+                        <td class="tx-medium text-left"> {{ \Carbon\Carbon::parse($singledata->exp_date)->format('d-m-Y') }}</td>
+                        <td class="tx-medium text-center">
+                            <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
+                                <i class="fas fa-eye"></i></a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
 
+        </div><!-- table-responsive -->
+    </div><!-- card -->
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($reportlog as $index=>$singledata)
-                        @php
-                        $page = $reportlog->currentPage();
-                        $perPage = $reportlog->perPage();
-                        $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                        @endphp
-                        <tr>
-                            <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-                            <td class="tx-medium text-left"> {{$singledata->report_reason}}</td>
-                            <td class="tx-medium text-left"> {{$singledata->product}}</td>
-                            <td class="tx-medium text-left"> {{$singledata->batch}}</td>
-                            <td class="tx-medium text-left"> {{$singledata->ip}}</td>
-                            <td class="tx-medium text-left"> {{$singledata->description}}</td>
-                            <td class="tx-medium text-center">
-                                <a type="button" class="btn btn-outline-primary" href="{{route('reportlog.show',$singledata->id)}}">
-                                    <i class="fas fa-eye"></i></a>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-
-            </div><!-- table-responsive -->
-        </div><!-- card -->
-
-        <div class="mt-3">
-            {{ $reportlog->links('pagination::bootstrap-5') }}
-        </div>
+    <div class="mt-3">
+        {{ $systemalerts->links('pagination::bootstrap-5') }}
     </div>
 
 </div>

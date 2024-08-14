@@ -134,7 +134,28 @@
 </div>
 
 <div class="content content-components">
-    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            @if (session('status'))
+            <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('status') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
+            @if ($errors->any())
+            <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{ $errors->first() }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+        </div>
+    </div>
+    <div class="container pd-20 mg-t-10 col-10 mx-auto">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Jobs</h4>
@@ -262,13 +283,13 @@
                         <td class="text-left">{{$singledata->productionLines->name ?? ""}}</td>
                         <td class="text-center">{{$singledata->quantity}}</td>
                         <td class="text-center">
-                        {{$singledata->printed}}
+                            {{$singledata->printed}}
                         </td>
                         <td class="text-center text-danger">
-                        {{$singledata->verified}}
+                            {{$singledata->verified}}
                         </td>
                         <td class="tx-medium text-center">
-                        @if($singledata->status == 'Assigned')
+                            @if($singledata->status == 'Assigned')
                             <span class="badge badge-success">{{$singledata->status}}</span>
                             @else
                             <span class="badge badge-danger">{{$singledata->status}}</span>
@@ -277,12 +298,12 @@
                         </td>
                         <td class="text-center">
                             <div class="btn-group" role="group" aria-label="Actions">
-                            <a href="{{ route('jobs.show', $singledata->id) }}" class="btn btn-outline-primary" type="button">
-                                        <i class="fa fa-eye" style="color: #63E6BE; font-size:18px;"></i>
-                                    </a>
-                                    <a href="{{ route('jobs.edit', $singledata->id) }}" class="btn btn-outline-primary">
-                                        <i class="fa fa-edit" style="color: #74C0FC; font-size:18px;"></i>
-                                    </a>
+                                <a href="{{ route('jobs.show', $singledata->id) }}" class="btn btn-outline-primary" type="button">
+                                    <i class="fa fa-eye" style="color: #63E6BE; font-size:18px;"></i>
+                                </a>
+                                <a href="{{ route('jobs.edit', $singledata->id) }}" class="btn btn-outline-primary">
+                                    <i class="fa fa-edit" style="color: #74C0FC; font-size:18px;"></i>
+                                </a>
 
                             </div>
                         </td>

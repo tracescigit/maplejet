@@ -38,23 +38,34 @@ class BulkUploadController extends Controller
             'starting_code' => 'nullable|numeric|digits_between:7,21',
             'quantity' => 'required|numeric|min:1',
         ]);
+    
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+    
         $baseUrl = url('/');
+        $data = [
+            'quantity' => $request->quantity,
+            'baseurl' => $baseUrl
+        ];
+    
         if ($request->option == 'generate_by_serial') {
             if (empty($request->starting_code)) {
-                return redirect()->back()->with('error', 'Starting code empty aborting data insertion into database');
+                return redirect()->route('qrcodes')->with('error', 'Starting code is empty. Aborting data insertion into database.');
             }
             $data['starting_code'] = $request->starting_code;
-            $data['quantity'] = $request->quantity;
-            $data['baseurl'] = $baseUrl;
             event(new DispatchQrUploadBySerial($data));
+            $statusMessage = 'Data has been queued for processing by serial.';
         } else {
             QrUploadByRandom::dispatch($request->quantity, $baseUrl)->onQueue('generate_by_random');
+            $statusMessage = 'Data has been queued for processing by random.';
         }
-        return redirect('qrcodes')->with('status', 'Data has been queued for processing.');
+    
+        return redirect()->route('qrcodes.index')->with('status', $statusMessage);
     }
+    
+
+
 
     public function bulkassign(Request $request)
     {

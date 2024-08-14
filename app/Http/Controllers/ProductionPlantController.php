@@ -45,10 +45,21 @@ class ProductionPlantController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:50|regex:/(^[a-zA-Z0-9 \-\&]+$)/u',
-            'code' => 'required',
-            'status' => 'required'
+            'name' => [
+                'required',
+                'max:50',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
+            'code' => [
+                'required',
+                'string',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
+            'status' => 'required', // If status needs to be a specific set of values, add 'in:value1,value2,...'
         ]);
+        
+        
+      
         $product = ProductionPlant::create([
             'name' => $request->name,
             'code' => $request->code,
@@ -73,10 +84,19 @@ class ProductionPlantController extends Controller
     public function update(Request $request, Productionplant $productionPlant)
     {
         $request->validate([
-            'name' => 'required|max:50|regex:/(^[a-zA-Z0-9 \-\&]+$)/u',
-            'code' => 'required',
-            'status' => 'required'
+            'name' => [
+                'required',
+                'max:50',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
+            'code' => [
+                'required',
+                'string',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
+            'status' => 'required', // If status needs to be a specific set of values, add 'in:value1,value2,...'
         ]);
+        
         $productionPlant->update([
             'name' => $request->name,
             'code' => $request->code,
