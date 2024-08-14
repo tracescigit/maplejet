@@ -59,24 +59,29 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => [
                 'required',
                 'max:50',
-                'regex:/^[a-zA-Z0-9-_]+$/u'
+                'regex:/^[a-zA-Z0-9-_ ]+$/u' // Regex to include spaces
             ],
             'brand' => [
                 'required',
                 'string',
-                'regex:/^[a-zA-Z0-9-_]+$/u'
+                'regex:/^[a-zA-Z0-9-_ ]+$/u' // Regex to include spaces
             ],
             'company_name' => ['required', 'string'],
-            'web_url' => 'required',
+            'web_url' => 'required|url', // Validate URL
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:5120',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
-            'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500'
+            'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
+            'gtin' => [
+                'nullable',
+                'unique:products,gtin'
+            ],
         ]);
+        
+        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -127,19 +132,24 @@ class ProductController extends Controller
             'name' => [
                 'required',
                 'max:50',
-                'regex:/^[a-zA-Z0-9-_]+$/u'  // Allow letters, numbers, dashes, and underscores
+                'regex:/^[a-zA-Z0-9-_ ]+$/u' // Regex to include spaces
             ],
             'brand' => [
                 'required',
                 'string',
-                'regex:/^[a-zA-Z0-9-_]+$/u'  // Allow letters, numbers, dashes, and underscores
+                'regex:/^[a-zA-Z0-9-_ ]+$/u' // Regex to include spaces
             ],
             'company_name' => ['required', 'string'],
+            'web_url' => 'required|url', // Validate URL
             'video' => 'nullable|mimetypes:video/mp4,video/quicktime|max:5120',
-            'web_url' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
-            'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500'
+            'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
+            'gtin' => [
+                'nullable',
+                'unique:products,gtin' 
+            ],
         ]);
+        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
