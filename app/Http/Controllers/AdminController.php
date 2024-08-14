@@ -158,7 +158,7 @@ class AdminController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $user = Auth::user();
-        $user->password = Hash::make($request->input('new_password'));
+        $user->password = Hash::make($request->input('password'));
         $user->update();
     
         return redirect()->route('dashboard')->with('status', 'Password updated successfully.');
