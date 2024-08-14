@@ -119,6 +119,27 @@
 
 
 <div class="content content-components">
+  <div class="row">
+    <div class="col-md-12">
+      @if (session('status'))
+      <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @endif
+
+      @if ($errors->any())
+      <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> {{ $errors->first() }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @endif
+    </div>
+  </div>
   <div class="container pd-20 mg-t-10 col-10 mx-auto">
     <div class="d-flex bg-gray-10">
       <div class="pd-10 flex-grow-1">
@@ -224,7 +245,7 @@
           </div>
           <div class="col-sm-3 mg-t-10  mg-sm-t-0">
             <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
-           
+
           </div>
         </div>
       </div>

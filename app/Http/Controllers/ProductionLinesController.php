@@ -56,16 +56,16 @@ class ProductionLinesController extends Controller
    public function store(Request $request)
    {
       $validator = Validator::make($request->all(), [
-         'name' => [
-            'required',
-            'string',
-            'regex:/^[a-zA-Z0-9-_ ]+$/u'
-         ],
-         'code' => [
-            'required',
-            'string',
-            'regex:/^[a-zA-Z0-9-_]+$/u'
-         ],
+      'name' => [
+                'required',
+                'max:50',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
+            'code' => [
+                'required',
+                'string',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
          'ip_address' => [
             'required',
             'regex:/^(?:\d{1,3}\.){3}\d{1,3}$/',
@@ -138,16 +138,16 @@ class ProductionLinesController extends Controller
    public function update(Request $request, $id)
    {
       $validator = Validator::make($request->all(), [
-         'name' => [
-            'required',
-            'string',
-            'regex:/^[a-zA-Z0-9-_ ]+$/u'
-         ],
-         'code' => [
-            'required',
-            'string',
-            'regex:/^[a-zA-Z0-9-_]+$/u'
-         ],
+        'name' => [
+                'required',
+                'max:50',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
+            'code' => [
+                'required',
+                'string',
+                'regex:/^[a-zA-Z0-9-_ ]+$/', // Regex to include letters, numbers, dashes, underscores, and spaces
+            ],
          'ip_address' => [
             'required',
             'regex:/^(?:\d{1,3}\.){3}\d{1,3}$/',

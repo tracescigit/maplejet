@@ -123,15 +123,26 @@
 
 <div class="wrapper">
     <div class="main-panel" id="main-panel">
-        <div class="row">
+        <div class="content content-components">
             <div class="col-md-12">
-                @if(session('status'))
-                <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
+                @if (session('status'))
+                <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {{ session('status') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
+
+                @if ($errors->any())
+                <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ $errors->first() }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 @endif
             </div>
-        </div>
-        <div class="content content-components">
-
 
 
             <div class="container pd-20 mg-t-10 col-10 mx-auto">

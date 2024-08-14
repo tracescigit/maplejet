@@ -11,7 +11,7 @@
     <div class="dropdown dropdown-profile">
       <button onclick="openProfile()" class="btn dropdown-link profile_icon" data-toggle="dropdown" data-display="static">
         <div class="avatar avatar-sm">
-          <span class="avatar-initial rounded-circle">kp</span>
+          <span class="avatar-initial rounded-circle"><img src="{{tracesciimg('user_icon.png')}}" alt=""></span>
         </div>
       </button><!-- dropdown-link -->
       <div class="dropdown-menu dropdown-menu-right tx-13 bg-gray-100 profile" id="open_profile" style="display: none;">
@@ -22,7 +22,7 @@
           </button>
         </div>
         <div class="avatar mg-b-15">
-          <span class="avatar-initial rounded-circle">kp</span>
+          <span class="avatar-initial rounded-circle"><img src="{{tracesciimg('user_icon.png')}}" alt=""></span>
         </div>
         <h6 class="tx-semibold mg-b-5">{{ Auth::user()->name ?? "" }}</h6>
         <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
