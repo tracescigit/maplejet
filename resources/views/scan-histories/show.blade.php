@@ -17,7 +17,12 @@
         border-radius: 10px;
         overflow: hidden;
     }
+    #map {
+            height: 500px;
+            width: 100%;
+        }
 </style>
+
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
@@ -28,7 +33,6 @@
                         <p class="mg-b-30">Use this page to <code>View</code> Scan Details.</p>
                         <hr>
                     </div>
-
 
                 </div>
                 <div class="card-body">
@@ -68,6 +72,35 @@
                                 <hr>
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="image_preview">Reporter:</label>
+                                <p>{{$scanhistories->reporter_id}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="image_preview">Mobile:</label>
+                                <p>{{$scanhistories->mobile}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                    
+                     
+                            <div class="col-12">
+                                
+                                    
+                                    <div class="card-body mb-3">
+
+                                        <div class="col-12">
+                                            <div id="map"></div>
+                                        </div>
+
+                                    </div>
+                                </div><!-- row -->
+                            </div><!-- container -->
+                      
                         <div class="col-md-12">
                             <a href="{{ route('scanhistories.index') }}" class="btn btn-secondary float-left">
                                 Back</a>
@@ -81,3 +114,35 @@
 </div>
 
 @endsection
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
+</script>
+<script>
+        function initMap() {
+             // Assuming these values are being rendered correctly
+             var latitude = parseFloat('{{ $scanhistories->latitude }}');
+            var longitude = parseFloat('{{ $scanhistories->longitude }}');
+            // Create a map centered on a specific location
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: latitude, lng: longitude } // Change this to your desired location
+            });
+
+           
+
+            // Add markers
+            var locations = [
+                { lat: latitude, lng: longitude, title: "Location 1" },
+            ];
+
+            for (var i = 0; i < locations.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: { lat: locations[i].lat, lng: locations[i].lng },
+                    map: map,
+                    title: locations[i].title
+                });
+            }
+        }
+
+        // Initialize the map when the page loads
+        window.onload = initMap;
+    </script>
