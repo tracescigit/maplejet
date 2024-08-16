@@ -54,7 +54,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/userlog', [App\Http\Controllers\UserLogController::class, 'index'])->name('userlog.index');
         Route::get('/userlog/show/{id}', [App\Http\Controllers\UserLogController::class, 'show'])->name('userlog.show');
 
-        Route::post('forgotpassword', [App\Http\Controllers\AdminController::class, 'SendPassword'])
+        Route::post('forgot_password', [App\Http\Controllers\AdminController::class, 'SendPassword'])
             ->name('password.send');
         // Route::middleware(['auth', 'permission:edit articles'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,7 +84,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
 
         Route::get('/scans-data', [App\Http\Controllers\DashboardController::class, 'getCurrentMonthData']);
 
-
+        Route::get('/userlog/getDownloadLink', [UserLogController::class, 'getDownloadLink'])->name('userlog.getDownloadLink');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('/log_out', [App\Http\Controllers\AdminController::class, 'logoutlanding'])->name('logout1');
         Route::get('/profileinfo', [App\Http\Controllers\AdminController::class, 'viewprofile'])->name('profile');

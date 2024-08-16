@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\ExportDataToCSV;
 use App\Models\SystemAlert;
-
+use Illuminate\Support\Facades\Cache;
 class QrcodeController extends Controller
 {
     public function index(Request $request)
@@ -145,5 +145,15 @@ class QrcodeController extends Controller
 
     // Pass the paginated results to the view
     return view('qrcodes.systemalert', compact('systemalerts'));
+    }
+    public function downloadStatus()
+    {
+        $fileLink = Cache::get('userlog_download_link');
+    
+        if ($fileLink) {
+            return response()->json(['file_link' => $fileLink]);
+        }
+    
+        return response()->json(['message' => 'File not yet available.'], 404);
     }
 }

@@ -101,7 +101,7 @@
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type=" button" class="btn btn-custom btn-icon" type="submit" onclick="submitForm('export')"><i data-feather="plus-circle"></i> Export Excel</button>
+                <button class="btn btn-custom btn-icon" onclick="downloadexceljob()"><i data-feather="plus-circle"></i> Export Excel</button>
             </div>
         </div>
 
@@ -116,20 +116,20 @@
                         <label>Select User: </label>
                         <select class="form-control mr-2" name="user">
                             @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user', request('user')) == $user->id ? 'selected' : '' }} >{{ $user->name }}</option>
-                           
+                            <option value="{{ $user->id }}" {{ old('user', request('user')) == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+
                             @endforeach
                         </select>
                     </div>
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Start Date: </label>
                         <input type="date" name="start_date" class="form-control"
-                        value="{{ old('start_date', request('start_date')) }}">
+                            value="{{ old('start_date', request('start_date')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <label>End Date: </label>
-                        <input type="date" name="end_date" class="form-control" 
-                        value="{{ old('end_date', request('end_date')) }}">
+                        <input type="date" name="end_date" class="form-control"
+                            value="{{ old('end_date', request('end_date')) }}">
                     </div>
                     <div class="col-sm-3 mg-t-10  mg-sm-t-0">
                         <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
@@ -204,11 +204,11 @@
 
         </div>
         <div class="mt-3">
-        {{ $userlog->links('pagination::bootstrap-5') }}
-    </div>
+            {{ $userlog->links('pagination::bootstrap-5') }}
+        </div>
     </div><!-- card -->
 
-    
+
 
 </div>
 
@@ -296,6 +296,22 @@
 
     function closemodal() {
         $('#exampleModal').modal('hide');
+    }
+
+    function downloadexceljob() {
+        var downloadUrl = "{{ route('userlog.downloadexcel') }}";
+console.log(downloadUrl[1]);
+        // Create a temporary link element
+        var link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'userlog.xlsx'; // The file name you want to use
+
+        // Append the link to the body and trigger the download
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove the link from the document
+        document.body.removeChild(link);
     }
 </script>
 @endsection

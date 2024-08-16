@@ -9,17 +9,18 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class UserLogExport implements FromCollection, WithHeadings
 {
     protected $userlog;
-    protected $url;
 
-    public function __construct($userlog, $url)
+    public function __construct($userlog)
     {
         $this->userlog = $userlog;
-        $this->url = $url;
-    }
 
+    }
     public function collection()
     {
-        return $this->userlog->map(function ($log) {
+        // Limit the number of rows to 5000
+        $limitedData = $this->userlog->take(5000);
+
+        return $limitedData->map(function ($log) {
             $properties = json_decode($log->properties, true);
 
             // Separate the attributes and old sections for user view
@@ -34,7 +35,7 @@ class UserLogExport implements FromCollection, WithHeadings
                 'Log Name' => $log->log_name,
                 'Description' => $log->description,
                 'Event' => $log->event,
-                'Url' => $this->url,
+                'User'=>$log->user->name??"",
                 'New Value' => $attributesStr,
                 'Old Value' => $oldStr,
                 'Date' => date('d-m-Y H:i:s', $log->created_at->timestamp)
