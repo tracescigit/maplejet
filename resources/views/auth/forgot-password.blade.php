@@ -66,23 +66,29 @@
           </div>
           @endif
           @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
           <h4 class="tx-20 tx-sm-24">Reset your password</h4>
           <p class="tx-color-03 mg-b-30 tx-center">Enter your username or email address and we will send you a link to reset your password.</p>
-          <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+          <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40 justify-content-center">
             <form method="POST" action="{{ route('password.send') }}">
               @csrf
               <div class="form-group d-flex align-items-center">
-                <input type="text" class="form-control wd-sm-250 flex-fill" name="email" placeholder="Enter username or email address" required>
-                <button type="submit" class="btn btn-brand-02 btn-custom mg-sm-l-10 mg-t-10 mg-sm-t-0">Reset Password</button>
+                <input type="text" class="form-control wd-sm-250 flex-fill" name="email" placeholder="Enter username or email" required>
+
+
               </div>
+              <button type="submit" class="btn btn-brand-02 btn-custom mg-sm-l-10 mg-t-10 mg-sm-t-0">Reset Password</button>
+
+              <a href="{{ route('login') }}" class="btn btn-secondary mg-sm-l-10 mg-t-10 mg-sm-t-0">
+                Back
+              </a>
             </form>
           </div>
 
