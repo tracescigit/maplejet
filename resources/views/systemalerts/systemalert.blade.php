@@ -71,7 +71,7 @@
             </div>
         </div>
         <div data-label="search" class="df-example demo-table">
-            <form method="GET" action="{{ route('reportlog.index') }}">
+            <form method="GET" action="{{ route('systemalerts') }}">
                 <div class="row row-sm mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Start Date: </label>
@@ -115,13 +115,12 @@
                         $incrementingIndex = ($page - 1) * $perPage + $index + 1;
                         @endphp
 
-
                         <tr>
                             <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
                             <td class="tx-medium text-left"> {{$singledata->product}}</td>
                             <td class="tx-medium text-left"> {{$singledata->batches->code}}</td>
                             <td class="tx-medium text-left"> {{$singledata->report_reason}}</td>
-                            <td class="tx-medium text-left"> {{ \Carbon\Carbon::parse($singledata->exp_date)->format('d-m-Y') }}</td>
+                            <td class="tx-medium text-left"> {{ \Carbon\Carbon::parse($singledata->created_at)->format('d-m-Y') }}</td>
                             <td class="tx-medium text-center">
                                 <a type="button" class="btn btn-outline-primary" href="{{route('systemalerts.systemalertshow',$singledata->id)}}">
                                     <i class="fas fa-eye"></i></a>

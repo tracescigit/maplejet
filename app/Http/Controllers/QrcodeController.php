@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Jobs\ExportDataToCSV;
 use App\Models\SystemAlert;
 use Illuminate\Support\Facades\Cache;
+
 class QrcodeController extends Controller
 {
     public function index(Request $request)
@@ -42,11 +43,11 @@ class QrcodeController extends Controller
             return $product->status === 'Active';
         })->count();
         $last_added_product = Qrcode::select('code_data')
-        ->orderBy('created_at', 'desc')
-        ->orderBy('id', 'desc')
-        ->first();
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->first();
         // $qrdatas = $qrdata->paginate(10);
-        return view('qrcodes.index', compact('qrdatas','qr_count','last_added_product','qractiveCount'));
+        return view('qrcodes.index', compact('qrdatas', 'qr_count', 'last_added_product', 'qractiveCount'));
     }
 
     public function create()
@@ -68,9 +69,9 @@ class QrcodeController extends Controller
         ]);
         $batch = Batch::findOrFail($request->batch);
         $filePath = $request->file('file')->store('csv_files');
-        $products = Product::select('web_url')->where('id',$request->product_id)->first();
-        $link=$products->web_url;
-        ProcessCsvFile::dispatch($filePath, $request->product_id, $request->batch, $request->gs_link,$link)->onQueue('bulk_uploads_product');
+        $products = Product::select('web_url')->where('id', $request->product_id)->first();
+        $link = $products->web_url;
+        ProcessCsvFile::dispatch($filePath, $request->product_id, $request->batch, $request->gs_link, $link)->onQueue('bulk_uploads_product');
         return redirect('qrcodes')->with('status', 'CSV data is being processed.');
     }
     public function edit(Batch $batch)
@@ -85,10 +86,10 @@ class QrcodeController extends Controller
         $qrcode->update([
             'status' => $request->status_to_change,
         ]);
-    
+
         return response()->json(['success' => true, 'message' => 'Qrcode updated successfully']);
     }
-    
+
     public function destroy($id)
     {
         // $batch = Batch::find($id);
@@ -97,7 +98,7 @@ class QrcodeController extends Controller
     }
     public function bulkstatuschange(Request $request)
     {
-        
+
 
         if (!empty($request->start_code)) {
             $id_to_start = Qrcode::where('code_data', $request->start_code)->pluck('id')->first();
@@ -105,9 +106,9 @@ class QrcodeController extends Controller
                 $quantity = (int)$request->quantity;
                 $id_to_end = $id_to_start + $quantity - 1;
                 if ($request->action == 'active') {
-                    $product_associated=Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
-                    ->whereNull('product_id')->first();
-                    if($product_associated){
+                    $product_associated = Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
+                        ->whereNull('product_id')->first();
+                    if ($product_associated) {
                         return response()->json(['producterror' => 'Code is not associated with product. Kindly associated code data with product']);
                     }
                     Qrcode::whereBetween('id', [$id_to_start, $id_to_end])
@@ -121,15 +122,14 @@ class QrcodeController extends Controller
                 }
                 if ($request->action == 'Export') {
                     $randomString = uniqid(); // Generates a unique ID based on the current timestamp
-                $fileName = 'export_' . $id_to_start . '_' . $randomString . '.csv';
-                
-                // Dispatch job for exporting data to CSV
-                ExportDataToCSV::dispatch($id_to_start, $id_to_end, $fileName);
-                
-                // Return response with file name
-                return response()->json(['success' => true, 'filename' => $fileName]);
-                }
+                    $fileName = 'export_' . $id_to_start . '_' . $randomString . '.csv';
 
+                    // Dispatch job for exporting data to CSV
+                    ExportDataToCSV::dispatch($id_to_start, $id_to_end, $fileName);
+
+                    // Return response with file name
+                    return response()->json(['success' => true, 'filename' => $fileName]);
+                }
             } else {
                 return response()->json(['status' => 'Invalid or missing start_code or quantity']);
             }
@@ -139,26 +139,39 @@ class QrcodeController extends Controller
             return response()->json(['status' => 'Invalid or missing start_code or quantity']);
         }
     }
-    public function systemalerts()
+    public function systemalerts(Request $request)
     {
-        $systemalerts = SystemAlert::with('batches')->orderBy('created_at', 'desc')->paginate(10);
+        // Initialize the query with eager loading and ordering
+        $query = SystemAlert::with('batches')->orderBy('created_at', 'desc');
 
-    // Pass the paginated results to the view
-    return view('systemalerts.systemalert', compact('systemalerts'));
+        // Apply filters if they are present in the request
+        if ($request->has('start_date')) {
+            $query->where('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->has('end_date')) {
+            $query->where('created_at', '<=', $request->end_date);
+        }
+
+        // Apply pagination
+        $systemalerts = $query->paginate(10);
+        // Pass the paginated results to the view
+        return view('systemalerts.systemalert', compact('systemalerts'));
     }
-    public function show($id) {
-        $sysshow = Systemalert::where('id',$id)->with('batches')->first();
-        return view('systemalerts.systemalertshow',compact('sysshow'));
 
+    public function show($id)
+    {
+        $sysshow = Systemalert::where('id', $id)->with('batches')->first();
+        return view('systemalerts.systemalertshow', compact('sysshow'));
     }
     public function downloadStatus()
     {
         $fileLink = Cache::get('userlog_download_link');
-    
+
         if ($fileLink) {
             return response()->json(['file_link' => $fileLink]);
         }
-    
+
         return response()->json(['message' => 'File not yet available.'], 404);
     }
 }
