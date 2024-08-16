@@ -299,7 +299,7 @@
                     </div>
                 </div><!-- card -->
 
-                <div class="mt-3 mx-auto">
+                <div class="mt-3 mx-auto mb-3">
                     {{ $qrdatas->links('pagination::bootstrap-5') }}
                 </div>
             </div>

@@ -101,7 +101,7 @@
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button class="btn btn-custom btn-icon" onclick="downloadexceljob()"><i data-feather="plus-circle"></i> Export Excel</button>
+                <button class="btn btn-custom btn-icon" onclick="downloadexceljob()"><i data-feather="plus-circle" class="mr-1"></i> Export</button>
             </div>
         </div>
 
@@ -301,7 +301,6 @@
 
     function downloadexceljob() {
         var downloadUrl = "{{ route('userlog.downloadexcel') }}";
-console.log(downloadUrl[1]);
         // Create a temporary link element
         var link = document.createElement('a');
         link.href = downloadUrl;

@@ -57,30 +57,26 @@
 </style>
 
 <div class="content content-components">
+  @if (session('status'))
+  <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> {{ session('status') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
+
+  @if ($errors->any())
+  <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error!</strong> {{ $errors->first() }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  @endif
   <div class="container pd-x-0">
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
       <div>
-      <div class="row">
-                <div class="col-md-12">
-                    @if (session('status'))
-                    <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success!</strong> {{ session('status') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
-
-                    @if ($errors->any())
-                    <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong> {{ $errors->first() }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
-                </div>
-            </div>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb breadcrumb-style1 mg-b-10">
             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -213,7 +209,7 @@
 <script>
   function initMap() {
     // Assuming these values are being rendered correctly
- 
+
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 5,
       center: {
@@ -230,12 +226,15 @@
     var locations = JSON.parse(decodedString);
 
     for (var i = 0; i < locations.length; i++) {
-                var marker = new google.maps.Marker({
-                    position: { lat: parseFloat(locations[i].lat), lng: parseFloat(locations[i].lng) },
-                    map: map,
-                    title: location.title || 'No Title'
-                });
-            }
+      var marker = new google.maps.Marker({
+        position: {
+          lat: parseFloat(locations[i].lat),
+          lng: parseFloat(locations[i].lng)
+        },
+        map: map,
+        title: location.title || 'No Title'
+      });
+    }
   }
 
   // Initialize the map when the page loads
@@ -288,8 +287,12 @@
 
 <script>
   // Data passed from Laravel controller
-  const months = {!!json_encode($months) !!}; // Month names
-  const data = {!!json_encode($data) !!}; // Job counts
+  const months = {
+    !!json_encode($months) !!
+  }; // Month names
+  const data = {
+    !!json_encode($data) !!
+  }; // Job counts
 
   const jobData = {
     labels: months,
