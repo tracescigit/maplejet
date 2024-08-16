@@ -74,12 +74,12 @@
     <div class="container">
         <!-- Account page navigation-->
 
-        <hr class="mt-0 mb-4">
+       
         <div class="row">
 
-            <div class="col-xl-8">
+            <div class="col-lg-10 col-md-10 col-sm-10">
                 <!-- Account details card-->
-                <div class="card mb-4">
+                
                     <div class="card-body text-center">
                         <!-- Profile picture image-->
                         <img class="img-account-profile rounded-circle mb-2" src="{{tracesciimg('profile_pic.jpg')}}" height="30%" alt="">
@@ -172,7 +172,6 @@
                             </a>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
