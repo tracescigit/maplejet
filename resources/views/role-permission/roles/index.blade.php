@@ -127,7 +127,7 @@
                             <td class="text-center text-danger"> {{ $dateTime->format('d M Y') }}. {{ $dateTime->format('h:i:s') }}</td>
                             <td class="text-center">
                                 <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
-                                <a href="{{route('manageroles',$role->id)}}" class="btn btn-warning btn-sm">Add/Edit Role</i></a>
+                                <a href="{{route('manageroles',$role->id)}}" class="btn btn-warning btn-sm">Add/Edit Permissions</i></a>
 
 
                             </td>
