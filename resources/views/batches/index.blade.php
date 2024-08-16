@@ -297,9 +297,9 @@
                             </td>
                             <td class="tx-medium text-center">
                                 @if($batch->status == 'Active')
-                                <span class="tx-10 badge badge-success">{{$batch->status}}</span>
+                                <span class=" badge badge-success">{{$batch->status}}</span>
                                 @else
-                                <span class="tx-10 badge badge-danger">{{$batch->status}}</span>
+                                <span class=" badge badge-danger">{{$batch->status}}</span>
                             </td>
                             @endif
                             </td>

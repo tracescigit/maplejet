@@ -283,9 +283,9 @@
               <td class="text-left">{{ $product->company_name }}</td>
               <td class="tx-medium text-left">
                 @if($product->status == 'Active')
-                <span class="tx-10 badge badge-success">Active</span>
+                <span class=" badge badge-success">Active</span>
                 @else
-                <span class="tx-10 badge badge-danger">Inactive</span>
+                <span class="badge badge-danger">Inactive</span>
                 @endif
               </td>
               <td class="text-center">

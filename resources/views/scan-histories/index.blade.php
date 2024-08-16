@@ -245,13 +245,13 @@
                             <td class="text-center">
                                 @if ($product->genuine == 1)
                                 <!-- Genuine product -->
-                                <span class="badge tx-success" style="font-size: 15px;">Genuine</span>
+                                <span class="badge tx-success" style="font-size: 12px;">Genuine</span>
                                 @elseif ($product->genuine == 2)
                                 <!-- Suspicious product -->
-                                <span class="badge tx-warning" style="font-size: 15px;">Suspicious</span>
+                                <span class="badge tx-warning" style="font-size: 12px;">Suspicious</span>
                                 @else
                                 <!-- Fake product -->
-                                <span class="badge tx-danger" style="font-size: 15px;">Fake</span>
+                                <span class="badge tx-danger" style="font-size: 12px;">Fake</span>
                                 @endif
                             </td>
 

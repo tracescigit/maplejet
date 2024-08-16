@@ -24,7 +24,7 @@
                 <div class="media-body align-items-center d-none d-lg-flex">
                     <div class="mx-wd-600">
                         <img src="{{tracesciimg('loginimage.png')}}" class="img-fluid" alt="">
-                        <img class="logo-tracesci" src="{{tracesciimg('logo.png')}}" style="margin-left:175px;">
+                        <!-- <img class="logo-tracesci" src="{{tracesciimg('logo.png')}}" style="margin-left:175px;"> -->
                     </div>
 
                 </div><!-- media-body -->
