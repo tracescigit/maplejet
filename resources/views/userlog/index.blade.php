@@ -4,7 +4,7 @@
 <style>
     /* Custom button styles */
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -93,11 +93,11 @@
 @endif
 
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">Userlog</h4>
-                <p class="mg-b-30">Use this page to <code>View</code> Recent activities .</p>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Userlog</h4>
+                <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Recent activities .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
@@ -109,8 +109,8 @@
 
 
 
-        <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
-            <div data-label="Search" class="df-example demo-table">
+        <div data-label="Search" class="df-example demo-table">
+            <form method="GET" id="userlog-form" action="{{ route('userlog.index') }}">
                 <div class="row row-sm  mg-b-10">
                     <div class="col-sm-3 mg-t-10 mg-sm-t-0">
                         <label>Select User: </label>
@@ -136,9 +136,9 @@
                         <button type="submit" class="btn btn-secondary" style="margin-top: 28px;"><i data-feather="search"></i></button>
                     </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        </div>
         <div data-label="Logs" class="df-example demo-table mg-t-20">
             <div class="table-responsive">
                 <table class="table table-striped mg-b-0">
@@ -202,9 +202,10 @@
 
             </div><!-- table-responsive -->
 
-        </div>
-        <div class="mt-3">
-            {{ $userlog->links('pagination::bootstrap-5') }}
+
+            <div class="mt-3">
+                {{ $userlog->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div><!-- card -->
 

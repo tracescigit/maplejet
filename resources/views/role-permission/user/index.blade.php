@@ -4,7 +4,7 @@
 <style>
     /* Custom button styles */
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -87,67 +87,68 @@
 </style>
 
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">User Data</h4>
-                <p class="mg-b-30">Use <code>Add New</code> page to Create <code>New</code> User .</p>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">User Data</h4>
+                <p class="mg-b-30">Use <code style="color:#e300be;">Add New</code> page to Create <code style="color:#e300be;">New</code> User .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <a href="{{ route('users.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                <a href="{{ route('users.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle" class="mr-1"></i> Add New</button></a>
                 <a href="{{ route('permissions.index') }}" class="btn btn-custom ">Permissions</a>
                 <a href="{{ route('roles.index') }}" class="btn btn-custom">Roles</a>
             </div>
         </div>
         <div data-label="Users" class="df-example demo-table">
-        <div class="table-responsive">
-            <table class="table table-striped mg-b-0">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-left font-weight-bold">ID</th>
-                        <th scope="col" class="text-left font-weight-bold"> Name</th>
-                        <th scope="col" class="text-left font-weight-bold">Email</th>
-                        <th scope="col" class="text-left font-weight-bold">Status</th>
-                        <th scope="col" class="text-center font-weight-bold">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($users as $index=> $user)
-                    @php
-                    $page = $users->currentPage();
-                    $perPage = $users->perPage();
-                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                    @endphp
-                    <tr>
-                        <td class="tx-color-03 tx-normal text-left">{{ $incrementingIndex }}</td>
-                        <td class="tx-medium text-left">{{ $user->name }}</td>
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-left font-weight-bold">ID</th>
+                            <th scope="col" class="text-left font-weight-bold"> Name</th>
+                            <th scope="col" class="text-left font-weight-bold">Email</th>
+                            <th scope="col" class="text-left font-weight-bold">Status</th>
+                            <th scope="col" class="text-center font-weight-bold">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($users as $index=> $user)
+                        @php
+                        $page = $users->currentPage();
+                        $perPage = $users->perPage();
+                        $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                        @endphp
+                        <tr>
+                            <td class="tx-color-03 tx-normal text-left">{{ $incrementingIndex }}</td>
+                            <td class="tx-medium text-left">{{ $user->name }}</td>
 
-                        <td class="text-left ">{{ $user->email }}</td>
+                            <td class="text-left ">{{ $user->email }}</td>
 
-                        <td class="text-left ">@if($user->status == 'Active')
-                            <span class="tx-10 badge badge-success">{{$user->status}}</span>
-                            @else
-                            <span class="tx-10 badge badge-danger">{{$user->status}}</span>
-                            @endif
-                        </td>
-                        <td class="text-center">
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div><!-- table-responsive -->
-        </div>
+                            <td class="text-left ">@if($user->status == 'Active')
+                                <span class="tx-10 badge badge-success">{{$user->status}}</span>
+                                @else
+                                <span class="tx-10 badge badge-danger">{{$user->status}}</span>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-primary"><i class="fas fa-edit" style="color: #74C0FC; font-size:18px;"></i></a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div><!-- table-responsive -->
 
 
-        <div class="mt-3">
-            {{ $users->links('pagination::bootstrap-5') }}
+
+            <div class="mt-3">
+                {{ $users->links('pagination::bootstrap-5') }}
+            </div>
         </div>
     </div><!-- card -->
 </div>

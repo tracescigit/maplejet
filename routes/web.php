@@ -75,6 +75,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::post('batches/bulkstatuschange', [App\Http\Controllers\QrcodeController::class, 'bulkstatuschange'])->name('batches.bulstatuschange');
         Route::resource('qrcodes', App\Http\Controllers\QrcodeController::class);
         Route::get('systemalerts', [App\Http\Controllers\QrcodeController::class, 'systemalerts'])->name('systemalerts');
+        Route::get('/systemalertshow/{id}', [App\Http\Controllers\QrcodeController::class, 'show'])->name('systemalerts.systemalertshow');
 
         Route::get('bulkuploads', [App\Http\Controllers\BulkUploadController::class, 'index'])->name('bulkuploads.index');
         Route::post('bulkuploads/store', [App\Http\Controllers\BulkUploadController::class, 'store'])->name('bulkuploads.store');
@@ -90,6 +91,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/profileinfo', [App\Http\Controllers\AdminController::class, 'viewprofile'])->name('profile');
         Route::get('/changepassword', [App\Http\Controllers\AdminController::class, 'changepass']);
         Route::post('/changepassword', [App\Http\Controllers\AdminController::class, 'changepasssave'])->name('changepassword');
+        Route::get('/Underprocess', [App\Http\Controllers\AdminController::class, 'development'])->name('underdevelopment');
         Route::get('/reportlog', [App\Http\Controllers\ReportLogController::class, 'index'])->name('reportlog.index');
         Route::get('/reportlogshow/{id}', [App\Http\Controllers\ReportLogController::class, 'show'])->name('reportlog.show');
 

@@ -11,7 +11,7 @@
         height: 100%;
         margin: 0;
         font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
+        
     }
 
     .card-header {
@@ -37,7 +37,7 @@
     .tabcontent {
         display: none;
         padding: 20px;
-        background-color: #f9f9f9;
+        /* background-color: #f9f9f9; */
         height: calc(100% - 56px);
         /* Adjusted to fit content properly */
     }
@@ -47,7 +47,7 @@
     }
 
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -80,16 +80,16 @@
 <div id="statusMessage2" class="alert alert-danger mt-2" style="display: none; background-color:#34eb86;"></div>
 
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-11 mx-auto">
+    <div class="container">
         <div data-label="Bulk-Uploads" class="df-example demo-table">
             <div class="d-flex bg-gray-10">
                 <div class="pd-10 flex-grow-1">
-                    <h4 id="section3" class="mg-b-10">Bulk-Uploads</h4>
-                    <p class="mg-b-30">Use this page to add <code>NEW</code> Batch.</p>
+                    <h4 id="section3" class="mg-b-10 font-weight-bolder">Bulk-Uploads</h4>
+                    <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Batch.</p>
                 </div>
 
                 <div class="pd-10 mg-l-auto">
-                   <button type=" button" class="btn btn-custom btn-icon" data-toggle="modal" data-target="#bulkActionModal"><i data-feather="plus-circle"></i>Assign Product</button></a>
+                   <button type=" button" class="btn btn-custom btn-icon" data-toggle="modal" data-target="#bulkActionModal"><i data-feather="plus-circle" class="mr-1"></i>Assign Product</button></a>
                 </div>
             </div>
 
@@ -268,7 +268,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-custom">
                          Submit
                     </button>
                 </div>

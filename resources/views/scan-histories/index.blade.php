@@ -6,7 +6,7 @@
 
     /* Button styles */
     .btn-custom {
-        background: transparent linear-gradient(45deg, #700877 0%, #ff2759 100%, #ff2759 100%) repeat scroll 0 0;
+        background: #b70a9b !important ;
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -102,15 +102,15 @@
 
 
 
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">Scan History</h4>
-                <p class="mg-b-30">Use this page to <code>View</code> Scan History.</p>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Scan History</h4>
+                <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Scan History.</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type="button" onclick="scandownload()" class="btn btn-custom"><i data-feather="download"></i> Export</button>
+                <button type="button" onclick="scandownload()" class="btn btn-custom"><i data-feather="download" class="mr-1"></i> Export</button>
             </div>
         </div>
 
@@ -126,7 +126,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Scanned</h6>
+                            <h6 class="tx-sans  tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Scanned</h6>
                             <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_history->qr_code??""}}</h4>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+                            <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
                             <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$scan_count}}</h4>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Genuine</h6>
+                            <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Genuine</h6>
                             <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$genuine}}</h4>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                             </svg>
                         </div>
                         <div class="media-body">
-                            <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Suspicious</h6>
+                            <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Suspicious</h6>
                             <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{ $scan_count - $genuine }}</h4>
                         </div>
                     </div>
@@ -179,8 +179,8 @@
             </div><!-- row -->
         </div>
 
-        <form method="GET" action="{{ route('scanhistories.index') }}">
-            <div data-label="Product List" class="df-example demo-table">
+        <div data-label="Product List" class="df-example demo-table">
+            <form method="GET" action="{{ route('scanhistories.index') }}">
                 <div class="row row-sm mg-b-10">
                     <div class="col-sm-3">
                         <input type="text"
@@ -207,79 +207,80 @@
                         <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
                     </div>
                 </div>
-            </div>
-        </form>
 
-        <div class="table-responsive">
-            <table class="table table-striped mg-b-0">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center font-weight-bold">ID</th>
-                        <th scope="col" class="text-left font-weight-bold">Product</th>
-                        <th scope="col" class="text-left font-weight-bold">Serial No</th>
-                        <th scope="col" class="text-left font-weight-bold">IP Address</th>
-                        <th scope="col" class="text-center font-weight-bold">Genuine</th>
-                        <th scope="col" class="text-center font-weight-bold">Qr Code Scanned</th>
-                        <th scope="col" class="text-center font-weight-bold">Scanned At</th>
-                        <th scope="col" class="text-center font-weight-bold">Action</th>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center font-weight-bold">ID</th>
+                            <th scope="col" class="text-left font-weight-bold">Product</th>
+                            <th scope="col" class="text-left font-weight-bold">Serial No</th>
+                            <th scope="col" class="text-left font-weight-bold">IP Address</th>
+                            <th scope="col" class="text-center font-weight-bold">Genuine</th>
+                            <th scope="col" class="text-center font-weight-bold">Qr Code Scanned</th>
+                            <th scope="col" class="text-center font-weight-bold">Scanned At</th>
+                            <th scope="col" class="text-center font-weight-bold">Action</th>
 
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($scanhistories as $index=>$product)
-                    @php
-                    $page = $scanhistories->currentPage();
-                    $perPage = $scanhistories->perPage();
-                    $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                    $dateTime = new DateTime($product->updated_at);
-                    $dateTime->modify('+5 hours +30 minutes');
-                    $formattedDateTime = $dateTime->format('d-m-Y H:i:s');
-                    @endphp
-                    <tr>
-                        <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-                        <td class="tx-medium text-left">{{$product->product}}</td>
-                        <td class="tx-medium text-left">{{$product->batch}}</td>
-                        <td class="text-left">{{$product->ip_address}}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($scanhistories as $index=>$product)
+                        @php
+                        $page = $scanhistories->currentPage();
+                        $perPage = $scanhistories->perPage();
+                        $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                        $dateTime = new DateTime($product->updated_at);
+                        $dateTime->modify('+5 hours +30 minutes');
+                        $formattedDateTime = $dateTime->format('d-m-Y H:i:s');
+                        @endphp
+                        <tr>
+                            <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                            <td class="tx-medium text-left">{{$product->product}}</td>
+                            <td class="tx-medium text-left">{{$product->batch}}</td>
+                            <td class="text-left">{{$product->ip_address}}</td>
 
-                        <td class="text-center">
-                            @if ($product->genuine == 1)
-                            <!-- Genuine product -->
-                            <span class="badge tx-success" style="font-size: 15px;">Genuine</span>
-                            @elseif ($product->genuine == 2)
-                            <!-- Suspicious product -->
-                            <span class="badge tx-warning" style="font-size: 15px;">Suspicious</span>
-                            @else
-                            <!-- Fake product -->
-                            <span class="badge tx-danger" style="font-size: 15px;">Fake</span>
-                            @endif
-                        </td>
+                            <td class="text-center">
+                                @if ($product->genuine == 1)
+                                <!-- Genuine product -->
+                                <span class="badge tx-success" style="font-size: 12px;">Genuine</span>
+                                @elseif ($product->genuine == 2)
+                                <!-- Suspicious product -->
+                                <span class="badge tx-warning" style="font-size: 12px;">Suspicious</span>
+                                @else
+                                <!-- Fake product -->
+                                <span class="badge tx-danger" style="font-size: 12px;">Fake</span>
+                                @endif
+                            </td>
 
-                        <td class="text-center">{{$product->qr_code}}</td>
-                        <td class="text-center">{{$formattedDateTime}}</td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group" aria-label="Actions">
-                                <a type="button" class="btn btn-outline-primary" href="{{route('scanhistories.show',$product->id)}}" title="View"><i class="fas fa-eye" style="color: #63E6BE;font-size:18px;"></i></a>
-                            </div>
-                        </td>
+                            <td class="text-center">{{$product->qr_code}}</td>
+                            <td class="text-center">{{$formattedDateTime}}</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Actions">
+                                    <a type="button" class="btn btn-outline-primary" href="{{route('scanhistories.show',$product->id)}}" title="View"><i class="fas fa-eye" style="color: #63E6BE;font-size:18px;"></i></a>
+                                </div>
+                            </td>
 
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center" style="text-align: center; color: red;">
-                            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                                ---No data found ---
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div><!-- table-responsive -->
-    </div><!-- card -->
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center" style="text-align: center; color: red;">
+                                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                                    ---No data found ---
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div><!-- table-responsive -->
+        </div><!-- card -->
 
-    <div class="mt-3">
-        {{ $scanhistories->links('pagination::bootstrap-5') }}
+        <div class="mt-3">
+            {{ $scanhistories->links('pagination::bootstrap-5') }}
+        </div>
     </div>
 
 </div>

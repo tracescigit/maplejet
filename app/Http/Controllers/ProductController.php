@@ -81,8 +81,8 @@ class ProductController extends Controller
                 'unique:products,gtin'
             ],
         ]);
-        
-        
+
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -147,10 +147,10 @@ class ProductController extends Controller
             'label_img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:500',
             'gtin' => [
                 'nullable',
-                'unique:products,gtin' 
+                'unique:products,gtin'
             ],
         ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -244,12 +244,12 @@ class ProductController extends Controller
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
                 ->first();
-                $product_ok_check = DB::table('qrcodes')
+            $product_ok_check = DB::table('qrcodes')
                 ->where('qr_code', $qrcode)
                 ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.status as qr_status', 'batches.status as batch_status', 'products.status as prod_status') // Select columns from both tables as needed
-                ->first(); 
+                ->first();
             $product_count = ScanHistory::where('qr_code', $qrcode)
                 ->where('product_id', $product_id)
                 ->get()
@@ -284,7 +284,7 @@ class ProductController extends Controller
                     'phone_number' => 'required|numeric',
                 ]);
             }
-            if($product_ok_check->prod_status=="Inactive"){
+            if ($product_ok_check->prod_status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -308,7 +308,7 @@ class ProductController extends Controller
                 ]);
                 $systemAlertId = $systemAlert->id;
             }
-            if($product_ok_check->batch_status=="Inactive"){
+            if ($product_ok_check->batch_status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -318,9 +318,9 @@ class ProductController extends Controller
                     'product_id' => $product_id_ver->product_id,
                     'qr_code' => $qrcode
                 ]);
-                $systemAlertId = $systemAlert->id; 
+                $systemAlertId = $systemAlert->id;
             }
-            if($product_ok_check->prod_status=="Inactive"){
+            if ($product_ok_check->prod_status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -330,7 +330,7 @@ class ProductController extends Controller
                     'product_id' => $product_id_ver->product_id,
                     'qr_code' => $qrcode
                 ]);
-                $systemAlertId = $systemAlert->id; 
+                $systemAlertId = $systemAlert->id;
             }
             $scanHistory = ScanHistory::create([
                 'product' => $product_id_ver->name,
@@ -383,7 +383,7 @@ class ProductController extends Controller
             }
         }
         $currentURL = url()->current();
-        $systemAlertId='';
+        $systemAlertId = '';
         if (!empty($qrcode)) {
             $product_id_ver = DB::table('qrcodes')
                 ->where('qr_code', $qrcode)
@@ -391,16 +391,16 @@ class ProductController extends Controller
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
                 ->first();
-                $product_ok_check = DB::table('qrcodes')
+            $product_ok_check = DB::table('qrcodes')
                 ->where('qr_code', $qrcode)
                 ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
                 ->select('qrcodes.status as qr_status', 'batches.status as batch_status', 'products.status as prod_status') // Select columns from both tables as needed
-                ->first();  
+                ->first();
             if (empty($product_id_ver)) {
                 return response()->json(['data' => 'Product is Fake.']);
             }
-           
+
             $media_base_url = $product_id_ver->web_url;
             if (substr($media_base_url, -1) !== '/') {
                 // Append a slash if it doesn't end with one
@@ -425,14 +425,14 @@ class ProductController extends Controller
                     return response()->json(['status' => 'Product is Suspicious.']);
                 }
                 if (!$request->otp && $product_id_ver->auth_required == 1) {
-                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode', 'clientIp','media_base_url','systemAlertId'));
+                    return view('apicall.register', compact('product_id_ver', 'product_id', 'qrcode', 'clientIp', 'media_base_url', 'systemAlertId'));
                 }
                 if ($request->phone_number) {
                     $request->validate([
                         'phone_number' => 'required|numeric',
                     ]);
                 }
-                if($product_ok_check->prod_status=="Inactive"){
+                if ($product_ok_check->prod_status == "Inactive") {
                     $systemAlert = SystemAlert::create([
                         'product' => $product_id_ver->name,
                         'batch' => $product_id_ver->batch_id,
@@ -456,7 +456,7 @@ class ProductController extends Controller
                     ]);
                     $systemAlertId = $systemAlert->id;
                 }
-                if($product_ok_check->batch_status=="Inactive"){
+                if ($product_ok_check->batch_status == "Inactive") {
                     $systemAlert = SystemAlert::create([
                         'product' => $product_id_ver->name,
                         'batch' => $product_id_ver->batch_id,
@@ -466,9 +466,9 @@ class ProductController extends Controller
                         'product_id' => $product_id_ver->product_id,
                         'qr_code' => $qrcode
                     ]);
-                    $systemAlertId = $systemAlert->id; 
+                    $systemAlertId = $systemAlert->id;
                 }
-                if($product_ok_check->prod_status=="Inactive"){
+                if ($product_ok_check->prod_status == "Inactive") {
                     $systemAlert = SystemAlert::create([
                         'product' => $product_id_ver->name,
                         'batch' => $product_id_ver->batch_id,
@@ -478,7 +478,7 @@ class ProductController extends Controller
                         'product_id' => $product_id_ver->product_id,
                         'qr_code' => $qrcode
                     ]);
-                    $systemAlertId = $systemAlert->id; 
+                    $systemAlertId = $systemAlert->id;
                 }
                 $scanHistory = ScanHistory::create([
                     'product' => $product_id_ver->name,
@@ -515,7 +515,7 @@ class ProductController extends Controller
                 //             'genuine' => 2,
                 //         ]);
                 //     } 
-               
+
 
                 // }
                 $product_id_expiry_check = $product_id_ver->exp_date < $currentDate ? 'Expired' : '';
@@ -533,15 +533,15 @@ class ProductController extends Controller
                     ]);
                     $systemAlertId = $systemAlert->id;
                     $genuine = "Product is Suspicious";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine','systemAlertId','scanHistoryId'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'systemAlertId', 'scanHistoryId'));
                 }
                 $genuine = '';
                 if ($product_id_expiry_check == 'Expired') {
                     $genuine = "Product is Expired";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine','systemAlertId','scanHistoryId'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'systemAlertId', 'scanHistoryId'));
                 } else {
                     $genuine = "Product is Genuine";
-                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine','systemAlertId','scanHistoryId'));
+                    return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'systemAlertId', 'scanHistoryId'));
                 }
             } else {
                 $genuine = 'Product is Fake';
@@ -552,19 +552,19 @@ class ProductController extends Controller
             return view('apicall.index', compact('genuine'));
         }
     }
-    public function updateLocation(Request $request){
-       if(!empty($request->systemAlertId)){
-        SystemAlert::where('id',$request->systemAlertId)->update([
-            'lat' => $request->latitude,
-            'long' => $request->longitude
-        ]);
-       }
-       if(!empty($request->scanHistoryId)){
-        ScanHistory::where('id',$request->scanHistoryId)->update([
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude
-        ]);
-       }
-
+    public function updateLocation(Request $request)
+    {
+        if (!empty($request->systemAlertId)) {
+            SystemAlert::where('id', $request->systemAlertId)->update([
+                'lat' => $request->latitude,
+                'long' => $request->longitude
+            ]);
+        }
+        if (!empty($request->scanHistoryId)) {
+            ScanHistory::where('id', $request->scanHistoryId)->update([
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude
+            ]);
+        }
     }
 }

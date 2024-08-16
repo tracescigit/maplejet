@@ -166,5 +166,9 @@ class AdminController extends Controller
         $user=Auth::user();
         return view('auth.viewprofile',compact('user'));
     }
+    public function development(Request $request){
+       
+        return view('dummy.underdevelopment');
+    }
     
  }

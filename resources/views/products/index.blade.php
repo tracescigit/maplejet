@@ -6,7 +6,7 @@
 
   /* Button styles */
   .btn-custom {
-    background: transparent linear-gradient(45deg, #700877 0%, #ff2759 100%, #ff2759 100%) repeat scroll 0 0;
+    background: #b70a9b !important;
     color: white;
     border-radius: 5px;
     padding: 10px 20px;
@@ -140,16 +140,16 @@
       @endif
     </div>
   </div>
-  <div class="container pd-20 mg-t-10 col-10 mx-auto">
+  <div class="container">
     <div class="d-flex bg-gray-10">
       <div class="pd-10 flex-grow-1">
-        <h4 id="section3" class="mg-b-10">Create Product</h4>
-        <p class="mg-b-30">Use this page to add <code>NEW</code> Product.</p>
+        <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Product</h4>
+        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Product.</p>
       </div>
 
       <div class="pd-10 mg-l-auto">
-        <a href="{{ route('products.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
-        <button type="button" class="btn btn-custom"><i data-feather="download"></i> Export</button>
+        <a href="{{ route('products.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle" class="mr-1"></i> Add New</button></a>
+        <button type="button" class="btn btn-custom"><i data-feather="download" class="mr-1"></i> Export</button>
       </div>
     </div>
 
@@ -167,7 +167,7 @@
               </svg>
             </div>
             <div class="media-body">
-              <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Added</h6>
+              <h6 class="tx-sans  tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Added</h6>
               <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_product->name??''}}</h4>
             </div>
           </div>
@@ -182,7 +182,7 @@
               </svg>
             </div>
             <div class="media-body">
-              <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+              <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
               <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{count($products)}}</h4>
             </div>
           </div>
@@ -197,7 +197,7 @@
               </svg>
             </div>
             <div class="media-body">
-              <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
+              <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
               <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$prodactiveCount}}</h4>
             </div>
           </div>
@@ -212,15 +212,15 @@
               </svg>
             </div>
             <div class="media-body">
-              <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
+              <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
               <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{ count($products) - $prodactiveCount }}</h4>
             </div>
           </div>
         </div>
       </div><!-- row -->
     </div>
-    <form method="GET" action="{{ route('products.index') }}">
-      <div data-label="Product List" class="df-example demo-table">
+    <div data-label="Product List" class="df-example demo-table">
+      <form method="GET" action="{{ route('products.index') }}">
         <div class="row row-sm mg-b-10">
           <div class="col-sm-3">
             <input type="text"
@@ -248,66 +248,67 @@
 
           </div>
         </div>
-      </div>
-    </form>
+
+      </form>
 
 
 
-    <div class="table-responsive">
-      <table class="table table-striped mg-b-0">
-        <thead>
-          <tr>
-            <th scope="col" class="text-center font-weight-bold">ID</th>
-            <th scope="col" class="text-left font-weight-bold">Product Code</th>
-            <th scope="col" class="text-left font-weight-bold">NAME</th>
-            <th scope="col" class="text-left font-weight-bold">BRAND</th>
-            <th scope="col" class="text-left font-weight-bold">COMPANY NAME</th>
-            <th scope="col" class="text-left font-weight-bold">STATUS</th>
-            <th scope="col" class="text-center font-weight-bold">Action</th>
+      <div class="table-responsive">
+        <table class="table table-striped mg-b-0">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center font-weight-bold">ID</th>
+              <th scope="col" class="text-left font-weight-bold">Product Code</th>
+              <th scope="col" class="text-left font-weight-bold">NAME</th>
+              <th scope="col" class="text-left font-weight-bold">BRAND</th>
+              <th scope="col" class="text-left font-weight-bold">COMPANY NAME</th>
+              <th scope="col" class="text-left font-weight-bold">STATUS</th>
+              <th scope="col" class="text-center font-weight-bold">Action</th>
 
 
-          </tr>
-        </thead>
-        <tbody>
-          @forelse($products as $index => $product)
-          @php
-          $page = $products->currentPage();
-          $perPage = $products->perPage();
-          $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-          @endphp
-          <tr>
-            <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-            <td class="tx-medium text-left">{{ $product->gtin??"   --  "}}</td>
-            <td class="tx-medium text-left">{{$product->name}}</td>
-            <td class="text-left">{{ $product->brand }}</td>
-            <td class="text-left">{{ $product->company_name }}</td>
-            <td class="tx-medium text-left">
-              @if($product->status == 'Active')
-              <span class="tx-10 badge badge-success">Active</span>
-              @else
-              <span class="tx-10 badge badge-danger">Inactive</span>
-              @endif
-            </td>
-            <td class="text-center">
-              <div class="btn-group" role="group" aria-label="Actions">
-                <a class="btn btn-outline-primary" type="button" href="{{route('products.show', $product->id)}}" title="View"><i class="fas fa-eye" style="color: #63E6BE;font-size:18px;"></i></a>
-                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-primary" title="Edit"><i class="fas fa-edit" style="color: #74C0FC;font-size:18px;"></i></a>
-              </div>
-            </td>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($products as $index => $product)
+            @php
+            $page = $products->currentPage();
+            $perPage = $products->perPage();
+            $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+            @endphp
+            <tr>
+              <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+              <td class="tx-medium text-left">{{ $product->gtin??"   --  "}}</td>
+              <td class="tx-medium text-left">{{$product->name}}</td>
+              <td class="text-left">{{ $product->brand }}</td>
+              <td class="text-left">{{ $product->company_name }}</td>
+              <td class="tx-medium text-left">
+                @if($product->status == 'Active')
+                <span class=" badge badge-success">Active</span>
+                @else
+                <span class="badge badge-danger">Inactive</span>
+                @endif
+              </td>
+              <td class="text-center">
+                <div class="btn-group" role="group" aria-label="Actions">
+                  <a class="btn btn-outline-primary" type="button" href="{{route('products.show', $product->id)}}" title="View"><i class="fas fa-eye" style="color: #63E6BE;font-size:18px;"></i></a>
+                  <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-primary" title="Edit"><i class="fas fa-edit" style="color: #74C0FC;font-size:18px;"></i></a>
+                </div>
+              </td>
 
-          </tr>
-          @empty
-          <tr>
-            <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-          </tr>
-          @endforelse
-        </tbody>
-      </table>
-    </div><!-- table-responsive -->
-  </div><!-- card -->
+            </tr>
+            @empty
+            <tr>
+              <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+            </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div><!-- table-responsive -->
+    </div><!-- card -->
 
-  <div class="mt-3">
-    {{ $products->links('pagination::bootstrap-5') }}
+    <div class="mt-3">
+      {{ $products->links('pagination::bootstrap-5') }}
+    </div>
   </div>
 </div>
 

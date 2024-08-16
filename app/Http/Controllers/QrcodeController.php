@@ -144,7 +144,12 @@ class QrcodeController extends Controller
         $systemalerts = SystemAlert::with('batches')->orderBy('created_at', 'desc')->paginate(10);
 
     // Pass the paginated results to the view
-    return view('qrcodes.systemalert', compact('systemalerts'));
+    return view('systemalerts.systemalert', compact('systemalerts'));
+    }
+    public function show($id) {
+        $sysshow = Systemalert::where('id',$id)->with('batches')->first();
+        return view('systemalerts.systemalertshow',compact('sysshow'));
+
     }
     public function downloadStatus()
     {

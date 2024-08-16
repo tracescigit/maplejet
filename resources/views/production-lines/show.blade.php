@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -21,11 +21,11 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="container pd-20 mg-t-10 col-11 mx-auto">
+            <div class="container">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">View Production line Details</h4>
-                        <p class="mg-b-30">Use this page to <code>View</code> Production line Details.</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">View Production line Details</h4>
+                        <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Production line Details.</p>
                         <hr>
                     </div>
 

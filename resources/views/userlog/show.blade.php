@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -21,12 +21,12 @@
 <div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="container pd-20 mg-t-10 col-11 mx-auto">
+            <div class="container">
                
                     <div class="d-flex bg-gray-10">
                         <div class="pd-10 flex-grow-1">
-                            <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">View Details</h4>
-                            <p class="mg-b-30">Use this page to  <code>View</code> Details.</p>
+                            <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">View Details</h4>
+                            <p class="mg-b-30">Use this page to  <code style="color:#e300be;">View</code> Details.</p>
                             <hr>
                         </div>
 
@@ -106,7 +106,7 @@
                                 <hr>
                             </div>
                         </div>
-                        <div class="form-group mt-4">
+                        <div class="form-group mt-4 col-6">
                             <a href="{{ route('userlog.index') }}" class="btn btn-secondary mx-2">Back</a>
                         </div>
                     </div>

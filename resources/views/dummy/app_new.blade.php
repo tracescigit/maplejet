@@ -24,11 +24,11 @@
 
   <style>
     .nav-link.active {
-      color: #c5005e;
+      color: #b70a9b;
     }
 
     .btn-custom {
-      background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+      background: #b70a9b !important;
       color: white;
       border-radius: 5px;
       padding: 10px 20px;
@@ -38,15 +38,28 @@
     }
 
     .btn-custom:hover {
-      transform: scale(1.2);
       background: #2d6ac2 !important;
-      box-shadow: 0 0 30px grey;
       color: white !important;
     }
 
     .ql-container.ql-snow {
       height: 200px;
       margin-bottom: 30px;
+    }
+
+    .nav-aside .nav-item ul .active a {
+      color: #b70a9b !important;
+    }
+
+    .nav-aside .nav-item.active .nav-link {
+      opacity: 1;
+      color: #b70a9b !important;
+      font-weight: 500;
+    }
+
+    .nav-aside .nav-item.active svg {
+      color: #b70a9b !important;
+      fill: rgba(1, 104, 250, 0.2);
     }
 
     .footer {
@@ -118,11 +131,41 @@
       vertical-align: middle;
       /* Align icons vertically in the center */
     }
-    .profile{
+
+    .profile {
       padding-top: 5px !important;
     }
-    .profile_icon{
-      padding:0px !important;
+
+    .profile_icon {
+      padding: 0px !important;
+    }
+
+    /* Ensure pagination is centered and responsive */
+    .pagination {
+      margin: 0;
+    }
+
+    .page-item {
+      margin: 0 2px;
+    }
+
+    .page-item.active .page-link {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .page-item.disabled .page-link {
+      color: #6c757d;
+      pointer-events: none;
+      background-color: #fff;
+      border-color: #dee2e6;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+      .pagination {
+        font-size: 0.75rem;
+      }
     }
   </style>
 
@@ -181,10 +224,10 @@
   <script src="{{url('/assets/js/js_new/js.cookie.js')}}"></script>
   <script src="{{url('/assets/js/js_new/dashforge.settings.js')}}"></script>
   <script>
-     function closeProfile() {
-        var profileElement = document.getElementById('open_profile');
-        profileElement.style.display = 'none';
-      }
+    function closeProfile() {
+      var profileElement = document.getElementById('open_profile');
+      profileElement.style.display = 'none';
+    }
     $(function() {
       'use strict'
 
@@ -549,7 +592,7 @@
         profileElement.style.display = 'none';
       }
 
-     
+
     }
   </script>
   @yield('js')

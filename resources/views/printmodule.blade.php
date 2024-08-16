@@ -6,7 +6,7 @@
     /* Custom styles */
     body {
         font-family: 'Numans', sans-serif;
-        background-color: #f8f9fa;
+        /* background-color: #f8f9fa; */
         /* Light gray background */
     }
 
@@ -90,16 +90,16 @@
     </button>
 </div>
 <div class="content content-components">
-    <div class="container pd-20 mg-t-10 col-7 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
-                <h4 id="section3" class="mg-b-10">Print Module</h4>
-                <p class="mg-b-30">Use this page for <code>Print</code> Jobs.</p>
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Print Module</h4>
+                <p class="mg-b-30">Use this page for <code style="color:#e300be;">Print</code> Jobs.</p>
                 <hr>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type=" button" class="btn btn-custom btn-icon" onclick="downloadexcel()"><i data-feather="download" class="mr-2"></i>Export</button>
+                <button type=" button" class="btn btn-custom btn-icon" onclick="downloadexcel()"><i data-feather="download" class="mr-1"></i>Export</button>
             </div>
         </div>
 
