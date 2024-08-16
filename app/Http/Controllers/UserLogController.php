@@ -41,7 +41,6 @@ class UserLogController extends Controller
     public function downloadexcel(Request $request)
     {
           $userlog = UserLog::with('user')->limit(1000)->get();
-dd($userlog);
         // Return the Excel file directly
         return Excel::download(new UserLogExport($userlog), 'userlog.xlsx');
 

@@ -76,6 +76,8 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::resource('qrcodes', App\Http\Controllers\QrcodeController::class);
         Route::get('systemalerts', [App\Http\Controllers\QrcodeController::class, 'systemalerts'])->name('systemalerts');
         Route::get('/systemalertshow/{id}', [App\Http\Controllers\QrcodeController::class, 'show'])->name('systemalerts.systemalertshow');
+        Route::get('/systemalertexceldownload', [App\Http\Controllers\QrcodeController::class, 'exceldownload'])->name('systemalerts.exceldownload');
+
 
         Route::get('bulkuploads', [App\Http\Controllers\BulkUploadController::class, 'index'])->name('bulkuploads.index');
         Route::post('bulkuploads/store', [App\Http\Controllers\BulkUploadController::class, 'store'])->name('bulkuploads.store');

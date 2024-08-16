@@ -30,12 +30,13 @@ class UserLogExport implements FromCollection, WithHeadings
             // Prepare readable strings for attributes and old
             $attributesStr = $this->prepareReadableString($attributes);
             $oldStr = $this->prepareReadableString($old);
+            $userName = $log->user ? $log->user->name : 'Unknown';
             return [
                 'ID' => $log->id,
                 'Log Name' => $log->log_name,
                 'Description' => $log->description,
                 'Event' => $log->event,
-                'User'=>$log->user->name??"",
+                'User'=>$userName,
                 'New Value' => $attributesStr,
                 'Old Value' => $oldStr,
                 'Date' => date('d-m-Y H:i:s', $log->created_at->timestamp)

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Jobs\ExportDataToCSV;
 use App\Models\SystemAlert;
 use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SystemAlertExcel;
 
 class QrcodeController extends Controller
 {
@@ -173,5 +175,10 @@ class QrcodeController extends Controller
         }
 
         return response()->json(['message' => 'File not yet available.'], 404);
+    }
+    public function exceldownload(){
+        $Systemalerts = Systemalert::with('batches')->limit(1000)->get();
+        // Return the Excel file directly
+        return Excel::download(new SystemAlertExcel($Systemalerts), 'systemaletts.xlsx');
     }
 }

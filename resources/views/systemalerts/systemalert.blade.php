@@ -67,7 +67,7 @@
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <a href="#" class="btn btn-custom btn-icon" type="submit"><i data-feather="plus-circle" class="mr-1"></i> Export</a>
+                <button class="btn btn-custom btn-icon" onclick="downloadexceljob()"><i data-feather="plus-circle" class="mr-1"></i> Export</button>
             </div>
         </div>
         <div data-label="search" class="df-example demo-table">
@@ -226,6 +226,20 @@
 
     function closemodal() {
         $('#exampleModal').modal('hide');
+    }
+    function downloadexceljob() {
+        var downloadUrl = "{{ route('systemalerts.exceldownload') }}";
+        // Create a temporary link element
+        var link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'userlog.xlsx'; // The file name you want to use
+
+        // Append the link to the body and trigger the download
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove the link from the document
+        document.body.removeChild(link);
     }
 </script>
 @endsection
