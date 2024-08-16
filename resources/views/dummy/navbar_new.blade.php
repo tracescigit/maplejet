@@ -4,7 +4,7 @@
       <polyline points="12 19 5 12 12 5"></polyline>
     </svg></a>
   <div class="navbar-brand">
-    <a href="https://maplejet.com/in/" class="df-logo">maple<span style="color:crimson;">jet</span></a>
+    <a href="https://maplejet.com/in/" class="df-logo">maple<span style="color:#b70a9b;">jet</span></a>
 
   </div><!-- navbar-brand -->
   <div class="navbar-right">
@@ -72,12 +72,12 @@
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label"><a href="{{route('batches.index')}}" class="nav-link  {{ Route::is('batches.*') ? 'active' : '' }}"><i data-feather="box"></i> <span>Batches</span></a></li>
       @endif
       @if (Auth::user()->can('view qrcode'))
-      <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub  {{ (Route::is('qrcodes.*')  || Route::is('bulkuploads.*') || Route::is('reportlog.*') || Route::is('scanhistories.*')) ? 'show' : '' }}">
+      <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub  {{ (Route::is('qrcodes.*')  || Route::is('bulkuploads.*') || Route::is('systemalerts*') ||  Route::is('reportlog.*') || Route::is('scanhistories.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label {{ Route::is('Production') ? ' active' : ''}}"><i data-feather="archive"></i><span>Qr-Codes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('qrcodes.*') ? 'active' : '' }}"><a href="{{route('qrcodes.index')}}"><span>Qr-code</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{ Route::is('bulkuploads.*') ? 'active' : '' }}"><a href="{{route('bulkuploads.index')}}"> <span>Bulk Uploads</span></a></li>
-          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{ Route::is('systemalerts.*') ? 'active' : '' }}" ><a href="{{route('systemalerts')}}"> <span>System Alerts</span></a></li>
+          <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{ Route::is('systemalerts*') ? 'active' : '' }}" ><a href="{{route('systemalerts')}}"> <span>System Alerts</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('reportlog.*') ? 'active' : '' }}"><a href="{{route('reportlog.index')}}"> <span>Consumer Alerts</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item  {{ Route::is('scanhistories.*') ? 'active' : '' }}"><a href="{{route('scanhistories.index')}}"><span>Scan History</span></a></li>
         </ul>
@@ -85,7 +85,7 @@
       @endif
       @if (Auth::user()->can('view production'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub {{ (Route::is('production-plants.*')  || Route::is('production-lines.*')) ? 'show' : '' }}">
-        <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label"><i data-feather="file-text"></i><span>Production &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
+        <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label"><i data-feather="file-text"></i><span>Production &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{Route::is('production-plants.*')?'active':''}}"><a href="{{route('production-plants.index')}}"> <span>Production-plants</span></a></li>
           <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item {{Route::is('production-lines.*')?'active':''}}"><a href="{{route('production-lines.index')}}"> <span>Production-lines</span></a></li>

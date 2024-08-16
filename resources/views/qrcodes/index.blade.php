@@ -100,19 +100,19 @@
             </div>
 
 
-            <div class="container pd-20 mg-t-10 col-10 mx-auto">
+            <div class="container">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
 
                         <div id="statusMessage1" class="alert alert-success" style="background-color:#34eb86; display:none;">
                             <!-- This content will be set dynamically by JavaScript -->
                         </div>
-                        <h4 id="section3" class="mg-b-10">Create Qr-codes</h4>
-                        <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Qr-code.</p>
+                        <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Qr-codes</h4>
+                        <p class="mg-b-30">Use <code style="color:#e300be;">Add New</code> page to add <code style="color:#e300be;">NEW</code> Qr-code.</p>
                     </div>
 
                     <div class="pd-10 mg-l-auto">
-                        <a href="{{ route('qrcodes.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                        <a href="{{ route('qrcodes.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle" class="mr-1"></i> Add New</button></a>
                         <div class="form-group  mb-2 mt-2 d-inline-flex">
 
                             <!-- Bulk Action Form -->

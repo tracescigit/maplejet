@@ -25,8 +25,8 @@
 
                 <div class="d-flex bg-gray-10 mx-auto">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Add New Product</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> Product.</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Add New Product</h4>
+                        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Product.</p>
                         <hr>
                     </div>
 

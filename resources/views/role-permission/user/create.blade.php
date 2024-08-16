@@ -44,7 +44,7 @@
             <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Add new User</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> User.</p>
+                        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> User.</p>
                         <hr>
                     </div>
 

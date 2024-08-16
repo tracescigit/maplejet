@@ -154,7 +154,7 @@
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Production-Plants</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> Production-Plant.</p>
+                        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Production-Plant.</p>
                     </div>
 
                     <div class="pd-10 mg-l-auto">

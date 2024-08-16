@@ -35,15 +35,9 @@ class ReportLogController extends Controller
    public function show(Request $request,$id)
    {
      $reportlog=reportlog::where('id',$id)->first();
-     return view('reportlog.show', compact('reportlog'));
-      $reportlog = ReportLog::paginate(10);
+   
       $ipAddress = $request->ip();
-      $geoIPData = GeoIP::getLocation($ipAddress);
-
-      $latitude = $geoIPData['lat'];
-      $longitude = $geoIPData['lon'];
-
-      return view('reportlog.reportlog', compact('reportlog'));
+      return view('reportlog.show', compact('reportlog'));
    }
    public function exceldownload(Request $request)
    {

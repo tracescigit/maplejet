@@ -155,11 +155,11 @@
             @endif
         </div>
     </div>
-    <div class="container pd-20 mg-t-10 col-10 mx-auto">
+    <div class="container">
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Jobs</h4>
-                <p class="mg-b-30">Use <code>Add New</code> page to add <code>NEW</code> Job.</p>
+                <p class="mg-b-30">Use <code style="color:#e300be;">Add New</code> page to add <code style="color:#e300be;">NEW</code> Job.</p>
             </div>
 
             <div class="pd-10 mg-l-auto">

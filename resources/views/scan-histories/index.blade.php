@@ -106,11 +106,11 @@
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Scan History</h4>
-                <p class="mg-b-30">Use this page to <code>View</code> Scan History.</p>
+                <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Scan History.</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <button type="button" onclick="scandownload()" class="btn btn-custom"><i data-feather="download"></i> Export</button>
+                <button type="button" onclick="scandownload()" class="btn btn-custom"><i data-feather="download" class="mr-1"></i> Export</button>
             </div>
         </div>
 

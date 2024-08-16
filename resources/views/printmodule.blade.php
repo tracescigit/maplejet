@@ -6,7 +6,7 @@
     /* Custom styles */
     body {
         font-family: 'Numans', sans-serif;
-        background-color: #f8f9fa;
+        /* background-color: #f8f9fa; */
         /* Light gray background */
     }
 
@@ -94,7 +94,7 @@
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Print Module</h4>
-                <p class="mg-b-30">Use this page for <code>Print</code> Jobs.</p>
+                <p class="mg-b-30">Use this page for <code style="color:#e300be;">Print</code> Jobs.</p>
                 <hr>
             </div>
 

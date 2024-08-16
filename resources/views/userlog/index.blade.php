@@ -97,7 +97,7 @@
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Userlog</h4>
-                <p class="mg-b-30">Use this page to <code>View</code> Recent activities .</p>
+                <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Recent activities .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">

@@ -99,11 +99,11 @@
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Permissions</h4>
-                <p class="mg-b-30">Use this page to Create <code>New</code> Permission .</p>
+                <p class="mg-b-30">Use this page to Create <code style="color:#e300be;">New</code> Permission .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">
-                <a href="{{ route('permissions.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                <a href="{{ route('permissions.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"class="mr-1"></i> Add New</button></a>
             </div>
         </div>
         <div data-label="Permissions List" class="df-example demo-table">

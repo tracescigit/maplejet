@@ -24,7 +24,7 @@
 
   <style>
     .nav-link.active {
-      color: #c5005e;
+      color: #b70a9b;
     }
 
     .btn-custom {
@@ -46,6 +46,20 @@
       height: 200px;
       margin-bottom: 30px;
     }
+
+    .nav-aside .nav-item ul .active a {
+      color: #b70a9b !important;
+    }
+
+    .nav-aside .nav-item.active .nav-link {
+      opacity: 1;
+      color: #b70a9b !important;
+      font-weight: 500;
+    }
+    .nav-aside .nav-item.active svg {
+    color: #b70a9b !important;
+    fill: rgba(1, 104, 250, 0.2);
+}
 
     .footer {
       /* color: white; */
@@ -116,11 +130,13 @@
       vertical-align: middle;
       /* Align icons vertically in the center */
     }
-    .profile{
+
+    .profile {
       padding-top: 5px !important;
     }
-    .profile_icon{
-      padding:0px !important;
+
+    .profile_icon {
+      padding: 0px !important;
     }
   </style>
 
@@ -179,10 +195,10 @@
   <script src="{{url('/assets/js/js_new/js.cookie.js')}}"></script>
   <script src="{{url('/assets/js/js_new/dashforge.settings.js')}}"></script>
   <script>
-     function closeProfile() {
-        var profileElement = document.getElementById('open_profile');
-        profileElement.style.display = 'none';
-      }
+    function closeProfile() {
+      var profileElement = document.getElementById('open_profile');
+      profileElement.style.display = 'none';
+    }
     $(function() {
       'use strict'
 
@@ -547,7 +563,7 @@
         profileElement.style.display = 'none';
       }
 
-     
+
     }
   </script>
   @yield('js')

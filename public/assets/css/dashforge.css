@@ -1354,7 +1354,7 @@ mark,
 
 code {
   font-size: 87.5%;
-  color: #f10075;
+  color: #e300be;
   word-break: break-word; }
   a > code {
     color: inherit; }
@@ -13628,14 +13628,14 @@ textarea.parsley-success:focus {
     position: relative; }
     .nav-aside .nav-item.active .nav-link {
       opacity: 1;
-      color: #0168fa;
+      color: #c5005e !important;
       font-weight: 500; }
       .nav-aside .nav-item.active .nav-link::before {
         opacity: 1;
         visibility: visible;
         border-left-color: #0168fa; }
     .nav-aside .nav-item.active svg {
-      color: #0168fa;
+      color: #c5005e;
       fill: rgba(1, 104, 250, 0.2); }
     .nav-aside .nav-item + .nav-item {
       margin-top: 1px; }

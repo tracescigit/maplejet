@@ -30,7 +30,7 @@
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Scan Details</h4>
-                        <p class="mg-b-30">Use this page to <code>View</code> Scan Details.</p>
+                        <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Scan Details.</p>
                         <hr>
                     </div>
 

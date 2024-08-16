@@ -25,8 +25,8 @@
                 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Edit Batch</h4>
-                        <p class="mg-b-30">Use this page to <code>Edit</code> Batch.</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Edit Batch</h4>
+                        <p class="mg-b-30">Use this page to <code style="color:#e300be;">Edit</code> Batch.</p>
                         <hr>
                     </div>
 

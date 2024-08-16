@@ -91,7 +91,7 @@
         <div class="d-flex bg-gray-10">
             <div class="pd-10 flex-grow-1">
                 <h4 id="section3" class="mg-b-10 font-weight-bolder">Roles</h4>
-                <p class="mg-b-30">Use this page to Create <code>New</code> Roles .</p>
+                <p class="mg-b-30">Use this page to Create <code style="color:#e300be;">New</code> Roles .</p>
             </div>
 
             <div class="pd-10 mg-l-auto">

@@ -25,8 +25,8 @@
 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bold;">Product Details</h4>
-                        <p class="mg-b-30">Use this page to <code>View</code> product Details.</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Product Details</h4>
+                        <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> product Details.</p>
                         <hr>
                     </div>
 

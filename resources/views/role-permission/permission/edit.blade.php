@@ -25,7 +25,7 @@
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
                         <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Edit Permission</h4>
-                        <p class="mg-b-30">Use this page to  <code>Edit</code> permission.</p>
+                        <p class="mg-b-30">Use this page to  <code style="color:#e300be;">Edit</code> permission.</p>
                         <hr>
                     </div>
 
