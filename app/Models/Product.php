@@ -44,10 +44,25 @@ class Product extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['brand', 'name', 'company_name','price', 'gtin', 'image','web_url','status'])
-            ->logOnlyDirty()                      
+            ->logOnly(['brand', 'name', 'company_name', 'price', 'gtin', 'image', 'web_url', 'status'])
+            ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Product has been {$eventName}")
-            ->useLogName('Product');                
+            ->setDescriptionForEvent(function (string $eventName) {
+                // Define the log name here
+                $logName = 'Product';
+    
+                switch ($eventName) {
+                    case 'created':
+                        return "{$logName} has been created with the following details: Brand - {$this->brand}, Name - {$this->name}, Company Name - {$this->company_name}, Price - {$this->price}, GTIN - {$this->gtin}, Image - {$this->image}, Web URL - {$this->web_url}, Status - {$this->status}";
+                    case 'updated':
+                        return "{$logName} has been updated. New details: Brand - {$this->brand}, Name - {$this->name}, Company Name - {$this->company_name}, Price - {$this->price}, GTIN - {$this->gtin}, Image - {$this->image}, Web URL - {$this->web_url}, Status - {$this->status}";
+                    case 'deleted':
+                        return "{$logName} with Name - {$this->name} has been deleted.";
+                    default:
+                        return "{$logName} has been {$eventName}.";
+                }
+            })
+            ->useLogName('Product');
     }
+    
 }

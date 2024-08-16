@@ -9,7 +9,7 @@ use App\Imports\BatchesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Validation\Rule;
 
 class BatchController extends Controller
 {
@@ -31,7 +31,7 @@ class BatchController extends Controller
         if ($request->status_search) {
             $query->where('status', 'like', '%' . $request->status_search . '%');
         }
-
+        $query->orderBy('created_at', 'desc');
         // Apply pagination
         $batches = $query->paginate(10);
 
@@ -58,12 +58,15 @@ class BatchController extends Controller
             'code' => [
                 'required',
                 'string',
-                'regex:/^[a-zA-Z0-9-_]+$/u'
+                'regex:/^[a-zA-Z0-9-_]+$/u',
+                Rule::unique('batches')->where(function ($query) use ($request) {
+                    return $query->where('product_id', $request->product_id);
+                })
             ],
             'mfg_date' => 'required|date',
             'exp_date' => 'required|date',
-            'currency'=>'required',
-            'price'=>'required',
+            'currency' => 'required',
+            'price' => 'required|numeric', // Added numeric validation for price
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -102,12 +105,15 @@ class BatchController extends Controller
             'code' => [
                 'required',
                 'string',
-                'regex:/^[a-zA-Z0-9-_]+$/u'
+                'regex:/^[a-zA-Z0-9-_]+$/u',
+                Rule::unique('batches')->where(function ($query) use ($request) {
+                    return $query->where('product_id', $request->product_id);
+                })
             ],
             'mfg_date' => 'required|date',
             'exp_date' => 'required|date',
-            'currency'=>'required',
-            'price'=>'required',
+            'currency' => 'required',
+            'price' => 'required|numeric', // Added numeric validation for price
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

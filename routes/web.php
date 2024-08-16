@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserLogController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,8 @@ Route::get('/node-data', function () {
 
 Route::middleware(['increase.execution.time'])->group(function () {
     Route::group(['middleware' => ['auth']], function () {
-        // Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'index']);
+        Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
 
         Route::get('/download-csv', [App\Http\Controllers\QrcodeController::class, 'downloadCsv']);
         Route::post('products/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.updated');
@@ -32,6 +34,7 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::resource('production-lines', App\Http\Controllers\ProductionLinesController::class);
         // Route::put('production-plants/{id}/edit', [App\Http\Controllers\ProductionPlantController::class, 'update'])->name('production-plants.update');
         Route::resource('scanhistories', App\Http\Controllers\ScanHistoriesController::class);
+        Route::get('/scanhistoriesexceldownload', [App\Http\Controllers\ScanHistoriesController::class, 'exceldownloadscanhistories'])->name('scanhistoriesdownloadexcel');
         Route::resource('jobs', App\Http\Controllers\JobsController::class);
         Route::get('/jobscsvdownload', [App\Http\Controllers\JobsController::class, 'jobscsvdownload'])->name('jobs.downloadcsv');
 
@@ -44,7 +47,6 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/stopprint', [App\Http\Controllers\PrintController::class, 'StopPrint'])->name('stopprint');
         Route::get('/printmoduledownloadexcel', [App\Http\Controllers\PrintController::class, 'downloadexcel'])->name('downloadexcell');
         Route::get('/01/{product_id}/10/{qrcode}', [App\Http\Controllers\ProductController::class, 'getproductdetails'])->name('getscanproduct');
-        http://127.0.0.1:8000/01/987654321/10/21/1?id=29&250207
         Route::get('/11/{qrcode}', [App\Http\Controllers\ProductController::class, 'getproductdetailsqr'])->name('abc');
         Route::get('/cameradatacheck', [App\Http\Controllers\PrintController::class, 'cameradatacheck'])->name('cameradatacheck');
         Route::get('/populatemodal', [App\Http\Controllers\UserLogController::class, 'populatemodal'])->name('populatemodal');
@@ -52,14 +54,13 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::get('/userlog', [App\Http\Controllers\UserLogController::class, 'index'])->name('userlog.index');
         Route::get('/userlog/show/{id}', [App\Http\Controllers\UserLogController::class, 'show'])->name('userlog.show');
 
-        Route::post('forgotpassword', [App\Http\Controllers\AdminController::class, 'SendPassword'])
+        Route::post('forgot_password', [App\Http\Controllers\AdminController::class, 'SendPassword'])
             ->name('password.send');
         // Route::middleware(['auth', 'permission:edit articles'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
         Route::resource('permissions', App\Http\Controllers\PermissionController::class);
         // Route::post('permissions/{id}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permissions.destroy');
         Route::resource('roles', App\Http\Controllers\RoleController::class);
@@ -73,6 +74,9 @@ Route::middleware(['increase.execution.time'])->group(function () {
         Route::post('batches/import', [App\Http\Controllers\BatchController::class, 'import'])->name('batches.import');
         Route::post('batches/bulkstatuschange', [App\Http\Controllers\QrcodeController::class, 'bulkstatuschange'])->name('batches.bulstatuschange');
         Route::resource('qrcodes', App\Http\Controllers\QrcodeController::class);
+        Route::get('systemalerts', [App\Http\Controllers\QrcodeController::class, 'systemalerts'])->name('systemalerts');
+        Route::get('/systemalertshow/{id}', [App\Http\Controllers\QrcodeController::class, 'show'])->name('systemalerts.systemalertshow');
+
         Route::get('bulkuploads', [App\Http\Controllers\BulkUploadController::class, 'index'])->name('bulkuploads.index');
         Route::post('bulkuploads/store', [App\Http\Controllers\BulkUploadController::class, 'store'])->name('bulkuploads.store');
         Route::post('bulkuploads/storeserial_no', [App\Http\Controllers\BulkUploadController::class, 'store_serial_no'])->name('bulkuploads.store_serial_no');
@@ -81,13 +85,18 @@ Route::middleware(['increase.execution.time'])->group(function () {
 
         Route::get('/scans-data', [App\Http\Controllers\DashboardController::class, 'getCurrentMonthData']);
 
-
+        Route::get('/userlog/getDownloadLink', [UserLogController::class, 'getDownloadLink'])->name('userlog.getDownloadLink');
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        Route::get('/log_out', [App\Http\Controllers\adminController::class, 'logoutlanding'])->name('logout1');
+        Route::get('/log_out', [App\Http\Controllers\AdminController::class, 'logoutlanding'])->name('logout1');
+        Route::get('/profileinfo', [App\Http\Controllers\AdminController::class, 'viewprofile'])->name('profile');
+        Route::get('/changepassword', [App\Http\Controllers\AdminController::class, 'changepass']);
+        Route::post('/changepassword', [App\Http\Controllers\AdminController::class, 'changepasssave'])->name('changepassword');
+        Route::get('/Underprocess', [App\Http\Controllers\AdminController::class, 'development'])->name('underdevelopment');
         Route::get('/reportlog', [App\Http\Controllers\ReportLogController::class, 'index'])->name('reportlog.index');
         Route::get('/reportlogshow/{id}', [App\Http\Controllers\ReportLogController::class, 'show'])->name('reportlog.show');
 
         Route::get('/reportexceldownload', [App\Http\Controllers\ReportLogController::class, 'exceldownload'])->name('reportlog.exceldownload');
+        Route::post('/update-location', [ProductController::class, 'updateLocation'])->name('update.location');
     });
 });
 Route::get('/checkcameraconn', [App\Http\Controllers\DashboardController::class, 'checkConnection'])->name('dashboard.checkConnection');

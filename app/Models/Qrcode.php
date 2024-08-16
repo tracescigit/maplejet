@@ -48,12 +48,27 @@ class Qrcode extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['url', 'gs1_link', 'qr_code','batch','batch_id','code_data','printed','job_id','print_count','status'])
-            ->logOnlyDirty()                      
+            ->logOnly(['url', 'gs1_link', 'qr_code', 'batch', 'batch_id', 'code_data', 'printed', 'job_id', 'print_count', 'status'])
+            ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Qrcode has been {$eventName}")
-            ->useLogName('Qrcode');                
+            ->setDescriptionForEvent(function (string $eventName) {
+                // Define the log name here
+                $logName = 'Qrcode';
+    
+                switch ($eventName) {
+                    case 'created':
+                        return "{$logName} has been created with the following details: URL - {$this->url}, GS1 Link - {$this->gs1_link}, QR Code - {$this->qr_code}, Batch - {$this->batch}, Batch ID - {$this->batch_id}, Code Data - {$this->code_data}, Printed - {$this->printed}, Job ID - {$this->job_id}, Print Count - {$this->print_count}, Status - {$this->status}";
+                    case 'updated':
+                        return "{$logName} has been updated. New details: URL - {$this->url}, GS1 Link - {$this->gs1_link}, QR Code - {$this->qr_code}, Batch - {$this->batch}, Batch ID - {$this->batch_id}, Code Data - {$this->code_data}, Printed - {$this->printed}, Job ID - {$this->job_id}, Print Count - {$this->print_count}, Status - {$this->status}";
+                    case 'deleted':
+                        return "{$logName} with QR Code - {$this->qr_code} has been deleted.";
+                    default:
+                        return "{$logName} has been {$eventName}.";
+                }
+            })
+            ->useLogName('Qrcode');
     }
+    
     
 }
 

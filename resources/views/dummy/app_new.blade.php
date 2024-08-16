@@ -24,11 +24,11 @@
 
   <style>
     .nav-link.active {
-      color: #c5005e;
+      color: #b70a9b;
     }
 
     .btn-custom {
-      background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+      background: #b70a9b !important;
       color: white;
       border-radius: 5px;
       padding: 10px 20px;
@@ -45,6 +45,21 @@
     .ql-container.ql-snow {
       height: 200px;
       margin-bottom: 30px;
+    }
+
+    .nav-aside .nav-item ul .active a {
+      color: #b70a9b !important;
+    }
+
+    .nav-aside .nav-item.active .nav-link {
+      opacity: 1;
+      color: #b70a9b !important;
+      font-weight: 500;
+    }
+
+    .nav-aside .nav-item.active svg {
+      color: #b70a9b !important;
+      fill: rgba(1, 104, 250, 0.2);
     }
 
     .footer {
@@ -75,13 +90,90 @@
       display: block;
       /* Show submenu when 'show' class is added to parent <li> */
     }
+
+    .justify-content-center {
+      margin-bottom: 30px;
+    }
+
+    .btn-outline-primary:hover {
+      border-color: blue;
+      /* Optional: Change the border color to match the background */
+      color: white;
+      /* Optional: Change the text color to ensure it's visible on the red background */
+    }
+
+    .btn-custom,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      /* Adjust padding as needed */
+      font-size: 16px;
+      /* Make sure the font size is consistent */
+    }
+
+    .btn-custom i,
+    .btn-secondary i {
+      margin-right: 8px;
+      /* Space between icon and text */
+    }
+
+    .btn-custom,
+    .btn-secondary {
+      height: 40px;
+      /* Set a fixed height to ensure consistency */
+      line-height: 20px;
+      /* Adjust line-height to match text height */
+    }
+
+    .btn-custom i,
+    .btn-secondary i {
+      vertical-align: middle;
+      /* Align icons vertically in the center */
+    }
+
+    .profile {
+      padding-top: 5px !important;
+    }
+
+    .profile_icon {
+      padding: 0px !important;
+    }
+
+    /* Ensure pagination is centered and responsive */
+    .pagination {
+      margin: 0;
+    }
+
+    .page-item {
+      margin: 0 2px;
+    }
+
+    .page-item.active .page-link {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .page-item.disabled .page-link {
+      color: #6c757d;
+      pointer-events: none;
+      background-color: #fff;
+      border-color: #dee2e6;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 576px) {
+      .pagination {
+        font-size: 0.75rem;
+      }
+    }
   </style>
 
 </head>
 
 <body>
 
-  
+
   @if(!Route::is("password.request") && !Route::is("login") && !Route::is("logout1"))
   @include('dummy.navbar_new')
   @include('dummy.top_navbar_new')
@@ -132,6 +224,10 @@
   <script src="{{url('/assets/js/js_new/js.cookie.js')}}"></script>
   <script src="{{url('/assets/js/js_new/dashforge.settings.js')}}"></script>
   <script>
+    function closeProfile() {
+      var profileElement = document.getElementById('open_profile');
+      profileElement.style.display = 'none';
+    }
     $(function() {
       'use strict'
 
@@ -486,6 +582,17 @@
       parentLi.classList.toggle('show');
       parentLi.classList.toggle('active');
       // Find the submenu <ul> inside the parent <li>
+    }
+
+    function openProfile() {
+      var profileElement = document.getElementById('open_profile');
+      if (profileElement.style.display === 'none' || profileElement.style.display === '') {
+        profileElement.style.display = 'block';
+      } else {
+        profileElement.style.display = 'none';
+      }
+
+
     }
   </script>
   @yield('js')

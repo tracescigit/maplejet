@@ -13,5 +13,9 @@ class ScanHistory extends Model
         'location', 'scan_count', 'scanned_by', 'device_id', 'ip_address',
         'feedback', 'images','product_id','qr_code','user_id'
     ];
-    
+
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class, 'batch', 'id');
+    }
 }

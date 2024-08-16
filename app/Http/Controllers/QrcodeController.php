@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\ExportDataToCSV;
-
+use App\Models\SystemAlert;
+use Illuminate\Support\Facades\Cache;
 class QrcodeController extends Controller
 {
     public function index(Request $request)
@@ -69,12 +70,8 @@ class QrcodeController extends Controller
         $filePath = $request->file('file')->store('csv_files');
         $products = Product::select('web_url')->where('id',$request->product_id)->first();
         $link=$products->web_url;
-        $response = Bus::dispatchNow(new ProcessCsvFile($filePath, $request->product_id, $request->batch, $request->gs_link,$link));
-        if ($response === "CSV data processed successfully.") {
-            return redirect('qrcodes')->with('status', $response);
-        } else {
-            return redirect('qrcodes')->with('error', $response);
-        }
+        ProcessCsvFile::dispatch($filePath, $request->product_id, $request->batch, $request->gs_link,$link)->onQueue('bulk_uploads_product');
+        return redirect('qrcodes')->with('status', 'CSV data is being processed.');
     }
     public function edit(Batch $batch)
     {
@@ -88,8 +85,10 @@ class QrcodeController extends Controller
         $qrcode->update([
             'status' => $request->status_to_change,
         ]);
-        return redirect()->route('qrcodes.index')->with('success', 'Qrcode updated successfully');
+    
+        return response()->json(['success' => true, 'message' => 'Qrcode updated successfully']);
     }
+    
     public function destroy($id)
     {
         // $batch = Batch::find($id);
@@ -140,7 +139,26 @@ class QrcodeController extends Controller
             return response()->json(['status' => 'Invalid or missing start_code or quantity']);
         }
     }
-    public function downloadCsv()
+    public function systemalerts()
     {
+        $systemalerts = SystemAlert::with('batches')->orderBy('created_at', 'desc')->paginate(10);
+
+    // Pass the paginated results to the view
+    return view('systemalerts.systemalert', compact('systemalerts'));
+    }
+    public function show($id) {
+        $sysshow = Systemalert::where('id',$id)->with('batches')->first();
+        return view('systemalerts.systemalertshow',compact('sysshow'));
+
+    }
+    public function downloadStatus()
+    {
+        $fileLink = Cache::get('userlog_download_link');
+    
+        if ($fileLink) {
+            return response()->json(['file_link' => $fileLink]);
+        }
+    
+        return response()->json(['message' => 'File not yet available.'], 404);
     }
 }

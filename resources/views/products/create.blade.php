@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -18,14 +18,15 @@
         overflow: hidden;
     }
 </style>
-<div class="content content-components" >
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
-            <div class="d-flex bg-gray-10">
+<div class="content content-components">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+
+                <div class="d-flex bg-gray-10 mx-auto">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new product</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> product.</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Add New Product</h4>
+                        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Product.</p>
                         <hr>
                     </div>
 
@@ -190,7 +191,7 @@
                                     @error('image')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <small style="color: red;">Image size should be below 500 KB in JPEG, PNG format.</small>
+                                    <small>Image size should be below 500 KB in JPEG, PNG format.</small>
                                 </div>
                                 <img id="imagePreview" src="{{ old('image')}}" alt="Image Preview" class="img-fluid mt-2 mb-2" style="display: {{ old('image') ? 'block' : 'none' }}">
                             </div>
@@ -203,12 +204,12 @@
                                     @error('label_img')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <small style="color: red;">Image size should be below 500 KB in JPEG, PNG format.</small>
+                                    <small>Image size should be below 500 KB in JPEG, PNG format.</small>
                                 </div>
                                 <img id="imagePreviewlabel" src="#" alt="Label Image Preview" class="img-fluid mt-2 mb-2" style="display: none;">
                             </div>
                             <div class="col-md-6">
-                                <h5>Video</h5>
+                                <h5>Media</h5>
                                 <hr>
                                 <div class="form-group">
                                     <label for="video">Video</label>
@@ -216,23 +217,26 @@
                                     @error('video')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-                                    <small style="color: red;">Video size should be below 5 MB in MP4, MOV format.</small>
+                                    <small>Video size should be below 5 MB in MP4, MOV format.</small>
                                 </div>
                                 <div id="videoNameContainer">
                                     <span id="videoName" style="display: none;"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group  mx-4 ">
-                            <button type="submit" class="btn btn-custom float-right">
-                                Submit
-                            </button>
-                            <a href="{{ route('products.index') }}" class="btn btn-secondary float-left">
-                                Back
-                            </a>
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <button type="submit" class="btn btn-custom float-right">
+                                        Submit
+                                    </button>
+                                    <a href="{{ route('products.index') }}" class="btn btn-secondary float-left">
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

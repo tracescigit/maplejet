@@ -56,22 +56,52 @@ class QrUploadBySerial implements ShouldQueue
     // }
     public function handle()
     {
-        $qr_to_start=$this->data['starting_code'];
-        $qr_to_end=$this->data['starting_code'] +$this->data['quantity'];
-            for ($i=$qr_to_start;$i<$qr_to_end;$i++) {
-                    if (Qrcode::where('code_data', $i)->exists()) {
-                        return "Error: Duplicate data found for code: $i. Aborting data insertion into the database.";
-                    }
+        set_time_limit(0);
+        Log::info('QrUploadBySerial job started.');
+        $qr_to_start = $this->data['starting_code'];
+        $qr_to_end = $this->data['starting_code'] + $this->data['quantity'];
+    
+        $batchSize = 1000; // Define a reasonable batch size
+        $current = $qr_to_start;
+    
+        while ($current < $qr_to_end) {
+            $batchEnd = min($current + $batchSize, $qr_to_end);
+    
+            // Check for duplicates in the current batch
+            if (Qrcode::whereBetween('code_data', [$current, $batchEnd - 1])->exists()) {
+                Log::error('Error in QrUploadBySerial job: Duplicate data found.');
+                return "Error: Duplicate data found. Aborting data insertion.";
             }
-            for ($i=$qr_to_start;$i<$qr_to_end;$i++) {
-                    Qrcode::create([
-                        'qr_code' => $i,
-                        'code_data' => $i,
-                        'url'=>$this->data['baseurl'].'/'.$i
-                    ]);
-                }
-
-            return "Data processed successfully.";
+    
+            // Generate and insert QR codes
+            $codesToInsert = [];
+            for ($i = $current; $i < $batchEnd; $i++) {
+                $qr_code_number = $this->generateUniqueQRCodeNumber();
+                $codesToInsert[] = [
+                    'qr_code' => $qr_code_number,
+                    'code_data' => $i,
+                    'url' => $this->data['baseurl'] . '/' .$qr_code_number
+                ];
+            }
+            Log::info('Inserting QR codes: ' . json_encode($codesToInsert));
+            Qrcode::insert($codesToInsert);
+    
+            $current = $batchEnd; // Move to the next batch
+        }
+    
+        Log::info('QrUploadBySerial job completed successfully.');
+        return "Data processed successfully.";
     }
-   
+    
+    private function generateUniqueQRCodeNumber()
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $codeLength = 16;
+        $qrCodeNumber = '';
+        for ($i = 0; $i < $codeLength; $i++) {
+            $qrCodeNumber .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $qrCodeNumber;
+    }
 }

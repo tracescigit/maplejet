@@ -16,7 +16,7 @@ class JobsController extends Controller
 {
     public function index()
     {
-        $jobdatas = ProductionJob::with(['productionplant', 'productionLines'])->paginate(10);
+        $jobdatas = ProductionJob::with(['productionplant', 'productionLines'])->orderBy('created_at', 'desc')->paginate(10);
         $prodactiveCount = $jobdatas->filter(function ($product) {
             return $product->status === 'Active';
         })->count();

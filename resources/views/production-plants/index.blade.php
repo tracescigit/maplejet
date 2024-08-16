@@ -6,7 +6,7 @@
 
     /* Button styles */
     .btn-custom {
-        background: transparent linear-gradient(45deg, #700877 0%, #ff2759 100%, #ff2759 100%) repeat scroll 0 0;
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -121,27 +121,44 @@
     </div>
 </div>
 
-<div class="wrapper">
-    <div class="main-panel" id="main-panel">
-        <div class="row">
-            <div class="col-md-12">
-                @if(session('status'))
-                <div id="statusMessage" class="alert alert-success mt-2" style="background-color:#34eb86">{{session('status')}}</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+    <div class="col-md-12">
+                @if (session('status'))
+                <div id="statusMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {{ session('status') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 @endif
 
-                <div class="content content-components">
+                @if ($errors->any())
+                <div id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ $errors->first() }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
+            </div>
+
+        <div class="content content-components">
+        
 
 
 
-            <div class="card pd-20 mg-t-10 col-10 mx-auto">
+            <div class="container">
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10">Create Production-Plants</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> production-Plant.</p>
+                        <h4 id="section3" class="mg-b-10 font-weight-bolder">Create Production-Plants</h4>
+                        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Production-Plant.</p>
                     </div>
 
                     <div class="pd-10 mg-l-auto">
-                        <a href="{{ route('production-plants.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle"></i> Add New</button></a>
+                        <a href="{{ route('production-plants.create') }}"><button type=" button" class="btn btn-custom btn-icon"><i data-feather="plus-circle" class="mr-1"></i> Add New</button></a>
                     </div>
                 </div>
 
@@ -159,7 +176,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Prod.Plant</h6>
+                                    <h6 class="tx-sans  tx-05 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Last Production Plant</h6>
                                     <h4 class="tx-10 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$last_added_plplant->name??"--"}}</h4>
                                 </div>
                             </div>
@@ -174,7 +191,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
+                                    <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Total </h6>
                                     <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{count($productionplant)}}</h4>
                                 </div>
                             </div>
@@ -189,7 +206,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
+                                    <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Active</h6>
                                     <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{$prodactiveCount}}</h4>
                                 </div>
                             </div>
@@ -204,7 +221,7 @@
                                     </svg>
                                 </div>
                                 <div class="media-body">
-                                    <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
+                                    <h6 class="tx-sans  tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8"> Inactive</h6>
                                     <h4 class="tx-20 tx-sm-18 tx-md-24 tx-normal tx-rubik mg-b-0">{{ count($productionplant) - $prodactiveCount }}</h4>
                                 </div>
                             </div>
@@ -212,69 +229,84 @@
                     </div><!-- row -->
                 </div>
 
-                <form method="GET" action="{{ route('production-plants.index') }}">
-                    <div data-label="Prod. list" class="df-example demo-table">
-                        <div class="row row-sm  mg-b-10">
+                <div data-label="Production list" class="df-example demo-table">
+                    <form method="GET" action="{{ route('production-plants.index') }}">
+                        <div class="row row-sm mg-b-10">
                             <div class="col-sm-3">
-                                <input type="text"name="plants_search" class="form-control" placeholder="code ">
+                                <input type="text"
+                                    name="plants_search"
+                                    class="form-control"
+                                    placeholder="Code"
+                                    value="{{ old('plants_search', request('plants_search')) }}">
                             </div>
                             <div class="col-sm-3 mg-t-10 mg-sm-t-0">
-                                <input type="text" name="plants_name_search" class="form-control" placeholder="name">
+                                <input type="text"
+                                    name="plants_name_search"
+                                    class="form-control"
+                                    placeholder="Name"
+                                    value="{{ old('plants_name_search', request('plants_name_search')) }}">
                             </div>
-                           
-                            <div class="col-sm-3 mg-t-10  mg-sm-t-0">
-                                <button type="submit" class="btn btn-secondary"><i data-feather="search"></i></button>
+                            <div class="col-sm-3 mg-t-10 mg-sm-t-0">
+                                <button type="submit" class="btn btn-secondary">
+                                    <i data-feather="search"></i>
+                                </button>
                                 <!-- <button type="button" class="btn btn-secondary"><i data-feather="download"></i> Export</button> -->
                             </div>
                         </div>
-                </form>
+
+                    </form>
 
 
-                <div class="table-responsive">
-                    <table class="table table-striped mg-b-0">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-center font-weight-bold">ID</th>
-                                <th scope="col" class="text-left font-weight-bold">Plant Code</th>
-                                <th scope="col" class="text-left font-weight-bold">Plant Name</th>
-                                <th scope="col" class="text-center font-weight-bold">STATUS</th>
-                                <th scope="col" class="text-center font-weight-bold">Created On</th>
-                                <th scope="col" class="text-center font-weight-bold">Action</th>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped mg-b-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center font-weight-bold">ID</th>
+                                    <th scope="col" class="text-left font-weight-bold">Plant Code</th>
+                                    <th scope="col" class="text-left font-weight-bold">Plant Name</th>
+                                    <th scope="col" class="text-center font-weight-bold">Status</th>
+                                    <th scope="col" class="text-center font-weight-bold">Created On</th>
+                                    <th scope="col" class="text-center font-weight-bold">Action</th>
 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($productionplant as $index => $singleplant)
-                            @php
-                            $page = $productionplant->currentPage();
-                            $perPage = $productionplant->perPage();
-                            $incrementingIndex = ($page - 1) * $perPage + $index + 1;
-                            @endphp
-                            <tr>
-                                <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
-                                <td class="tx-medium text-left">{{$singleplant->code}}</td>
-                                <td class="text-left">{{$singleplant->name}}</td>
-                                <td class="tx-medium text-center">
-                                @if($singleplant->status == 'Active')
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($productionplant as $index => $singleplant)
+                                @php
+                                $page = $productionplant->currentPage();
+                                $perPage = $productionplant->perPage();
+                                $incrementingIndex = ($page - 1) * $perPage + $index + 1;
+                                @endphp
+                                <tr>
+                                    <td class="tx-color-03 tx-normal text-center">{{ $incrementingIndex }}</td>
+                                    <td class="tx-medium text-left">{{$singleplant->code}}</td>
+                                    <td class="text-left">{{$singleplant->name}}</td>
+                                    <td class="tx-medium text-center">
+                                        @if($singleplant->status == 'Active')
                                         <span class="badge badge-success"> {{$singleplant->status}}</span>
                                         @else
                                         <span class="badge badge-danger"> {{$singleplant->status}}</span>
                                     </td>
                                     @endif
-                                <td class="text-center">
-                                <a class="btn btn-outline-primary float-center" type="button" href="{{route('production-plants.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
+                                    <td class="text-center text-danger">
+                                        {{ \Carbon\Carbon::parse($singleplant->created_at)->format('d-m-Y') }}
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-outline-primary float-center" type="button" href="{{route('production-plants.show',$singleplant->id)}}"><i class="fas fa-eye" style="color: #63E6BE;"></i></a>
                                         <a href="{{route('production-plants.edit',$singleplant->id)}}" class="btn btn-outline-primary float-center"><i class="fas fa-edit" style="color: #74C0FC;"></i></a>
-                                </td>
+                                    </td>
 
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-center" style="color:red">---No data found ---</td> <!-- Adjust colspan based on the number of columns -->
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div><!-- table-responsive -->
             </div><!-- card -->
 
@@ -283,36 +315,36 @@
             </div>
         </div>
 
-@endsection
+        @endsection
 
 
 
 
-@section('js')
-<script>
-    function openModal(id, plantscode, plantsname) {
-        console.log(id, plantscode, plantsname);
-        var html = '<tr>' +
-            '<td><strong>ID:</strong></td>' +
-            '<td>' + id + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td><strong>PLANTS-CODE:</strong></td>' +
-            '<td>' + plantscode + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td><strong>PLANTS-NAME:</strong></td>' +
-            '<td>' + plantsname + '</td>' +
-            '</tr>' +
-            '<tr>';
-        $('#table-body').html(html);
-        $('#myModal').modal('show');
-    }
-</script>
-<script>
-    function closemodal() {
-        $('#myModal').modal('hide');
-    }
-</script>
+        @section('js')
+        <script>
+            function openModal(id, plantscode, plantsname) {
+                console.log(id, plantscode, plantsname);
+                var html = '<tr>' +
+                    '<td><strong>ID:</strong></td>' +
+                    '<td>' + id + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><strong>PLANTS-CODE:</strong></td>' +
+                    '<td>' + plantscode + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td><strong>PLANTS-NAME:</strong></td>' +
+                    '<td>' + plantsname + '</td>' +
+                    '</tr>' +
+                    '<tr>';
+                $('#table-body').html(html);
+                $('#myModal').modal('show');
+            }
+        </script>
+        <script>
+            function closemodal() {
+                $('#myModal').modal('hide');
+            }
+        </script>
 
-@endsection
+        @endsection

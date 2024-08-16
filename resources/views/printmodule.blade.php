@@ -6,7 +6,7 @@
     /* Custom styles */
     body {
         font-family: 'Numans', sans-serif;
-        background-color: #f8f9fa;
+        /* background-color: #f8f9fa; */
         /* Light gray background */
     }
 
@@ -82,120 +82,165 @@
         font-weight: bold;
     }
 </style>
-<div class="content content-components">
+
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <div id="hello"></div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div class="container mt-4">
+<div class="content content-components">
+    <div class="container">
+        <div class="d-flex bg-gray-10">
+            <div class="pd-10 flex-grow-1">
+                <h4 id="section3" class="mg-b-10 font-weight-bolder">Print Module</h4>
+                <p class="mg-b-30">Use this page for <code style="color:#e300be;">Print</code> Jobs.</p>
+                <hr>
+            </div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="content-header">
-                    <h2 class="head-print">Print Module</h2>
+            <div class="pd-10 mg-l-auto">
+                <button type=" button" class="btn btn-custom btn-icon" onclick="downloadexcel()"><i data-feather="download" class="mr-1"></i>Export</button>
+            </div>
+        </div>
 
-                    <button class="btn btn-custom ml-auto mb-2" type="button" onclick="downloadexcel()">
-                        Download job Excel
-                    </button>
+
+        @if(session('status'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('status') }}
+        </div>
+        @endif
+
+        <div data-label="Data" class="df-example mg-b-30">
+
+            <form method="POST" action="{{ route('jobs.store') }}">
+                @csrf
+                <div class="row mb-3">
+                    <div class="col-md-8 mx-auto">
+                        <label for="job" class="form-label">Select Job</label>
+                        <select name="job" id="job" class="form-control">
+                            <option value="">Please select</option>
+                            @foreach($job as $value)
+                            <option value="{{ $value->id }}">{{ $value->code }}</option>
+                            @endforeach
+                        </select>
+                        <div id="job_error" style="color: red;"></div>
+                    </div>
 
                 </div>
-                <div class="card-body">
-                    @if(session('status'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif
 
-                    <form method="POST" action="{{ route('jobs.store') }}">
-                        @csrf
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for="job" class="form-label">Select Job</label>
-                                <select name="job" id="job" class="form-control">
-                                    <option value="">Please select</option>
+
+                <div class="col-md-8 mx-auto">
+                    <table class="table table-bordered table-striped">
+                        <tbody id="table-body">
+                            <tr>
+                                <td><strong>Batch:</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MFG date:</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>EXP Date:</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Price:</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Link:</strong></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12 d-flex justify-content-center">
+                    <div class="checkdiv mx-4 ">
+                        <input type="checkbox" class="le-checkbox thisonetocheck" disabled>
+                        <span class="camera-status">Printer Status</span>
+                    </div>
+                    <div class="checkdiv mx-4">
+                        <input type="checkbox" class="le-checkbox thiscameratocheck" disabled>
+                        <span class="camera-status">Camera Status</span>
+                    </div>
+
+                    <div id="message" style="color:green"></div>
+                    <div id="message_error" style="color:red"></div>
+                </div>
+                <div class="text-center mb-3 col-12 mt-2">
+                    <button class="btn btn-success start-print mx-auto" type="button" onclick="ajaxfunction()">Start Print</button>
+                    <button class="btn btn-danger button-print mx-3" type="button" onclick="ajaxfunctionstop()">Stop Print</button>
+                </div>
+            </form>
+
+        </div>
+        <div data-label="Camera stats" class="df-example mg-b-30">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="font-weight-bold text-center mb-3">Camera Data Log</h3>
+                    <table id="camera-data-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>Serial No</th>
+                                <th>Message</th>
+                                <th>Data</th>
+                                <th>Current Time</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!-- Modal HTML -->
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="statusModalLabel">Change Job Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="statusForm">
+                            <div class="form-group">
+                                <label for="jobSelect">Select Job</label>
+                                <select id="jobSelect" name="jobSelect" class="form-control" required>
                                     @foreach($job as $value)
                                     <option value="{{ $value->id }}">{{ $value->code }}</option>
                                     @endforeach
                                 </select>
-                                <div id="job_error" style="color: red;"></div>
                             </div>
-
-                        </div>
-
-
-                        <div class="col-md-8 mx-auto">
-                            <table class="table table-bordered table-striped">
-                                <tbody id="table-body">
-                                    <tr>
-                                        <td><strong>Batch:</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>MFG date:</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>EXP Date:</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Price:</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Link:</strong></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-md-12 d-flex justify-content-center">
-                            <div class="checkdiv mx-4 ">
-                                <input type="checkbox" class="le-checkbox thisonetocheck" disabled>
-                                <span class="camera-status">Printer Connected Status</span>
+                            <div class="form-group">
+                                <label for="statusSelect">Select Status</label>
+                                <select id="statusSelect" name="statusSelect" class="form-control" required>
+                                    <option value="all">Select All</option>
+                                    <option value="printed">Printed</option>
+                                    <option value="not_printed">Not Printed</option>
+                                    <option value="verified">Verified</option>
+                                    <option value="not_verified">Not Verified</option>
+                                </select>
                             </div>
-                            <div class="checkdiv mx-4">
-                                <input type="checkbox" class="le-checkbox thiscameratocheck" disabled>
-                                <span class="camera-status">Camera Connected Status</span>
+                            <div id="job_error" class="text-danger"></div> <!-- Error message container -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
+                        </form>
 
-                            <div id="message" style="color:green"></div>
-                            <div id="message_error" style="color:red"></div>
-                        </div>
-                        <div class="text-center mb-3 col-12 mt-2">
-                            <button class="btn btn-success start-print mx-auto" type="button" onclick="ajaxfunction()">Start Print</button>
-                            <button class="btn btn-danger button-print mx-3" type="button" onclick="ajaxfunctionstop()">Stop Print</button>
-                        </div>
-
-
-                        <div class="row mt-5">
-                            <div class="col-md-12">
-                                <h3 class="font-weight-bold text-center mb-3">Camera Data Log</h3>
-                                <table id="camera-data-table" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Serial No</th>
-                                            <th>Message</th>
-                                            <th>Data</th>
-                                            <th>Current Time</th>
-                                            <th>Remark</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Rows will be added here dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -258,6 +303,41 @@
         });
 
     });
+    $(document).ready(function() {
+        $('#statusForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            // Serialize the form data
+            var formData = $(this).serialize();
+            // Make AJAX request
+            $.ajax({
+                url: '{{ route("downloadexcell") }}', // Ensure this is the correct route
+                type: 'GET',
+                data: formData,
+                xhrFields: {
+                    responseType: 'blob' // Ensure response is handled as binary data
+                },
+                success: function(blob) {
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'jobdataexcel.xlsx'; // Set the filename for download
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    console.log('Excel file exported successfully');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error exporting Excel file:', error);
+                }
+            });
+        });
+
+    });
+
+
+
 
     function ajaxfunction() {
         if (data) {
@@ -391,44 +471,9 @@
     }
 
     function downloadexcel() {
-        console.log(data); // Ensure 'data' is defined and correct
-
-        if (data) {
-            var jobId = $('#job').val();
-
-            $.ajax({
-                url: '{{ route("downloadexcell") }}',
-                type: 'GET',
-                data: {
-                    job_id: jobId,
-                    data: data
-                },
-                xhrFields: {
-                    responseType: 'blob' // Set the response type to blob (binary data)
-                },
-                success: function(blob) { // Corrected: Use 'blob' as parameter here
-                    var url = window.URL.createObjectURL(blob);
-                    var a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'jobdataexcel.xlsx'; // Set the filename for download
-                    document.body.append(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                    console.log('Excel file exported successfully');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error exporting Excel file:', error);
-                }
-            });
-        } else {
-            $('#job_error').html();
-            $('#job_error').text("Please Select a Job First");
-            setTimeout(function() {
-                $('#job_error').text('');
-            }, 5000);
-        }
+        $('#statusModal').modal('show'); // Corrected selector: remove the dot before the ID selector
     }
+
 
     document.addEventListener("DOMContentLoaded", function() {
 

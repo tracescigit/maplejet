@@ -3,7 +3,7 @@
 @section('content')
 <style>
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 8px 16px;
@@ -17,13 +17,21 @@
         border-radius: 10px;
         overflow: hidden;
     }
+    #map {
+            height: 500px;
+            width: 100%;
+        }
 </style>
-<div class="content-wrapper">
+<div class="content content-components">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
-                <div class="card-header btn-custom ">
-                    <h5 class="mb-0  text-white">Feedback Details</h5>
+            <div class="container">
+                <div class="d-flex bg-gray-10">
+                    <div class="pd-10 flex-grow-1">
+                        <h4 id="section3" class="mg-b-10 font-weight-bolder">View Details</h4>
+                        <p class="mg-b-30">Use this page to <code style="color:#e300be;">View</code> Report Details .</p>
+                        <hr>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -50,8 +58,15 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label class="font-weight-bold" for="gtin">Reporter ID:</label>
-                                <p>{{$reportlog->reporter_id}}</p>
+                                <label class="font-weight-bold" for="gtin">IP Address</label>
+                                <p>{{$reportlog->ip}}</p>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="gtin">Latitude & Longitude :</label>
+                                <p>{{$reportlog->lat.' and '.$reportlog->long}}</p>
                                 <hr>
                             </div>
                         </div>
@@ -76,6 +91,22 @@
                                 <hr>
                             </div>
                         </div>
+                        <div class="col-12">
+                                
+                                    
+                                <div class="card-body mb-3">
+
+                                    <div class="col-12">
+                                        <div id="map"></div>
+                                    </div>
+
+                                </div>
+                            </div><!-- row -->
+                        </div><!-- container -->
+                        <div class="col-md-12">
+                        <a href="{{ route('reportlog.index') }}" class="btn btn-secondary float-left">
+                        Back</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,3 +115,38 @@
 </div>
 
 @endsection
+@section('js')
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDADniYJASHh9Fbu-PagV7vFtjM9bJx9dU&callback=initMap">
+</script>
+<script>
+        function initMap() {
+             // Assuming these values are being rendered correctly
+             var latitude = parseFloat('{{ $reportlog->lat }}');
+            var longitude = parseFloat('{{ $reportlog->long }}');
+            // Create a map centered on a specific location
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: latitude, lng: longitude } // Change this to your desired location
+            });
+
+
+           
+
+            // Add markers
+            var locations = [
+                { lat: latitude, lng: longitude, title: "Location 1" },
+            ];
+
+            for (var i = 0; i < locations.length; i++) {
+                var marker = new google.maps.Marker({
+                    position: { lat: locations[i].lat, lng: locations[i].lng },
+                    map: map,
+                    title: locations[i].title
+                });
+            }
+        }
+
+        // Initialize the map when the page loads
+        window.onload = initMap;
+    </script>
+    @endsection

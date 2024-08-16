@@ -13,7 +13,8 @@ use App\Jobs\ListenCamera;
 use Illuminate\Support\Facades\Bus;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\SendToPrinterJob;
-use App\Exports\JobDataExpot;
+use App\Exports\ExportJobStatus;
+use Illuminate\Support\Facades\Validator;
 
 class PrintController extends Controller
 {
@@ -237,9 +238,9 @@ class PrintController extends Controller
     {
         $printer_ip = $request->data['ip_printer'];
         $authToken = $request->data['auth_token'];
-       
+
         $data = '<APCMD><PRINT>1</PRINT></APCMD>';
-    
+
         try {
             $connected = $this->hitUrlWithAuthTokenn("http://$printer_ip", $authToken, $data);
             return response()->json(['data' => $request->data, 'message' => "Printer connected successfully!"]);
@@ -254,7 +255,7 @@ class PrintController extends Controller
     }
     public function index()
     {
-        $job = ProductionJob::where('status','Assigned')->get();
+        $job = ProductionJob::where('status', 'Assigned')->get();
 
         return view('printmodule', compact('job'));
     }
@@ -262,11 +263,11 @@ class PrintController extends Controller
     {
 
         if (!empty($request->job_id)) {
-            $productionJobs = ProductionJob::select('production_jobs.id as productionjob_id','production_jobs.code as productionjob_code','production_jobs.plant_id','production_jobs.line_id','production_jobs.start_code as productionjob_start_code','production_jobs.quantity', 'qrcodes.id as qr_id','qrcodes.product_id as product_id','qrcodes.url as url','qrcodes.gs1_link as isgs1_link_unable','qrcodes.qr_code','qrcodes.batch_id','qrcodes.status as qr_status', 'batches.id as batches_id','batches.price','batches.code as batches_name','batches.currency as currency','batches.mfg_date','batches.exp_date','batches.status as batches_status', 'production_lines.id as pline_id','production_lines.code as pline_code','production_lines.ip_address','production_lines.printer_name','production_lines.name as pline_name','production_lines.status as pline_status','production_lines.created_at','production_lines.updated_at','production_lines.ip_printer','production_lines.port_printer','production_lines.ip_camera','production_lines.port_camera','production_lines.ip_plc','production_lines.port_plc','products.name as product_name','products.company_name','products.gtin','production_lines.printer_id','production_lines.auth_token',)
+            $productionJobs = ProductionJob::select('production_jobs.id as productionjob_id', 'production_jobs.code as productionjob_code', 'production_jobs.plant_id', 'production_jobs.line_id', 'production_jobs.start_code as productionjob_start_code', 'production_jobs.quantity', 'qrcodes.id as qr_id', 'qrcodes.product_id as product_id', 'qrcodes.url as url', 'qrcodes.gs1_link as isgs1_link_unable', 'qrcodes.qr_code', 'qrcodes.batch_id', 'qrcodes.status as qr_status', 'batches.id as batches_id', 'batches.price', 'batches.code as batches_name', 'batches.currency as currency', 'batches.mfg_date', 'batches.exp_date', 'batches.status as batches_status', 'production_lines.id as pline_id', 'production_lines.code as pline_code', 'production_lines.ip_address', 'production_lines.printer_name', 'production_lines.name as pline_name', 'production_lines.status as pline_status', 'production_lines.created_at', 'production_lines.updated_at', 'production_lines.ip_printer', 'production_lines.port_printer', 'production_lines.ip_camera', 'production_lines.port_camera', 'production_lines.ip_plc', 'production_lines.port_plc', 'products.name as product_name', 'products.company_name', 'products.gtin', 'production_lines.printer_id', 'production_lines.auth_token',)
                 ->join('qrcodes', 'production_jobs.start_code', '=', 'qrcodes.code_data')
                 ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
                 ->join('production_lines', 'production_jobs.line_id', '=', 'production_lines.id')
-                ->join('products','batches.product_id','=','products.id')
+                ->join('products', 'batches.product_id', '=', 'products.id')
                 ->where('production_jobs.id', $request->job_id)
                 ->first();
         } else {
@@ -292,9 +293,7 @@ class PrintController extends Controller
             return "Error stopping printer: " . $e->getMessage();
         }
     }
-    public function connectionweber(Request $request)
-    {
-    }
+    public function connectionweber(Request $request) {}
     protected function listencamera($ipcamera, $portcamera)
     {
         $address = '127.0.0.1';
@@ -367,8 +366,6 @@ class PrintController extends Controller
                             'url' => Qrcode::where('url', $data_parts[$index])->value('url'),
                         ];
                         if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
-                            dump($expected_data[$key]);
-                            dd($data_parts[$index]);
                             return response()->json([
                                 'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable',
                                 'data' => $camera_data_received,
@@ -395,18 +392,14 @@ class PrintController extends Controller
     }
     public function downloadexcel(Request $request)
     {
-        $datarequired = [
-            'id' => $request->data['qr_id'],
-            'quantity' => $request->data['quantity']
-        ];
-        $datatoexcel = [
-            'price' => $request->data['price'],
-            'mfg_date' => $request->data['mfg_date'],
-            'exp_date' => $request->data['exp_date'],
-            'gtin'=>$request->data['gtin']
-        ];
-        $exportFile =  Excel::download(new JobDataExpot($datatoexcel, $datarequired), 'jobdataexcel.xlsx');
+        $validator = Validator::make($request->all(), [
+            'jobSelect' => 'required',
+            'statusSelect' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-        return $exportFile;
+        return Excel::download(new ExportJobStatus($request->jobSelect, $request->statusSelect), 'jobdataexcel.xlsx');
     }
 }

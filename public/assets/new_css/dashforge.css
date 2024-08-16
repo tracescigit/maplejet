@@ -13616,7 +13616,7 @@ textarea.parsley-success:focus {
     font-weight: 700;
     font-family: -apple-system, BlinkMacSystemFont, "Inter UI", Roboto, sans-serif;
     letter-spacing: .5px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     color: #001737;
     margin-bottom: 5px;
     display: block;

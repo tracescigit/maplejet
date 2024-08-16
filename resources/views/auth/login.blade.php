@@ -1,8 +1,17 @@
 @extends('dummy.app_new')
 
 @section('content')
+<style>
+.forgot-password-link {
+        color: inherit; /* Use the current text color or specify a default color */
+        text-decoration: none; /* Remove underline */
+    }
 
-
+    .forgot-password-link:hover {
+        color: blue; /* Change color to blue on hover */
+        text-decoration: underline; /* Optional: Add underline on hover */
+    }
+    </style>
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -15,20 +24,20 @@
                 <div class="media-body align-items-center d-none d-lg-flex">
                     <div class="mx-wd-600">
                         <img src="{{tracesciimg('loginimage.png')}}" class="img-fluid" alt="">
-                        <img class="logo-tracesci" src="{{tracesciimg('logo.png')}}" style="margin-left:175px;">
+                        <!-- <img class="logo-tracesci" src="{{tracesciimg('logo.png')}}" style="margin-left:175px;"> -->
                     </div>
 
                 </div><!-- media-body -->
                 <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60 " style="margin-top: 90px;">
                     <div class="wd-100p">
                         <h3 class="tx-color-01 mg-b-5">Sign In</h3>
-                        <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please signin to continue.</p>
+                        <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please Sign In to continue.</p>
 
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group">
                                 <label>Email address</label>
-                                <input type="email" class="form-control" placeholder="yourname@yourmail.com" id="email" value="{{ old('email') }}" type="email" name="email" required="required" autocomplete="username">
+                                <input type="email" class="form-control" placeholder="name@email.com" id="email" value="{{ old('email') }}" type="email" name="email" required="required" autocomplete="username">
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -37,7 +46,7 @@
                                 <div class="d-flex justify-content-between mg-b-5">
                                     <label class="mg-b-0-f">Password</label>
                                     @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}" class="tx-13"> {{ __('Forgot your password?') }}</a>
+                                    <a href="{{ route('password.request') }}" class="forgot-password-link tx-13"> {{ __('Forgot password?') }}</a>
                                     @endif
                                 </div>
                                 <input type="password" class="form-control" placeholder="Enter your password" id="password" value="{{ old('password') }}" type="password" name="password" required="required" autocomplete="current-password">
@@ -46,7 +55,7 @@
                                     @enderror
                             </div>
 
-                            <button class="btn btn-brand-02 btn-block btn-custom">Sign In</button>
+                            <button class="btn btn-brand-02 btn-block btn-custom justify-content-center">Sign In</button>
 
                             
                            

@@ -59,20 +59,20 @@ if (!function_exists('cssVer')) {
     function cssVer()
     {
     //    return '?ver='.config('webconf')['cssversion'];
-       return '?ver=1';
+       return '?ver=2';
     }
 }
 if (!function_exists('imgVer')) {
     function imgVer()
     {
         // return '?ver='.config('webconf')['imgversion'];
-        return '?ver=1';
+        return '?ver=2';
     }
 }
 if (!function_exists('jsVer')) {
     function jsVer()
     {
         // return '?ver='.config('webconf')['jsversion'];
-        return '?ver=1';
+        return '?ver=2';
     }
 }

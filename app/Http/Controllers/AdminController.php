@@ -50,13 +50,13 @@ class AdminController extends Controller
             $data[$jobCount->month - 1] = $jobCount->count; // Adjust month index
         }
         $locations=ScanHistory::select('latitude','longitude')->get();
-        $formattedLocations = $locations->map(function($location) {
+        $formattedLocations1 = $locations->map(function($location) {
             return [
                 'lat' => $location->latitude,
                 'lng' => $location->longitude,
-                'title' => ""
             ];
         });
+        $formattedLocations=json_encode($formattedLocations1);
         // return view('dashboard', compact('total_products', 'total_batch', 'total_user', 'total_qrcodes', 'total_jobs', 'active_jobs', 'total_scan', 'mostCommonIssue','months','data','formattedLocations'));
         return view('dashboard', [
             'jsonLocations' => $formattedLocations,
@@ -97,7 +97,6 @@ class AdminController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
-        // Update the user's password
         $user->password = Hash::make($newPassword);
         $user->save();
 
@@ -141,4 +140,35 @@ class AdminController extends Controller
 
         return view('auth.logout');
     }
-}
+    public function changepass(Request $request){
+        return view('auth.changepassword');
+    }
+    public function changepasssave(Request $request){
+        $validator = Validator::make($request->all(), [
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum length of 8 characters
+                'regex:/[A-Za-z]/', // Must contain at least one letter
+                'regex:/[!@#$%^&*(),.?":{}|<>]/', // Must contain at least one special character
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $user = Auth::user();
+        $user->password = Hash::make($request->input('password'));
+        $user->update();
+    
+        return redirect()->route('dashboard')->with('status', 'Password updated successfully.');
+    }
+    public function viewprofile(Request $request){
+        $user=Auth::user();
+        return view('auth.viewprofile',compact('user'));
+    }
+    public function development(Request $request){
+       
+        return view('dummy.underdevelopment');
+    }
+    
+ }

@@ -44,10 +44,25 @@ class ProductionJob extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['start_code', 'code', 'quantity','status'])
-            ->logOnlyDirty()                      
+            ->logOnly(['start_code', 'code', 'quantity', 'status'])
+            ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
-            ->setDescriptionForEvent(fn(string $eventName) => "Job has been {$eventName}")
-            ->useLogName('ProductionJob');                
+            ->setDescriptionForEvent(function (string $eventName) {
+                // Define the log name here
+                $logName = 'ProductionJob';
+    
+                switch ($eventName) {
+                    case 'created':
+                        return "{$logName} has been created with the following details: Start Code - {$this->start_code}, Code - {$this->code}, Quantity - {$this->quantity}, Status - {$this->status}";
+                    case 'updated':
+                        return "{$logName} has been updated. New details: Start Code - {$this->start_code}, Code - {$this->code}, Quantity - {$this->quantity}, Status - {$this->status}";
+                    case 'deleted':
+                        return "{$logName} with Code - {$this->code} has been deleted.";
+                    default:
+                        return "{$logName} has been {$eventName}.";
+                }
+            })
+            ->useLogName('ProductionJob');
     }
+    
 }

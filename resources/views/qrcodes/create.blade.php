@@ -24,7 +24,7 @@
     }
 
     .btn-custom {
-        background: linear-gradient(45deg, #700877 0%, #ff2759 100%);
+        background: #b70a9b !important;
         color: white;
         border-radius: 5px;
         padding: 10px 20px;
@@ -48,13 +48,13 @@
 
 <div class="content content-components">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card pd-20 mg-t-10 col-11 mx-auto">
+        <div class="col-lg-10">
+            <div class="container">
                 
                 <div class="d-flex bg-gray-10">
                     <div class="pd-10 flex-grow-1">
-                        <h4 id="section3" class="mg-b-10 text-primary" style="font-weight:bold;">Add new Qrcode</h4>
-                        <p class="mg-b-30">Use this page to add <code>NEW</code> Qrcode.</p>
+                        <h4 id="section3" class="mg-b-10 text-dark" style="font-weight:bolder;">Add new Qrcode</h4>
+                        <p class="mg-b-30">Use this page to add <code style="color:#e300be;">NEW</code> Qrcode.</p>
                         <hr>
                     </div>
 
@@ -95,9 +95,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="floating-label">Upload File: <span style="color: red;">*</span></label>
-                                    <input type="file" id="file" name="file" class="form-control" onchange="displayFileName()">
-                                    <label for="file" class="floating-label btn-custom mt-2">Upload File</label>
-                                    <span id="fileNameContainer" class="ml-2"></span> <!-- Inline span for file name -->
+                                    <input type="file" id="file" name="file" class="form-control mb-2" onchange="displayFileName()">
                                     <span class="text-danger">Please upload a file of type: .csv, .xls, .xlsx.</span>
                                     @error('file')
                                     <div class="text-danger">{{ $message }}</div>
@@ -128,7 +126,7 @@
                                 <button type="submit" class="btn btn-custom float-right">
                                     Submit
                                 </button>
-                                <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-3  float-right" style="margin-top: 2px;">
+                                <a href="{{ tracescicss('samples/code_sample.csv') }}" download class="btn btn-primary mx-2 float-right" >
                                     Download Sample
                                 </a>
                             </div>

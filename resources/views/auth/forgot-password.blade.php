@@ -81,7 +81,7 @@
               @csrf
               <div class="form-group d-flex align-items-center">
                 <input type="text" class="form-control wd-sm-250 flex-fill" name="email" placeholder="Enter username or email address" required>
-                <button type="submit" class="btn btn-brand-02 mg-sm-l-10 mg-t-10 mg-sm-t-0">Reset Password</button>
+                <button type="submit" class="btn btn-brand-02 btn-custom mg-sm-l-10 mg-t-10 mg-sm-t-0">Reset Password</button>
               </div>
             </form>
           </div>
