@@ -72,13 +72,13 @@
                                 <hr>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <!-- <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="image_preview">IP Address:</label>
                                 <p>{{$scanhistories->ip_address}}</p>
                                 <hr>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-6">
                             <div class="form-group">
                                 <label class="font-weight-bold" for="image_preview">Mobile:</label>

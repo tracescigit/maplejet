@@ -287,12 +287,8 @@
 
 <script>
   // Data passed from Laravel controller
-  const months = {
-    !!json_encode($months) !!
-  }; // Month names
-  const data = {
-    !!json_encode($data) !!
-  }; // Job counts
+  const months = {!!json_encode($months) !!}; // Month names
+  const data = {!!json_encode($data) !!}; // Job counts
 
   const jobData = {
     labels: months,
