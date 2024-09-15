@@ -1,0 +1,55 @@
+<?php
+
+return [
+
+// Production Lines
+'lines_head' => 'Create Production-Lines',
+'lines_info' => 'Use this page to add NEW production-line.',
+'common_add' => 'Add New',
+'common_stats' => 'Stats',
+'last_lines' => 'Last Production Line',
+'common_total' => 'Total',
+'common_active' => 'Active',
+'common_inactive' => 'Inactive',
+'label_list' => 'Production List',
+'common_id' => 'ID',
+'line_name' => 'Plant Line Name',
+'line_code' => 'Plant Line Code',
+'prod_plant_name' => 'Production Plant Name',
+'common_status' => 'Status',
+'common_common_on' => 'Created On',
+'common_action' => 'Action',
+
+'line_create_head' => 'Add new production Line',
+'line_create_info' => 'Use this page to add NEW Production Line',
+'common_create' => 'Create',
+'table_prod_plant' => 'Production Plant',
+'common_name' => 'Name',
+'common_code' => 'Code',
+'common_system_ip' => 'System IP',
+'common_printer_name' => 'Printer Name',
+'common_status' => 'Status',
+'common_printer' => 'Printer',
+'common_camera' => 'Camera',
+'common_plc' => 'PLC / Rejection / Alarm',
+'common_back' => 'Back',
+'common_submit' => 'Submit',
+
+'line_edit_head' => 'Edit Production line',
+'line_edit_info' => 'Use this page to Edit production line',
+'label_edit' => 'Edit',
+
+'view_head' => 'View Details',
+'line_view_info' => 'Use this page to View Production line Details',
+'common_details' => 'Details',
+'line_code' => 'Production-Line Code',
+'common_ip' => 'IP Address',
+'common_printer_name' => 'Printer Name',
+'view_line_name' => 'Production-Line Name',
+'common_status' => 'Status',
+'common_active' => 'Active',
+'common_inactive' => 'Inactive',
+'common_created_at' => 'Created At',
+'common_back' => 'Back',
+
+];
