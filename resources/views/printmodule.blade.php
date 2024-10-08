@@ -476,66 +476,66 @@
 
 
     document.addEventListener("DOMContentLoaded", function() {
+    const ws = new WebSocket('ws://localhost:6001'); // WebSocket server URL
+    const responseContainer = document.getElementById('camera-data-table');
 
-        const ws = new WebSocket('ws://localhost:6001'); // WebSocket server URL
-        const responseContainer = document.getElementById('camera-data-table');
+    ws.onopen = function() {
+        console.log('WebSocket connection established');
+        thiscameratocheck(); // Ensure this function is defined elsewhere
+    };
 
-        ws.onopen = function() {
-            console.log('WebSocket connection established');
-            thiscameratocheck();
-        };
+    let serialNo = 1;
 
-        let serialNo = 1;
-        ws.onmessage = function(event) {
-            var jobId = $('#job').val();
-            const message = event.data;
-            console.log('Received message:', message);
-            if (event.data === '{"isCameraConnected":true}') {
-                thiscameratocheck();
-            } else {
-
-
-                if (message && jobId) {
-
-                    $.ajax({
-                        url: '{{route("cameradatacheck")}}',
-                        type: 'GET',
-                        data: {
-                            message: message,
-                            job_id: jobId,
-                            data: data
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            if (response.message != 'All correct') {
-                                appendToTable(serialNo++, response.message, response.data, new Date().toLocaleString(), response.remark || '');
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('AJAX request failed:', xhr.responseText);
+    ws.onmessage = function(event) {
+        var jobId = $('#job').val();
+        const message = event.data;
+        console.log('Received message:', message);
+        
+        // Check for camera connection message
+        if (message === '{"isCameraConnected":true}') {
+            thiscameratocheck(); // Ensure this function is defined elsewhere
+        } else {
+            // Proceed only if we have a valid message and jobId
+            if (message && jobId) {
+                console.log(data);
+                $.ajax({
+                    url: '{{ route("cameradatacheck") }}',
+                    type: 'GET',
+                    data: {
+                        message: message,
+                        job_id: jobId,
+                        data:data
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.message !== 'All correct') {
+                            appendToTable(serialNo++, response.message, response.data, new Date().toLocaleString(), response.remark || '');
                         }
-                    });
-                } else {
-                    $('#job_error').html();
-                    $('#job_error').text("Receiving data from Camera Please Select a Job");
-                    setTimeout(function() {
-                        $('#job_error').text('');
-                    }, 10000);
-                }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', xhr.responseText);
+                    }
+                });
+            } else {
+                // Handle case when jobId is not selected
+                $('#job_error').text("Receiving data from Camera. Please Select a Job");
+                setTimeout(function() {
+                    $('#job_error').text('');
+                }, 10000);
             }
+        }
+    };
 
-        };
+    ws.onerror = function(error) {
+        console.error('WebSocket error:', error);
+    };
 
+    ws.onclose = function() {
+        console.log('WebSocket connection closed');
+        thiscameratouncheck(); // Ensure this function is defined elsewhere
+    };
+});
 
-        ws.onerror = function(error) {
-            console.error('WebSocket error:', error);
-        };
-
-        ws.onclose = function() {
-            console.log('WebSocket connection closed');
-            thiscameratouncheck();
-        };
-    });
 
     function appendToTable(serialNo, message, data, currentTime, remark) {
         const tableBody = $('#camera-data-table tbody');

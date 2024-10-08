@@ -332,13 +332,12 @@ class PrintController extends Controller
     {
         if ($request->job_id) {
             $expected_data = [
-                'batch' => $request->data['code'],
+                'batch' => $request->data['batches_name'],
                 'mfg_date' => strtoupper(date('M. Y', strtotime($request->data['mfg_date']))),
                 'exp_date' => strtoupper(date('M. Y', strtotime($request->data['exp_date']))),
                 'price' => $request->data['price'],
             ];
             $camera_data_received = $request->message;
-
             // Check if the camera data contains the ';' character
             if (strpos($camera_data_received, ';') !== false) {
                 $data_parts = explode(';', $camera_data_received);
