@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Qrcode;
 use App\Models\Batch;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -46,17 +47,22 @@ class BulkAssignQrcodes implements ShouldQueue
             }
             $batch_all = Batch::where('id', $this->batchId)
             ->first();
+            $web_url=Product::where('id',$this->productId)->select('web_url','gtin')->first();
             $idToStart = $firstCode->id;
             $idToEnd = $idToStart + $this->quantity;
 
-            $baseUrl = $firstCode->product->web_url ?? "";
+            $baseUrl = $web_url->web_url ?? "";
             $baseUrl = rtrim($baseUrl, '/');
             $expDate = date('ymd', strtotime($batch_all->exp_date));
-
+            $gtin=$web_url->gtin;
+           
             Qrcode::whereBetween('id', [$idToStart, $idToEnd])
-                ->chunk(1000, function ($qrcodes) use ($baseUrl, $expDate) {
+                ->chunk(1000, function ($qrcodes) use ($baseUrl, $expDate,$gtin) {
                     foreach ($qrcodes as $qrcode) {
-                        $gslink = $this->generateGs1Link($qrcode, $baseUrl, $expDate);
+                        Log::info($qrcode);
+                        Log::info($baseUrl);
+                        Log::info($expDate);
+                        $gslink = $this->generateGs1Link($qrcode, $baseUrl,$expDate,$gtin);
 
                         $qrcode->update([
                             'url' => $gslink,
@@ -72,17 +78,17 @@ class BulkAssignQrcodes implements ShouldQueue
         }
     }
 
-    private function generateGs1Link($qrcode, $baseUrl, $expDate)
+    private function generateGs1Link($qrcode, $baseUrl, $expDate,$gtin)
     {
         if ($this->gs1Link == 'yes') {
-            if (empty($qrcode->product->gtin)) {
+            if (empty($gtin)) {
                 throw new \Exception('GTIN number not provided while creating product');
             }
 
             if ($this->generateGs1LinkWith == 'batch') {
-                return $baseUrl . '/01/' . $qrcode->product->gtin . '/10/1?id=' . $qrcode->id . '&' . $expDate;
+                return $baseUrl . '/01/' . $gtin . '/10/1?id=' . $qrcode->id . '&' . $expDate;
             } elseif ($this->generateGs1LinkWith == 'serial_no') {
-                return $baseUrl . '/01/' . $qrcode->product->gtin . '/10/1?id=' . $qrcode->id . '&' . $expDate;
+                return $baseUrl . '/01/' . $gtin . '/10/1?id=' . $qrcode->id . '&' . $expDate;
             }
         }else{
 

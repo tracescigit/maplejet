@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Qrcode;
+use App\Models\Product;
 use App\Models\ReportedProductsModel;
 use App\Models\ScanHistory;
 use Illuminate\Support\Facades\DB;
@@ -25,11 +26,13 @@ class QrController extends Controller
         }
         $media_base_url = config('constants.base_url');
         if (!empty($product_id) && !empty($qrcode)) {
+            $product_id = Product::where('name', $product_id)->select('id')->first();
+            $product_id = $product_id->id;
             $product_id_ver = Qrcode::where('qr_code', $qrcode)
                 ->where('product_id', $product_id)
                 ->with('product')
                 ->first();
-
+            dd($product_id_ver);
             $product_count = ScanHistory::where('qr_code', $qrcode)
                 ->where('product_id', $product_id)
                 ->get()
@@ -654,7 +657,7 @@ class QrController extends Controller
         $mobile = $request->input('mobile');
         $otp = $request->input('otp');
 
-        if (!empty($mobile) && empty($otp)){
+        if (!empty($mobile) && empty($otp)) {
 
             // Generate and store OTP in session
             $otp = '1234'; // Generate OTP (replace with your logic)
@@ -687,7 +690,7 @@ class QrController extends Controller
                     // Generate a token for the user
                     $client = Client::where('password_client', true)->first();
                     $token = $user->createToken('Bearer Token', ['*'], $client)->accessToken;
-      
+
 
                     // updating field table with token 
                     User_app::where('mobile', $mobile)->update([

@@ -75,7 +75,6 @@ class BulkUploadController extends Controller
         $batchId = $request->batch_id;
         $generateGs1LinkWith = $request->generate_gs1_link_with;
         $gs1Link = $request->gs1_link;
-
         // Validation
         if (empty($startCode) || $quantity <= 0 || empty($productId) || empty($batchId)) {
             return response()->json(['status' => 'Invalid or missing start_code, quantity, product_id, or batch_id'], 400);
@@ -90,6 +89,7 @@ class BulkUploadController extends Controller
         if ($checkSerialInactive) {
             return response()->json(['startcodeerror' => 'Code is already associated and active. Please deactivate and then assign.']);
         }
+      
         dispatch(new BulkAssignQrcodes($startCode, $quantity, $productId, $batchId, $generateGs1LinkWith, $gs1Link));
 
         return response()->json(['status' => 'Job dispatched for processing'], 200);

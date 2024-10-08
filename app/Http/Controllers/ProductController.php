@@ -248,7 +248,7 @@ class ProductController extends Controller
                 ->where('qr_code', $qrcode)
                 ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
-                ->select('qrcodes.status as qr_status', 'batches.status as batch_status', 'products.status as prod_status') // Select columns from both tables as needed
+                ->select('qrcodes.status as qr_status', 'batches.status as batch_status', 'products.status as prod_status') // Select 
                 ->first();
             $product_count = ScanHistory::where('qr_code', $qrcode)
                 ->where('product_id', $product_id)
@@ -284,7 +284,7 @@ class ProductController extends Controller
                     'phone_number' => 'required|numeric',
                 ]);
             }
-            if ($product_ok_check->prod_status == "Inactive") {
+            if (!empty($product_ok_check->prod_status) && $product_ok_check->prod_status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -308,7 +308,7 @@ class ProductController extends Controller
                 ]);
                 $systemAlertId = $systemAlert->id;
             }
-            if ($product_ok_check->batch_status == "Inactive") {
+            if (!empty($product_ok_check->prod_status) && $product_ok_check->batch_status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -320,7 +320,7 @@ class ProductController extends Controller
                 ]);
                 $systemAlertId = $systemAlert->id;
             }
-            if ($product_ok_check->prod_status == "Inactive") {
+            if (!empty($product_ok_check->prod_status) && $product_ok_check->prod_status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
