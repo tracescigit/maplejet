@@ -40,14 +40,16 @@ class ProductionLines extends Model
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs()
             ->setDescriptionForEvent(function (string $eventName) {
-                // Define the log name here
                 $logName = 'Production Line';
-    
+                
+                $mfgDate = $this->mfg_date ? $this->mfg_date->format('d-m-Y') : 'N/A';
+                $expDate = $this->exp_date ? $this->exp_date->format('d-m-Y') : 'N/A';
+                
                 switch ($eventName) {
                     case 'created':
-                        return "{$logName} has been created with the following details: Code - {$this->code}, IP Address - {$this->ip_address}, Printer Name - {$this->printer_name}, Name - {$this->name}, Manufacturing Date - {$this->mfg_date->format('d-m-Y')}, Expiry Date - {$this->exp_date->format('d-m-Y')}, Status - {$this->status}";
+                        return "{$logName} has been created with the following details: Code - {$this->code}, IP Address - {$this->ip_address}, Printer Name - {$this->printer_name}, Name - {$this->name}, Manufacturing Date - {$mfgDate}, Expiry Date - {$expDate}, Status - {$this->status}";
                     case 'updated':
-                        return "{$logName} has been updated. New details: Code - {$this->code}, IP Address - {$this->ip_address}, Printer Name - {$this->printer_name}, Name - {$this->name}, Manufacturing Date - {$this->mfg_date->format('d-m-Y')}, Expiry Date - {$this->exp_date->format('d-m-Y')}, Status - {$this->status}";
+                        return "{$logName} has been updated. New details: Code - {$this->code}, IP Address - {$this->ip_address}, Printer Name - {$this->printer_name}, Name - {$this->name}, Manufacturing Date - {$mfgDate}, Expiry Date - {$expDate}, Status - {$this->status}";
                     case 'deleted':
                         return "{$logName} with Code - {$this->code} has been deleted.";
                     default:
@@ -56,5 +58,6 @@ class ProductionLines extends Model
             })
             ->useLogName('Production Line');
     }
+    
     
 }
