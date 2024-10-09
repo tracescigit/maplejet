@@ -276,20 +276,7 @@ class PrintController extends Controller
             $productionJobs = [];
         }
         if (!empty($productionJobs->port_camera) && is_numeric($productionJobs->port_camera)) {
-            $command = "node " . base_path('server2.js') . " " . $productionJobs->port_camera;
-
-            Log::info("Running command: " . $command);
-    
-            // Detach the process
-            if (stripos(PHP_OS, 'WIN') === 0) {
-                // For Windows, use 'start' to run in a new command window
-                pclose(popen("start /B " . $command . " > NUL 2>&1", 'r'));
-            } else {
-                // For Unix/Linux, use 'nohup' to detach
-                exec("nohup " . $command . " > /dev/null 2>&1 &");
-            }
-    
-            Log::info("Node server started on port: " . $productionJobs->port_camera);
+            dispatch(new StartNodeServer($productionJobs->port_cameratcpPort));
         }
         return response()->json($productionJobs);
     }
