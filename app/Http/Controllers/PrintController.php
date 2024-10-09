@@ -343,7 +343,7 @@ class PrintController extends Controller
                 $data_parts = explode(';', $camera_data_received);
             } else {
                 return response()->json([
-                    'message' => 'Camera Data is unreadable',
+                    'message' => 'Camera Data is unreadable or incorrect',
                     'data' => $camera_data_received,
                     'remark' => ''
                 ]);
@@ -355,7 +355,7 @@ class PrintController extends Controller
                     if ($index != '4') {
                         if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
                             return response()->json([
-                                'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable',
+                                'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
                                 'data' => $camera_data_received,
                                 'remark' => ''
                             ]);
@@ -366,7 +366,7 @@ class PrintController extends Controller
                         ];
                         if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
                             return response()->json([
-                                'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable',
+                                'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
                                 'data' => $camera_data_received,
                                 'remark' => ''
                             ]);
@@ -374,7 +374,7 @@ class PrintController extends Controller
                     }
                 } else {
                     return response()->json([
-                        'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable',
+                        'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
                         'data' => $camera_data_received,
                         'remark' => ''
                     ]);
