@@ -238,11 +238,10 @@ class ProductController extends Controller
                 return view('apicall.index', compact('genuine'));
             }
             $product_id_ver = DB::table('qrcodes')
-                ->where('qrcodes.id', $request->id)
-                ->where('qrcodes.product_id', $product_id->id)
-                ->join('batches', 'qrcodes.batch_id', '=', 'batches.id')
+                ->where('qr_code', $qrcode)
+                ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
-                ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
+                ->select('qrcodes.*', 'batches.product_id','batches.code','batches.currency','batches.price','batches.mfg_date','batches.exp_date','batches.status as batch_status', 'products.brand as product_brand','products.name as product_name','products.company_name','products.gtin','products.image','products.label','products.media','products.web_url','products.description','products.status as product_status','products.auth_required') // Select columns from both tables as needed
                 ->first();
             $product_ok_check = DB::table('qrcodes')
                 ->where('qr_code', $qrcode)
@@ -284,7 +283,7 @@ class ProductController extends Controller
                     'phone_number' => 'required|numeric',
                 ]);
             }
-            if (!empty($product_ok_check->prod_status) && $product_ok_check->prod_status == "Inactive") {
+            if (!empty($product_id_ver->status) && $product_id_ver->status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -308,7 +307,7 @@ class ProductController extends Controller
                 ]);
                 $systemAlertId = $systemAlert->id;
             }
-            if (!empty($product_ok_check->prod_status) && $product_ok_check->batch_status == "Inactive") {
+            if (!empty($product_id_ver->status) && $product_id_ver->status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -320,7 +319,7 @@ class ProductController extends Controller
                 ]);
                 $systemAlertId = $systemAlert->id;
             }
-            if (!empty($product_ok_check->prod_status) && $product_ok_check->prod_status == "Inactive") {
+            if (!empty($product_id_ver->status) && $product_id_ver->status == "Inactive") {
                 $systemAlert = SystemAlert::create([
                     'product' => $product_id_ver->name,
                     'batch' => $product_id_ver->batch_id,
@@ -389,7 +388,7 @@ class ProductController extends Controller
                 ->where('qr_code', $qrcode)
                 ->join('batches', 'qrcodes.batch_id', 'batches.id')
                 ->join('products', 'qrcodes.product_id', 'products.id')
-                ->select('qrcodes.*', 'batches.*', 'products.*') // Select columns from both tables as needed
+                ->select('qrcodes.*', 'batches.product_id','batches.code','batches.currency','batches.price','batches.mfg_date','batches.exp_date','batches.status as batch_status', 'products.brand as product_brand','products.name as product_name','products.company_name','products.gtin','products.image','products.label','products.media','products.web_url','products.description','products.status as product_status','products.auth_required') // Select columns from both tables as needed
                 ->first();
             $product_ok_check = DB::table('qrcodes')
                 ->where('qr_code', $qrcode)
@@ -421,7 +420,7 @@ class ProductController extends Controller
                     ->get()
                     ->count();
 
-                if (empty($product_id_ver->name)) {
+                if (empty($product_id_ver->product_name)) {
                     return response()->json(['status' => 'Product is Suspicious.']);
                 }
                 if (!$request->otp && $product_id_ver->auth_required == 1) {
@@ -432,9 +431,9 @@ class ProductController extends Controller
                         'phone_number' => 'required|numeric',
                     ]);
                 }
-                if ($product_ok_check->prod_status == "Inactive") {
+                if ($product_id_ver->status == "Inactive") {
                     $systemAlert = SystemAlert::create([
-                        'product' => $product_id_ver->name,
+                        'product' => $product_id_ver->product_name,
                         'batch' => $product_id_ver->batch_id,
                         'ip' => $clientIp,
                         'report_reason' => "Inactive code is scanned",
@@ -446,7 +445,7 @@ class ProductController extends Controller
                 }
                 if ($product_scanned_check > 5) {
                     $systemAlert = SystemAlert::create([
-                        'product' => $product_id_ver->name,
+                        'product' => $product_id_ver->product_name,
                         'batch' => $product_id_ver->batch_id,
                         'ip' => $clientIp,
                         'report_reason' => "Code is scanned more than 10 times",
@@ -456,9 +455,9 @@ class ProductController extends Controller
                     ]);
                     $systemAlertId = $systemAlert->id;
                 }
-                if ($product_ok_check->batch_status == "Inactive") {
+                if ($product_id_ver->status == "Inactive") {
                     $systemAlert = SystemAlert::create([
-                        'product' => $product_id_ver->name,
+                        'product' => $product_id_ver->product_name,
                         'batch' => $product_id_ver->batch_id,
                         'ip' => $clientIp,
                         'report_reason' => "Batch is Inactive",
@@ -468,9 +467,9 @@ class ProductController extends Controller
                     ]);
                     $systemAlertId = $systemAlert->id;
                 }
-                if ($product_ok_check->prod_status == "Inactive") {
+                if ($product_id_ver->status == "Inactive") {
                     $systemAlert = SystemAlert::create([
-                        'product' => $product_id_ver->name,
+                        'product' => $product_id_ver->product_name,
                         'batch' => $product_id_ver->batch_id,
                         'ip' => $clientIp,
                         'report_reason' => "Product is Inactive",
@@ -481,7 +480,7 @@ class ProductController extends Controller
                     $systemAlertId = $systemAlert->id;
                 }
                 $scanHistory = ScanHistory::create([
-                    'product' => $product_id_ver->name,
+                    'product' => $product_id_ver->product_name,
                     'batch' => $product_id_ver->batch_id,
                     'genuine' => 1,
                     'scan_count' => $product_count + 1,
@@ -532,6 +531,7 @@ class ProductController extends Controller
                         'qr_code' => $qrcode
                     ]);
                     $systemAlertId = $systemAlert->id;
+
                     $genuine = "Product is Suspicious";
                     return view('apicall.index', compact('product_id_ver', 'media_base_url', 'genuine', 'systemAlertId', 'scanHistoryId'));
                 }

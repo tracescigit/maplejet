@@ -121,7 +121,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Name of Product</th>
-                                    <th scope="col">{{$product_id_ver->name}}</th>
+                                    <th scope="col">{{$product_id_ver->product_name}}</th>
 
                                 </tr>
                             </thead>
@@ -129,7 +129,7 @@
 
                                 <tr>
                                     <th scope="row">Brand</th>
-                                    <td>{{$product_id_ver->brand}}</td>
+                                    <td>{{$product_id_ver->product_brand}}</td>
 
                                 </tr>
                                 <tr>
