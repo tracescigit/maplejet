@@ -82,6 +82,7 @@
                                 <div class="form-group">
                                     <label for="quantity">Quantity</label>
                                     <input type="number" name="quantity" value="{{old('quantity')}}" id="quantity" min="1" class="form-control" placeholder="Enter Quantity">
+                                    <div id="job_error" style="color: red;">Maximum 10000 quantity allowed for job creation</div>
                                 </div>
                             </div>
                             <div class="col-md-6">

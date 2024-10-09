@@ -65,13 +65,13 @@
   <div class="sidebar-body">
     <ul class="nav nav-aside">
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label active"><a href="{{ route('dashboard')}}" class="nav-link {{ Route::is('dashboard') ? ' active' : ''}}"><i class="fa fa-home mr-3" aria-hidden="true"></i>Dashboard</a></li>
-      @if (Auth::user()->can('view products'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view products'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label active"><a href="{{route('products.index')}}" class="nav-link {{ Route::is('products.*') ? 'active' : '' }}"><i data-feather="shopping-bag"></i> <span>Products</span></a></li>
       @endif
-      @if (Auth::user()->can('view batches'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view batches'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label"><a href="{{route('batches.index')}}" class="nav-link  {{ Route::is('batches.*') ? 'active' : '' }}"><i data-feather="box"></i> <span>Batches</span></a></li>
       @endif
-      @if (Auth::user()->can('view qrcode'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view qrcode'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub  {{ (Route::is('qrcodes.*')  || Route::is('bulkuploads.*') || Route::is('systemalerts*') ||  Route::is('reportlog.*') || Route::is('scanhistories.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label {{ Route::is('Production') ? ' active' : ''}}"><i data-feather="archive"></i><span>Qr-Codes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>
@@ -83,7 +83,7 @@
         </ul>
       </li>
       @endif
-      @if (Auth::user()->can('view production'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view production'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub {{ (Route::is('production-plants.*')  || Route::is('production-lines.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label"><i data-feather="file-text"></i><span>Production &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>
@@ -92,13 +92,13 @@
         </ul>
       </li>
       @endif
-      @if (Auth::user()->can('view jobs'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view jobs'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label active"><a href="{{route('jobs.index')}}" class="nav-link  {{ Route::is('jobs.*') ? 'active' : '' }}"><i data-feather="briefcase"></i>Jobs</a></li>
       @endif
-      @if (Auth::user()->can('view printmodule'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view printmodule'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-label active"><a href="{{route('print.index')}}" class="nav-link  {{ Route::is('print.*') ? 'active' : '' }}"><i data-feather="printer"></i>Print Module</a></li>
       @endif
-      @if (Auth::user()->can('view aggregation'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view aggregation'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub  {{ (Route::is('primary.*')  || Route::is('secondary.*') || Route::is('tertiary.*') || Route::is('pallete.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" href="" class="nav-link nav-label"><i data-feather="database"></i><span>Aggregation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>
@@ -109,7 +109,7 @@
         </ul>
       </li>
       @endif
-      @if (Auth::user()->can('view supplychain'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view supplychain'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub  {{ (Route::is('Roles.*')  || Route::is('User.*') || Route::is('Management.*') || Route::is('History.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label"><i class="fas fa-warehouse mr-3"></i><span>Supply Chain &nbsp;</span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>
@@ -121,7 +121,7 @@
       </li>
       @endif
 
-      @if (Auth::user()->can('view user'))
+      @if (Auth::user()->email === 'admin@tracesci.in' || Auth::user()->can('view user'))
       <li style="font-family: IBM Plex Sans, sans-serif;" class="nav-item with-sub {{ (Route::is('users.*')  || Route::is('roles.*') || Route::is('permissions.*') || Route::is('userlog.*')) ? 'show' : '' }}">
         <a onclick="toggleSubMenu(event, this)" style="font-family: IBM Plex Sans, sans-serif;" href="" class="nav-link nav-label {{ Route::is('Production') ? ' active' : ''}}"><i class="fas fa-user mr-2 ml-1"></i><span>&nbsp;&nbsp; Users &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><i class="fas fa-caret-down" style="margin:auto;font-size: small;"></i></a>
         <ul>

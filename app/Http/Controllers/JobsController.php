@@ -10,7 +10,7 @@ use App\Events\JobDataInsertion;
 use App\Models\ProductionJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
 
 class JobsController extends Controller
 {
@@ -34,13 +34,13 @@ class JobsController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'job_code' => 'required|max:50|regex:/^[a-zA-Z0-9_$]+$/',
+        $validator = Validator::make($request->all(), [
+            'job_code' => 'required|max:50|regex:/(^[a-zA-Z0-9 \-\&]+$)/u',
             'prod_line' => 'required|max:50',
             'prod_plant' => 'required|max:50',
             'start_code' => 'required',
-            'quantity' => 'required|numeric',
-            'status' => 'required'
+            'quantity' => 'required|numeric|max:10000',
+            'status' => 'required',
         ]);
         if (empty($request->start_code)) {
             return redirect()->back()->with(['status' => 'Invalid or missing start_code']);
@@ -80,18 +80,25 @@ class JobsController extends Controller
         $productionplant = ProductionPlant::get();
         $productionline = ProductionLines::get();
         $productionjob = ProductionJob::findorFail($id);
+       
         return view('jobs.edit', compact('productionplant', 'productionline', 'productionjob'));
     }
     public function update(Request $request, $id)
     {  
-    $request->validate([
+        $validator = Validator::make($request->all(), [
             'job_code' => 'required|max:50|regex:/(^[a-zA-Z0-9 \-\&]+$)/u',
             'prod_line' => 'required|max:50',
             'prod_plant' => 'required|max:50',
             'start_code' => 'required',
-            'quantity' => 'required|numeric',
-            'status' => 'required'
+            'quantity' => 'required|numeric|max:10000',
+            'status' => 'required',
         ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         if (empty($request->start_code)) {
             return redirect()->back()->with(['status' => 'Invalid or missing start_code']);
         }
