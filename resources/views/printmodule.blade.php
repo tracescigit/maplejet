@@ -552,11 +552,12 @@
 
     function appendToTable(serialNo, message, data, currentTime, remark) {
         const tableBody = $('#camera-data-table tbody');
+        const cleanedData = data.replace(/\s+/g, '');
         const newRow = `
         <tr>
             <td>${serialNo}</td>
             <td>${message}</td>
-            <td>${data}</td>
+            <td>${cleanedData}</td>
             <td>${currentTime}</td>
             <td>${remark}</td>
         </tr>

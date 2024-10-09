@@ -2,7 +2,7 @@ const net = require('net');
 const WebSocket = require('ws');
 
 const tcpHost = 'localhost'; // Change to the server's IP if not local
-const tcpPort = 3000;        // TCP server port
+const tcpPort = process.argv[2] || 3000; // TCP server port
 const wsUrl = 'ws://localhost:6001'; // WebSocket server URL
 
 // Create a new TCP client
@@ -23,8 +23,7 @@ const connectWebSocket = () => {
 
     wsClient.on('close', () => {
         console.log('WebSocket connection closed. Attempting to reconnect...');
-        // Attempt to reconnect after 5 seconds
-        setTimeout(connectWebSocket, 5000);
+        setTimeout(connectWebSocket, 5000); // Reconnect after 5 seconds
     });
 
     wsClient.on('error', (err) => {
@@ -60,4 +59,14 @@ client.on('close', () => {
 // Handle TCP client errors
 client.on('error', (err) => {
     console.error('TCP Client Error: ' + err.message);
+});
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+    console.log('Shutting down...');
+    client.destroy(); // Close TCP connection
+    if (wsClient) {
+        wsClient.close(); // Close WebSocket connection
+    }
+    process.exit();
 });

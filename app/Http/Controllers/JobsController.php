@@ -84,7 +84,6 @@ class JobsController extends Controller
     }
     public function update(Request $request, $id)
     {  
-        
     $request->validate([
             'job_code' => 'required|max:50|regex:/(^[a-zA-Z0-9 \-\&]+$)/u',
             'prod_line' => 'required|max:50',
@@ -104,8 +103,8 @@ class JobsController extends Controller
         $id_to_end = $id_to_start + $quantity - 1;
         $update = [
             'code' => $request->job_code,
-            'plant_id' => $request->prod_line,
-            'line_id' => $request->prod_plant,
+            'plant_id' => $request->prod_plant,
+            'line_id' => $request->prod_line,
             'start_code' => $request->start_code,
             'quantity' => $request->quantity,
             'status' => $request->status

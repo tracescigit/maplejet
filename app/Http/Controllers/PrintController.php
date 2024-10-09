@@ -15,6 +15,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\SendToPrinterJob;
 use App\Exports\ExportJobStatus;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\StartNodeServer;
+use App\Jobs\StopNodeServer;
 
 class PrintController extends Controller
 {
@@ -272,6 +274,22 @@ class PrintController extends Controller
                 ->first();
         } else {
             $productionJobs = [];
+        }
+        if (!empty($productionJobs->port_camera) && is_numeric($productionJobs->port_camera)) {
+            $command = "node " . base_path('server2.js') . " " . $productionJobs->port_camera;
+
+            Log::info("Running command: " . $command);
+    
+            // Detach the process
+            if (stripos(PHP_OS, 'WIN') === 0) {
+                // For Windows, use 'start' to run in a new command window
+                pclose(popen("start /B " . $command . " > NUL 2>&1", 'r'));
+            } else {
+                // For Unix/Linux, use 'nohup' to detach
+                exec("nohup " . $command . " > /dev/null 2>&1 &");
+            }
+    
+            Log::info("Node server started on port: " . $productionJobs->port_camera);
         }
         return response()->json($productionJobs);
     }
