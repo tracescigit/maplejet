@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
-// Create a new WebSocket server on port 6001
-const wss = new WebSocket.Server({ port: 6001 });
+// Create a new WebSocket server on port 6001, listening on all interfaces
+const wss = new WebSocket.Server({ port: 6001, host: '0.0.0.0' });
 
 wss.on('connection', (ws) => {
     console.log('WebSocket client connected');
@@ -17,7 +17,7 @@ wss.on('connection', (ws) => {
         // Broadcast the received message to all connected clients
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(`${message}`);
+                client.send(message); // Send the message without string interpolation
             }
         });
     });
@@ -34,4 +34,4 @@ wss.on('connection', (ws) => {
 });
 
 // Log that the WebSocket server is running
-console.log('WebSocket server is listening on ws://localhost:6001');
+console.log('WebSocket server is listening on ws://0.0.0.0:6001');
