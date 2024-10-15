@@ -56,7 +56,8 @@ class PrintController extends Controller
     {
         if ($request->job_id && isset($request->data['productionjob_start_code'], $request->data['quantity'], $request->data['ip_printer'])) {
             $data = $request->data;
-            SendToPrinterJob::dispatch($data)->onQueue('print_jobs');
+            dispatch(new SendToPrinterJob($data));
+            // SendToPrinterJob::dispatch($data)->onQueue('print_jobs');
             return response()->json(['message' => 'Print job queued successfully']);
         } else {
             return response()->json(['error' => 'Invalid request parameters'], 400);
@@ -275,9 +276,9 @@ class PrintController extends Controller
         } else {
             $productionJobs = [];
         }
-        if (!empty($productionJobs->port_camera) && is_numeric($productionJobs->port_camera)) {
-            dispatch(new StartNodeServer($productionJobs->port_cameratcpPort));
-        }
+        // if (!empty($productionJobs->port_camera) && is_numeric($productionJobs->port_camera)) {
+        //     dispatch(new StartNodeServer($productionJobs->port_cameratcpPort));
+        // }
         return response()->json($productionJobs);
     }
     public function StopPrint(Request $request)

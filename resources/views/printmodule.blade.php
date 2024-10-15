@@ -476,76 +476,76 @@
 
 
     document.addEventListener("DOMContentLoaded", function() {
-    console.log('First DOMContentLoaded listener');
+        console.log('First DOMContentLoaded listener');
 
-    // Change 'localhost' to your public IP address
-    const ws = new WebSocket('ws://106.195.49.67:6001'); // Use your public IP address or domain name
-    console.log('WebSocket object created');
+        // Change 'localhost' to your public IP address
+        const ws = new WebSocket('ws://localhost:6001'); // Use your public IP address or domain name
+        console.log('WebSocket object created');
 
-    const responseContainer = document.getElementById('camera-data-table');
+        const responseContainer = document.getElementById('camera-data-table');
 
-    ws.onopen = function() {
-        console.log('WebSocket connection established');
-        thiscameratocheck(); // Ensure this function is defined elsewhere
-    };
+        ws.onopen = function() {
+            console.log('WebSocket connection established');
+            thiscameratocheck(); // Ensure this function is defined elsewhere
+        };
 
-    let serialNo = 1;
+        let serialNo = 1;
 
-    ws.onmessage = function(event) {
-        console.log('Message event received');
-        const message = event.data;
-        console.log('Received message:', message);
+        ws.onmessage = function(event) {
+            console.log('Message event received');
+            const message = event.data;
+            console.log('Received message:', message);
 
-        // Handle incoming messages
-        if (message) {
-            const jobId = $('#job').val();
-            console.log('Job ID:', jobId);
-            // Validate jobId to ensure it is not empty
-            if (!jobId) {
-                $('#job_error').text("Receiving data from Camera. Please Select a Job");
+            // Handle incoming messages
+            if (message) {
+                const jobId = $('#job').val();
+                console.log('Job ID:', jobId);
+                // Validate jobId to ensure it is not empty
+                if (!jobId) {
+                    $('#job_error').text("Receiving data from Camera. Please Select a Job");
+                    setTimeout(function() {
+                        $('#job_error').text('');
+                    }, 10000);
+                    return; // Exit early if no jobId is selected
+                }
+
+                // Perform AJAX request
+                $.ajax({
+                    url: '{{ route("cameradatacheck") }}',
+                    type: 'GET',
+                    data: {
+                        message: message,
+                        job_id: jobId,
+                        data: data // Ensure 'data' is defined elsewhere
+                    },
+                    success: function(response) {
+                        console.log('AJAX success response:', response);
+                        if (response.message !== 'All correct') {
+                            appendToTable(serialNo++, response.message, response.data, new Date().toLocaleString(), response.remark || '');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX request failed:', xhr.responseText);
+                    }
+                });
+            } else {
+                // Handle case when the message is empty
+                $('#job_error').text("No data received from Camera.");
                 setTimeout(function() {
                     $('#job_error').text('');
                 }, 10000);
-                return; // Exit early if no jobId is selected
             }
+        };
 
-            // Perform AJAX request
-            $.ajax({
-                url: '{{ route("cameradatacheck") }}',
-                type: 'GET',
-                data: {
-                    message: message,
-                    job_id: jobId,
-                    data: data // Ensure 'data' is defined elsewhere
-                },
-                success: function(response) {
-                    console.log('AJAX success response:', response);
-                    if (response.message !== 'All correct') {
-                        appendToTable(serialNo++, response.message, response.data, new Date().toLocaleString(), response.remark || '');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX request failed:', xhr.responseText);
-                }
-            });
-        } else {
-            // Handle case when the message is empty
-            $('#job_error').text("No data received from Camera.");
-            setTimeout(function() {
-                $('#job_error').text('');
-            }, 10000);
-        }
-    };
+        ws.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
 
-    ws.onerror = function(error) {
-        console.error('WebSocket error:', error);
-    };
-
-    ws.onclose = function() {
-        console.log('WebSocket connection closed');
-        thiscameratouncheck(); // Ensure this function is defined elsewhere
-    };
-});
+        ws.onclose = function() {
+            console.log('WebSocket connection closed');
+            thiscameratouncheck(); // Ensure this function is defined elsewhere
+        };
+    });
 
 
 
