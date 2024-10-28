@@ -54,7 +54,7 @@ class BulkUploadController extends Controller
                 return redirect()->route('qrcodes')->with('error', 'Starting code is empty. Aborting data insertion into database.');
             }
             $data['starting_code'] = $request->starting_code;
-            event(new DispatchQrUploadBySerial($data));
+            QrUploadBySerial::dispatch($data);
             $statusMessage = 'Data has been queued for processing by serial.';
         } else {
             QrUploadByRandom::dispatch($request->quantity, $baseUrl);
