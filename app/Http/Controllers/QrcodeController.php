@@ -73,7 +73,8 @@ class QrcodeController extends Controller
         $filePath = $request->file('file')->store('csv_files');
         $products = Product::select('web_url')->where('id', $request->product_id)->first();
         $link = $products->web_url;
-        ProcessCsvFile::dispatch($filePath, $request->product_id, $request->batch, $request->gs_link, $link)->onQueue('bulk_uploads_product');
+
+        ProcessCsvFile::dispatch($filePath, $request->product_id, $request->batch, $request->gs_link, $link);
         return redirect('qrcodes')->with('status', 'CSV data is being processed.');
     }
     public function edit(Batch $batch)

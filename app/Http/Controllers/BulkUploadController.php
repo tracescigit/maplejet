@@ -29,7 +29,7 @@ class BulkUploadController extends Controller
     public function store(Request $request)
     {
         $filePath = $request->file('file')->store('csv_files');
-        BulkCsvDataUpload::dispatch($filePath)->onQueue('bulk_uploads');
+        BulkCsvDataUpload::dispatch($filePath);
         return redirect('qrcodes')->with('status', 'CSV data is being processed.');
     }
     public function store_serial_no(Request $request)
@@ -57,7 +57,7 @@ class BulkUploadController extends Controller
             event(new DispatchQrUploadBySerial($data));
             $statusMessage = 'Data has been queued for processing by serial.';
         } else {
-            QrUploadByRandom::dispatch($request->quantity, $baseUrl)->onQueue('generate_by_random');
+            QrUploadByRandom::dispatch($request->quantity, $baseUrl);
             $statusMessage = 'Data has been queued for processing by random.';
         }
     

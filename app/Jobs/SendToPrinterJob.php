@@ -15,7 +15,8 @@ class SendToPrinterJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $data;
-
+    public $tries = 600; // Number of attempts
+    public $timeout = 600;
     /**
      * Create a new job instance.
      *
@@ -34,7 +35,7 @@ class SendToPrinterJob implements ShouldQueue
      */
     public function handle()
     {
-        // Extract necessary data from the job payload
+
         $startCode = $this->data['productionjob_start_code'];
         $quantity = $this->data['quantity'];
         $idToStart = Qrcode::where('code_data', $startCode)->value('id');
@@ -49,22 +50,29 @@ class SendToPrinterJob implements ShouldQueue
         $formattedExpDate = strtoupper(date('M. Y', strtotime($this->data['exp_date'])));
         $mfg_date = "Mfg Date: " . $formattedMfgDate;
         $exp_date = "Exp Date: " .  $formattedExpDate;
+        Log::info('started');
         try {
             // $batchSize = 100;
             $j = 1;
             for ($i = $idToStart; $i < $idToEnd; $i ++) {
                 // $batchIds = range($i, min($i + $batchSize - 1, $idToEnd));
                 $url = Qrcode::where('id', $i)->value('url') ?? "";
+                $printed = Qrcode::where('id', $i)->where('printed', '!=', 1)->exists();
+                Log::info('printed: ' . $printed);
+                Log::info('url: ' . $url);
+
+
+                if($printed){
                 if (!empty($url)) {
                     $print_count = '<APCMD><PMCNT/></APCMD>';
                     $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
-                    dump($connected);
+                    Log::info('Print Counter: ' . $connected);
                     $mfg_date = "Mfg Date: " . $formattedMfgDate;
                     $data = '<EXTDO>' . $price . '%' . $mfg_date . '%' . $exp_date . '%' . $url . '</EXTDO>';
                     Log::info('Sent data: ' . $data);
                     $response = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
                     Log::info('Printer response: ' . $response);
-                    sleep(.5);
+                    sleep(.7);
                     // $getprintcounter = $this->hitUrlWithAuthTokentogetpmcounter($url, $authToken);
                     // if (empty($response)) {
                     //     $maxx_wait_time = 60;
@@ -80,12 +88,16 @@ class SendToPrinterJob implements ShouldQueue
                     //     }
                     // }
                     $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
+                    Log::info('Print Counter: ' .$connected_after);
+                   
                     $max_wait_time = 10000;
                     $elapsed_time = 0;
-                    $interval = 0.1;
+                    $interval = .5;
                     while ($connected_after <= $connected + 1 && $elapsed_time < $max_wait_time) {
-                        $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
-                        if ($connected_after == $connected + 1) {
+                     $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
+                    Log::info('Print Counter: ' .$connected_after);
+                        
+                     if ($connected_after == $connected + 1) {
                             $connected = $connected_after;
                             break;
                         }
@@ -106,11 +118,14 @@ class SendToPrinterJob implements ShouldQueue
                     $j++;
                 }
             }
+            }
             $stop = '<APCMD><PRINT>0</PRINT></APCMD>';
                 $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $stop);
 
             // $printer->cut();
-        } finally {
+        } catch (\Exception $e) {
+            Log::error('Error in SendToPrinterJob: ' . $e->getMessage());
+        }finally {
             $data = '<APCMD><PRINT>1</PRINT></APCMD>';
 
             try {
@@ -121,6 +136,7 @@ class SendToPrinterJob implements ShouldQueue
                 //     return "Failed to connect to printer: Response does not match expected.";
                 // }
             } catch (\Exception $e) {
+        Log::info('error',$e->getMessage());
                 return "Failed to connect to printer: " . $e->getMessage();
             }
         }

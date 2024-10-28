@@ -56,15 +56,15 @@ class PrintController extends Controller
     {
         if ($request->job_id && isset($request->data['productionjob_start_code'], $request->data['quantity'], $request->data['ip_printer'])) {
             $data = $request->data;
-            dispatch(new SendToPrinterJob($data));
-            // SendToPrinterJob::dispatch($data)->onQueue('print_jobs');
+            // dispatch(new SendToPrinterJob($data));
+            SendToPrinterJob::dispatch($data)->onQueue('print_jobs');
             return response()->json(['message' => 'Print job queued successfully']);
         } else {
             return response()->json(['error' => 'Invalid request parameters'], 400);
         }
     }
 
-    public function SendPrintDataaa(Request $request)
+    public function SendPrintDataa(Request $request)
     {
         // if ($request->job_id && $request->data['ip_printer'] && $request->data['port_printer']) {
         if ($request->job_id) {
@@ -76,7 +76,7 @@ class PrintController extends Controller
             $idToEnd = $idToStart + $quantity;
             $authToken = 'Auth_token_2840=ZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2U=';
             // $data = '<EXTDO>mrinal%devansh%keshav%kunsl</EXTDO>';
-            $printer_ip = '192.168.0.130';
+            $printer_ip =$request->data['ip_printer'];
             try {
                 $batchSize = 100;
                 for ($i = $idToStart; $i < $idToEnd; $i += $batchSize) {
@@ -85,6 +85,7 @@ class PrintController extends Controller
                     if (!empty($url)) {
                         $print_count = '<APCMD><PMCNT/></APCMD>';
                         $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
+                        dump($connected);
                         $price = "Price: " . $request->data['price'] . "\n";
                         $formattedMfgDate = strtoupper(date('M. Y', strtotime($request->data['mfg_date'])));
                         $formattedExpDate = strtoupper(date('M. Y', strtotime($request->data['exp_date'])));
@@ -93,6 +94,7 @@ class PrintController extends Controller
                         $url_text = "Url: " . $url . "\n";
                         $data = '<EXTDO>' . $price . '%' . $mfg_date . '%' . $exp_date . '%' . $url_text . '</EXTDO>';
                         $response = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
+                        dump($response);
                         $getprintcounter = $this->hitUrlWithAuthTokentogetpmcounter($url, $authToken);
                         if (empty($response)) {
                             $maxx_wait_time = 60;
@@ -343,56 +345,70 @@ class PrintController extends Controller
                 'exp_date' => strtoupper(date('M. Y', strtotime($request->data['exp_date']))),
                 'price' => $request->data['price'],
             ];
-            $camera_data_received = $request->message;
-            // Check if the camera data contains the ';' character
-            if (strpos($camera_data_received, ';') !== false) {
-                $data_parts = explode(';', $camera_data_received);
-            } else {
-                return response()->json([
-                    'message' => 'Camera Data is unreadable or incorrect',
-                    'data' => $camera_data_received,
-                    'remark' => ''
-                ]);
-            }
+            // $camera_data_received = $request->message;
+            $camera_data_received = trim($request->message);
 
-            $keys = ['batch', 'mfg_date', 'exp_date', 'price', 'url'];
-            foreach ($keys as $index => $key) {
-                if (array_key_exists($index, $data_parts)) {
-                    if ($index != '4') {
-                        if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
-                            return response()->json([
-                                'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
-                                'data' => $camera_data_received,
-                                'remark' => ''
-                            ]);
-                        }
-                    } else {
-                        $expected_data = [
-                            'url' => Qrcode::where('url', $data_parts[$index])->value('url'),
-                        ];
-                        if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
-                            return response()->json([
-                                'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
-                                'data' => $camera_data_received,
-                                'remark' => ''
-                            ]);
-                        }
-                    }
-                } else {
-                    return response()->json([
-                        'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
-                        'data' => $camera_data_received,
-                        'remark' => ''
-                    ]);
-                }
+            // Check if the URL exists in the Qrcode model
+            if (Qrcode::where('url', $camera_data_received)->exists()) {
+                // If correct, return success response
+                return response()->json(['message' => 'All correct']);
             }
-            return response()->json(['message' => 'All correct']);
-        } else {
+        
+            // If the URL is not found, return error response
             return response()->json([
                 'message' => 'Camera Data is unreadable',
-                'data' => '',
-                'remark' => 'Url is incorrect'
+                'data' => $camera_data_received,
+                'remark' => 'URL is incorrect'
             ]);
+            // Check if the camera data contains the ';' character
+            // if (strpos($camera_data_received, ';') !== false) {
+            //     $data_parts = explode(';', $camera_data_received);
+            // } else {
+            //     return response()->json([
+            //         'message' => 'Camera Data is unreadable or incorrect',
+            //         'data' => $camera_data_received,
+            //         'remark' => ''
+            //     ]);
+            // }
+
+            // $keys = ['batch', 'mfg_date', 'exp_date', 'price', 'url'];
+            // foreach ($keys as $index => $key) {
+            //     if (array_key_exists($index, $data_parts)) {
+            //         if ($index != '4') {
+            //             if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
+            //                 return response()->json([
+            //                     'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
+            //                     'data' => $camera_data_received,
+            //                     'remark' => ''
+            //                 ]);
+            //             }
+            //         } else {
+            //             $expected_data = [
+            //                 'url' => Qrcode::where('url', $data_parts[$index])->value('url'),
+            //             ];
+            //             if (strcasecmp(trim($expected_data[$key]), trim($data_parts[$index])) !== 0) {
+            //                 return response()->json([
+            //                     'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
+            //                     'data' => $camera_data_received,
+            //                     'remark' => ''
+            //                 ]);
+            //             }
+            //         }
+            //     } else {
+            //         return response()->json([
+            //             'message' => ucfirst(str_replace('_', ' ', $key)) . ' is unreadable or incorrect',
+            //             'data' => $camera_data_received,
+            //             'remark' => ''
+            //         ]);
+            //     }
+            // }
+        //     return response()->json(['message' => 'All correct']);
+        // } else {
+        //     return response()->json([
+        //         'message' => 'Camera Data is unreadable',
+        //         'data' => '',
+        //         'remark' => 'Url is incorrect'
+        //     ]);
         }
     }
     public function downloadexcel(Request $request)

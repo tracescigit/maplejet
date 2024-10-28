@@ -1,9 +1,9 @@
 const net = require('net');
 const WebSocket = require('ws');
 
-// Use your local machine's IP for TCP connection
-const tcpHost = '192.168.0.10'; // Change if your TCP server is on a different machine
-const tcpPort = process.argv[2] || 2000; // TCP server port
+// Use command-line arguments for TCP host and port
+const tcpHost = process.argv[2] || '192.168.0.10'; // Default TCP host
+const tcpPort = process.argv[3] || 2000; // Default TCP server port
 const wsUrl = 'ws://0.0.0.0:6001'; // Update to listen on all interfaces
 
 // Create a new TCP client
