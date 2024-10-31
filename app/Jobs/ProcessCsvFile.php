@@ -55,7 +55,7 @@ class ProcessCsvFile implements ShouldQueue
                         $allValid = false;
                         break;
                     }
-                    if (Qrcode::where('code_data', $data[0])->exists()) {
+                    if (Qrcode::where('code_data', $data[0])->where('product_id',$this->product_id)->exists()) {
                         Log::error("Error: Duplicate data found for code: $data[0]. Aborting data insertion.");
                         event(new CsvProcessingFailed("Error: Duplicate data found for code: $data[0]. Aborting data insertion."));
                         return;

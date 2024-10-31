@@ -227,7 +227,7 @@ class ProductController extends Controller
         }
         $media_base_url = config('constants.base_url');
         $currentURL = url()->current();
-        if (!empty($product_name) && !empty($request->id)) {
+        if (!empty($product_name)) {
             $product = str_replace('_', ' ', $product_name);
             $product_id = Product::select('id')->where('name', $product)->first();
             if (empty($product_id)) {
@@ -285,9 +285,7 @@ class ProductController extends Controller
             }
             if (!empty($product_id_ver->status) && $product_id_ver->status == "Inactive") {
                 $systemAlert = SystemAlert::create([
-                    'product' => $product_id_ver->name,
-                    'batch' => $product_id_ver->batch_id,
-                    'ip' => $clientIp,
+                    'product' => $product_id_ver->name ?? $product_id_ver->product_name,
                     'report_reason' => "Inactive code is scanned",
                     'code_id' => $product_id_ver->id,
                     'product_id' => $product_id_ver->product_id,
@@ -309,7 +307,7 @@ class ProductController extends Controller
             }
             if (!empty($product_id_ver->status) && $product_id_ver->status == "Inactive") {
                 $systemAlert = SystemAlert::create([
-                    'product' => $product_id_ver->name,
+                    'product' => $product_id_ver->name ?? $product_id_ver->product_name,
                     'batch' => $product_id_ver->batch_id,
                     'ip' => $clientIp,
                     'report_reason' => "Batch is Inactive",
@@ -321,7 +319,7 @@ class ProductController extends Controller
             }
             if (!empty($product_id_ver->status) && $product_id_ver->status == "Inactive") {
                 $systemAlert = SystemAlert::create([
-                    'product' => $product_id_ver->name,
+                    'product' => $product_id_ver->name ?? $product_id_ver->product_name,
                     'batch' => $product_id_ver->batch_id,
                     'ip' => $clientIp,
                     'report_reason' => "Product is Inactive",
@@ -332,7 +330,7 @@ class ProductController extends Controller
                 $systemAlertId = $systemAlert->id;
             }
             $scanHistory = ScanHistory::create([
-                'product' => $product_id_ver->name,
+                'product' => $product_id_ver->name ?? $product_id_ver->product_name,
                 'batch' => $product_id_ver->batch_id,
                 'genuine' => 1,
                 'scan_count' => $product_count + 1,

@@ -39,7 +39,7 @@ class SendToPrinterJob implements ShouldQueue
         $startCode = $this->data['productionjob_start_code'];
         $quantity = $this->data['quantity'];
         $idToStart = Qrcode::where('code_data', $startCode)->value('id');
-        $idToEnd = $idToStart + $quantity -1;
+        $idToEnd = $idToStart + $quantity - 1;
         $printer_ip = $this->data['ip_printer'];
         // $printer_port = '8060';
         $authToken = $this->data['auth_token'];
@@ -54,7 +54,7 @@ class SendToPrinterJob implements ShouldQueue
         try {
             // $batchSize = 100;
             $j = 1;
-            for ($i = $idToStart; $i < $idToEnd; $i ++) {
+            for ($i = $idToStart; $i < $idToEnd; $i++) {
                 // $batchIds = range($i, min($i + $batchSize - 1, $idToEnd));
                 $url = Qrcode::where('id', $i)->value('url') ?? "";
                 $printed = Qrcode::where('id', $i)->where('printed', '!=', 1)->exists();
@@ -62,70 +62,79 @@ class SendToPrinterJob implements ShouldQueue
                 Log::info('url: ' . $url);
 
 
-                if($printed){
-                if (!empty($url)) {
-                    $print_count = '<APCMD><PMCNT/></APCMD>';
-                    $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
-                    Log::info('Print Counter: ' . $connected);
-                    $mfg_date = "Mfg Date: " . $formattedMfgDate;
-                    $data = '<EXTDO>' . $price . '%' . $mfg_date . '%' . $exp_date . '%' . $url . '</EXTDO>';
-                    Log::info('Sent data: ' . $data);
-                    $response = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
-                    Log::info('Printer response: ' . $response);
-                    sleep(.7);
-                    // $getprintcounter = $this->hitUrlWithAuthTokentogetpmcounter($url, $authToken);
-                    // if (empty($response)) {
-                    //     $maxx_wait_time = 60;
-                    //     $elapsedd_time = 0;
-                    //     $intervall = 2;
-                    //     while ($elapsedd_time < $maxx_wait_time) {
-                    //         $response = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
-                    //         if (!empty($response)) {
-                    //             break;
-                    //         }
-                    //         sleep($intervall);
-                    //         $elapsedd_time += $maxx_wait_time;
-                    //     }
-                    // }
-                    $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
-                    Log::info('Print Counter: ' .$connected_after);
-                   
-                    $max_wait_time = 10000;
-                    $elapsed_time = 0;
-                    $interval = .5;
-                    while ($connected_after <= $connected + 1 && $elapsed_time < $max_wait_time) {
-                     $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
-                    Log::info('Print Counter: ' .$connected_after);
-                        
-                     if ($connected_after == $connected + 1) {
-                            $connected = $connected_after;
-                            break;
+                if ($printed) {
+                    if (!empty($url)) {
+                        $print_count = '<APCMD><PMCNT/></APCMD>';
+                        $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
+                        Log::info('Print Counter: ' . $connected);
+                        $mfg_date = "Mfg Date: " . $formattedMfgDate;
+                        $data = '<EXTDO>' . $price . '%' . $mfg_date . '%' . $exp_date . '%' . $url . '</EXTDO>';
+                        Log::info('Sent data: ' . $data);
+                        $response = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
+                        Log::info('Printer response: ' . $response);
+                        sleep(.7);
+                        // $getprintcounter = $this->hitUrlWithAuthTokentogetpmcounter($url, $authToken);
+                        // if (empty($response)) {
+                        //     $maxx_wait_time = 60;
+                        //     $elapsedd_time = 0;
+                        //     $intervall = 2;
+                        //     while ($elapsedd_time < $maxx_wait_time) {
+                        //         $response = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $data);
+                        //         if (!empty($response)) {
+                        //             break;
+                        //         }
+                        //         sleep($intervall);
+                        //         $elapsedd_time += $maxx_wait_time;
+                        //     }
+                        // }
+                        $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
+                        Log::info('Print Counter: ' . $connected_after);
+
+                        $max_wait_time = 10000; // Maximum wait time in seconds
+                        $elapsed_time = 0; // Starts at 0 seconds
+                        $interval = 1; // 1-second interval
+
+                        while ($connected_after <= $connected + 1 && $elapsed_time < $max_wait_time) {
+                            $connected_after = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $print_count);
+                            Log::info('Print Counter: ' . $connected_after);
+
+                            if ($connected_after == $connected + 1) {
+                                $connected = $connected_after;
+                                break; // Exit the loop if the condition is met
+                            }
+
+                            sleep($interval); // Wait for 1 second
+                            $elapsed_time += $interval; // Add 1 second to elapsed time
                         }
-                        sleep($interval);
-                        $elapsed_time += $interval;
+
+                        // Optional: Log if the max wait time is reached
+                        if ($elapsed_time >= $max_wait_time) {
+                            Log::info('Reached maximum wait time of 10000 seconds without success.');
+                        }
+
+
+                        $clr_command = "<CLREXT>0</CLREXT>";
+                        $clear_data = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $clr_command);
+
+                        Qrcode::where('id', $i)->update([
+                            'printed' => 1,
+                        ]);
+
+                        Qrcode::where('id', $i)->increment('print_count');
+                        // if ($elapsed_time == 60) {
+                        //     return 'Getting no response for ' . $data;
+                        // }
+                        $j++;
                     }
-                    $clr_command = "<CLREXT>0</CLREXT>";
-                    $clear_data = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $clr_command);
-
-                    Qrcode::where('id', $i)->update([
-                        'printed' => 1,
-                    ]);
-
-                    Qrcode::where('id', $i)->increment('print_count');
-                    // if ($elapsed_time == 60) {
-                    //     return 'Getting no response for ' . $data;
-                    // }
-                    $j++;
                 }
             }
-            }
             $stop = '<APCMD><PRINT>0</PRINT></APCMD>';
-                $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $stop);
+            $connected = $this->hitUrlWithAuthToken("http://$printer_ip", $authToken, $stop);
 
             // $printer->cut();
         } catch (\Exception $e) {
             Log::error('Error in SendToPrinterJob: ' . $e->getMessage());
-        }finally {
+        } finally {
             $data = '<APCMD><PRINT>1</PRINT></APCMD>';
 
             try {
@@ -136,7 +145,7 @@ class SendToPrinterJob implements ShouldQueue
                 //     return "Failed to connect to printer: Response does not match expected.";
                 // }
             } catch (\Exception $e) {
-        Log::info('error',$e->getMessage());
+                Log::info('error', $e->getMessage());
                 return "Failed to connect to printer: " . $e->getMessage();
             }
         }
