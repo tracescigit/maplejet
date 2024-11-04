@@ -24,7 +24,7 @@ class ExportJobStatus implements FromCollection, WithHeadings
         $result_job = ProductionJob::where('id', $this->jobSelect)->first();
         $data_for_excel = collect(); // Initialize as an empty collection
         $start_code = $result_job->start_code;
-        $end_code = $start_code + $result_job->quantity;
+        $end_code = intval($start_code) + intval($result_job->quantity);
         if ($this->statusSelect == 'all') {
 
             $data_for_excel = Qrcode::select('url', 'code_data', 'printed', 'seized_by')
